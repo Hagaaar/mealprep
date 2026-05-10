@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Meal Prep Sèche — 11-24 Mai 2026</title>
+  <style>
+    :root {
+      --bg: #000;
+      --card: #1c1c1e;
+      --text: #fff;
+      --muted: #8e8e93;
+      --green: #34c759;
+      --red: #ff3b30;
+      --orange: #ff9f0a;
+      --blue: #0a84ff;
+      --purple: #bf5af2;
+      --border: #38383a;
+      --seg: #1c1c1e;
+      --seg-active: #3a3a3c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 20px 16px 60px; padding-top: 56px; }
+
+```
+/* ── Header ── */
+.header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: baseline; }
+.header h1 { font-size: 26px; font-weight: 700; letter-spacing: .3px; }
+.header .date { font-size: 17px; font-weight: 400; color: var(--muted); }
+.header h1 span { color: var(--muted); font-weight: 400; font-size: 22px; }
+.macro-bar { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
+.macro-pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 11px; font-size: 12px; color: var(--muted); }
+.macro-pill strong { color: var(--text); }
+
+/* ── Tabs ── */
+.tabs { display: flex; background: var(--seg); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
+.tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 9px 0; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all .2s; cursor: pointer; }
+.tab-btn.active { background: var(--seg-active); color: var(--text); }
+
+/* ── Views ── */
+.view { display: none; }
+.view.active { display: block; animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+/* ── Week header ── */
+.week-head { display: flex; justify-content: space-between; align-items: center; background: var(--seg-active); padding: 12px 16px; border-radius: 10px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+.week-head:first-child { margin-top: 0; }
+.week-head:active { opacity: .75; }
+.week-head h2 { font-size: 17px; margin: 0; }
+.week-head small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.budget-box { text-align: right; }
+.budget-box .cap { font-size: 10px; color: var(--muted); }
+.budget-box .price { font-size: 16px; font-weight: 700; color: var(--green); }
+.chevron { font-size: 18px; color: var(--muted); transition: transform .25s ease; margin-left: 12px; line-height: 1; flex-shrink: 0; display: inline-block; }
+.week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+
+/* ── Accordion body ── */
+.accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding-top: 12px; }
+.accordion-body.collapsed { max-height: 0 !important; height: 0; opacity: 0; padding-top: 0; overflow: hidden; }
+
+/* ── Prep week header ── */
+.prep-week-head { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+.prep-week-head:active { opacity: .7; }
+.prep-week-head .chevron { font-size: 16px; }
+.prep-week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+
+.section-label { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .8px; margin: 16px 0 6px; }
+.section-label.stock-label { color: var(--green); display: flex; align-items: center; gap: 6px; }
+.section-label.stock-label::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+
+/* ── Shopping items ── */
+.list-box { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
+.shop-item { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity .15s; }
+.shop-item:last-child { border-bottom: none; }
+.shop-item.stock { opacity: .45; cursor: default; }
+.check-ring { min-width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; margin-right: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; }
+.check-icon { display: none; font-size: 12px; font-weight: 700; color: #000; }
+.shop-item.checked .check-ring { background: var(--green); border-color: var(--green); }
+.shop-item.checked .check-icon { display: block; }
+.shop-item.checked .item-name { text-decoration: line-through; color: var(--muted); }
+.item-info { flex: 1; }
+.item-name { font-size: 15px; font-weight: 500; }
+.item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.item-price { font-size: 15px; color: var(--muted); margin-left: 12px; white-space: nowrap; font-weight: 500; }
+
+/* ── Macro reference card ── */
+.macro-ref { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+.macro-ref h3 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.macro-cell { text-align: center; background: var(--seg-active); border-radius: 8px; padding: 10px 4px; }
+.macro-cell .val { font-size: 17px; font-weight: 700; }
+.macro-cell .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.macro-cell.kcal .val { color: var(--orange); }
+.macro-cell.prot .val { color: var(--blue); }
+.macro-cell.gluc .val { color: var(--green); }
+.macro-cell.lip .val { color: var(--purple); }
+
+/* ── Day accordion head ── */
+.day-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; user-select: none; -webkit-user-select: none; border-bottom: 1px solid var(--border); transition: opacity .15s; }
+.day-head:active { opacity: .65; }
+.day-head .day-label { font-size: 17px; font-weight: 700; }
+.day-head .day-label.fast { color: var(--red); }
+.day-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+.day-block { margin-bottom: 0; }
+
+/* ── Meal cards ── */
+.meal { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--border); }
+.meal.main { border-left-color: var(--blue); }
+.meal.snack { border-left-color: var(--orange); }
+.meal.fast-card { border-left-color: var(--red); text-align: center; padding: 20px; }
+.meal-time { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; }
+.meal-body { font-size: 14px; line-height: 1.6; }
+.meal-body ul { padding-left: 16px; margin-top: 7px; }
+.meal-body li { margin-bottom: 5px; }
+.chef-tip { display: block; font-size: 13px; color: var(--text); margin-top: 10px; padding: 10px 12px; background: rgba(10,60,120,.25); border-radius: 8px; border-left: 3px solid #1a5fb4; line-height: 1.6; }
+.tip { display: block; font-style: italic; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+/* ── Week divider ── */
+.week-divider { font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 16px; }
+
+.reset-btn { display: block; width: 100%; margin-top: 20px; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
+.reset-btn:active { background: var(--seg-active); }
+.storage-group { margin-top: 16px; }
+.storage-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #fff; padding: 0 2px 7px; display: block; }
+.s-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.s-row:last-child { border-bottom: none; }
+.s-item { flex: 1; font-weight: 500; }
+
+/* ── Cooking schedule ── */
+.cook-schedule { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+.cook-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+.cook-row:last-child { border-bottom: none; }
+.cook-row.highlight { background: rgba(52,199,89,.07); }
+.cook-row.jeune { background: rgba(255,59,48,.05); }
+.cook-day { font-size: 12px; font-weight: 700; min-width: 95px; color: var(--muted); }
+.cook-arrow { font-size: 14px; margin: 0 8px; color: var(--border); }
+.cook-target { font-size: 13px; flex: 1; }
+.cook-row.jeune .cook-target { color: var(--red); }
+```
+
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>MEAL PREP</h1>
+  <span class="date">11 – 24 Mai</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('courses')">Courses</button>
+  <button class="tab-btn" onclick="showTab('prep')">Conservation</button>
+  <button class="tab-btn" onclick="showTab('recettes')">Recettes</button>
+</div>
+
+<!-- ═══════════════════════════════
+     TAB COURSES
+═══════════════════════════════ -->
+
+<div id="view-courses" class="view active">
+
+  <div class="week-head collapsed" onclick="toggleSection('courses-s1', this)">
+    <div><h2>SEMAINE 1</h2><small>Samedi 10 Mai</small></div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:15px;font-weight:700;color:var(--green);">~27,25 €</span>
+      <div class="chevron">›</div>
+    </div>
+  </div>
+  <div class="accordion-body collapsed" id="courses-s1">
+
+```
+<div class="section-label">Viandes &amp; Volailles</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
+    <div class="item-price">~5,50 €</div>
+  </div>
+</div>
+
+<div class="section-label">Poissonnerie / Conserves</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
+    <div class="item-price">~2,80 €</div>
+  </div>
+</div>
+
+<div class="section-label">Crémerie</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
+    <div class="item-price">~3,25 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×12</div></div>
+    <div class="item-price">~3,00 €</div>
+  </div>
+</div>
+
+<div class="section-label">Fruits &amp; Légumes</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
+    <div class="item-price">~1,20 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
+    <div class="item-price">~1,00 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Pommes de terre — 1,5 kg</div></div>
+    <div class="item-price">~1,00 €</div>
+  </div>
+</div>
+
+<div class="section-label">Épicerie</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Lentilles corail Bio — 500g</div></div>
+    <div class="item-price">~1,80 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Lait de coco — brique 400ml</div></div>
+    <div class="item-price">~1,90 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Graines de courge — 150g</div></div>
+    <div class="item-price">~2,50 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
+    <div class="item-price">~1,80 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
+    <div class="item-price">~1,50 €</div>
+  </div>
+</div>
+
+<div class="section-label stock-label">En stock</div>
+<div class="list-box">
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Épinards surgelés — 400g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Légumes surgelés 3-en-1 — 750g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Maïs doux — 2 × 300g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Ail — 190g · Échalotes — 240g · Oignons — 1,4 kg</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Gochujang · Soja · Sriracha · Huile d'olive · Épices</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Whey</div></div>
+  </div>
+</div>
+```
+
+  </div><!-- /courses-s1 -->
+
+  <div class="week-head collapsed" onclick="toggleSection('courses-s2', this)">
+    <div><h2>SEMAINE 2</h2><small>Samedi 17 Mai</small></div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:15px;font-weight:700;color:var(--green);">~22,50 €</span>
+      <div class="chevron">›</div>
+    </div>
+  </div>
+  <div class="accordion-body collapsed" id="courses-s2">
+
+```
+<div class="section-label">Viandes &amp; Volailles</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
+    <div class="item-price">~5,50 €</div>
+  </div>
+</div>
+
+<div class="section-label">Poissonnerie / Conserves</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
+    <div class="item-price">~2,80 €</div>
+  </div>
+</div>
+
+<div class="section-label">Crémerie</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
+    <div class="item-price">~3,25 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×18</div></div>
+    <div class="item-price">~4,50 €</div>
+  </div>
+</div>
+
+<div class="section-label">Fruits &amp; Légumes</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
+    <div class="item-price">~1,20 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
+    <div class="item-price">~1,00 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Épinards surgelés — 500g</div></div>
+    <div class="item-price">~1,25 €</div>
+  </div>
+</div>
+
+<div class="section-label">Épicerie</div>
+<div class="list-box">
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
+    <div class="item-price">~1,20 €</div>
+  </div>
+  <div class="shop-item" onclick="check(this)">
+    <div class="check-ring"><span class="check-icon">✓</span></div>
+    <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
+    <div class="item-price">~1,80 €</div>
+  </div>
+</div>
+
+<div class="section-label stock-label">Reports S1</div>
+<div class="list-box">
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Lentilles corail — ~370g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Pommes de terre — ~950g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Lait de coco — 300ml</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Graines de courge — ~110g</div></div>
+  </div>
+  <div class="shop-item stock">
+    <div class="check-ring"></div>
+    <div class="item-info"><div class="item-name">Maïs · Aromates · Condiments · Whey</div></div>
+  </div>
+</div>
+```
+
+  </div><!-- /courses-s2 -->
+
+</div><!-- /view-courses -->
+
+<!-- ═══════════════════════════════
+     TAB CONSERVATION
+═══════════════════════════════ -->
+
+<div id="view-prep" class="view">
+
+  <div class="prep-week-head collapsed" onclick="toggleSection('prep-s1', this)">
+    <span>Semaine 1 — Samedi 10 Mai</span>
+    <span class="chevron">›</span>
+  </div>
+  <div class="accordion-body collapsed" id="prep-s1">
+
+```
+<div class="storage-group">
+  <span class="storage-group-title">Frigo</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
+    <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
+    <div class="s-row"><span class="s-item">×24 Œufs (en bas, pointe vers le bas)</span></div>
+  </div>
+</div>
+
+<div class="storage-group">
+  <span class="storage-group-title">Placard</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
+    <div class="s-row"><span class="s-item">1,5 kg Pommes de terre (zone sèche, sombre)</span></div>
+    <div class="s-row"><span class="s-item">650g Lentilles corail (bocal hermétique)</span></div>
+    <div class="s-row"><span class="s-item">400ml Lait de coco (→ frigo dès ouverture)</span></div>
+    <div class="s-row"><span class="s-item">150g Graines de courge (bocal hermétique)</span></div>
+    <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
+    <div class="s-row"><span class="s-item">500g Flocons d'avoine (sec)</span></div>
+  </div>
+</div>
+
+<div class="storage-group">
+  <span class="storage-group-title">Étagère</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
+    <div class="s-row"><span class="s-item">×6 Citrons</span></div>
+  </div>
+</div>
+```
+
+  </div><!-- /prep-s1 -->
+
+  <div class="prep-week-head collapsed" onclick="toggleSection('prep-s2', this)">
+    <span>Semaine 2 — Samedi 17 Mai</span>
+    <span class="chevron">›</span>
+  </div>
+  <div class="accordion-body collapsed" id="prep-s2">
+
+```
+<div class="storage-group">
+  <span class="storage-group-title">Frigo</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
+    <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
+    <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
+  </div>
+</div>
+
+<div class="storage-group">
+  <span class="storage-group-title">Congélateur</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">500g Épinards surgelés</span></div>
+  </div>
+</div>
+
+<div class="storage-group">
+  <span class="storage-group-title">Placard</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
+    <div class="s-row"><span class="s-item">800g Tomates pelées (→ frigo dès ouverture)</span></div>
+    <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
+  </div>
+</div>
+
+<div class="storage-group">
+  <span class="storage-group-title">Étagère</span>
+  <div class="storage-list">
+    <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
+    <div class="s-row"><span class="s-item">×6 Citrons</span></div>
+  </div>
+</div>
+```
+
+  </div><!-- /prep-s2 -->
+
+</div><!-- /view-prep -->
+
+<!-- ═══════════════════════════════
+     TAB RECETTES
+═══════════════════════════════ -->
+
+<div id="view-recettes" class="view">
+
+  <!-- ── LUNDI 11 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-lun11',this)">
+      <span class="day-label">Lundi 11 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-lun11" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong>
+          <ul>
+            <li>Mariner <strong>440g cuisses poulet désossées</strong> : jus 1 citron + cumin + curcuma + ail · <strong>20 min min.</strong></li>
+            <li>Cocotte · 20ml huile d'olive · saisir le poulet 3-4 min</li>
+            <li>Ajouter <strong>200g pommes de terre</strong> en gros dés + <strong>50g olives vertes</strong> + eau à mi-hauteur</li>
+            <li>Couvrir · mijoter feu très doux <strong>40 min</strong></li>
+            <li>Diviser en 2 parts égales</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Fais chauffer l'huile d'olive à sec 30 secondes avant d'ajouter le poulet, puis ajoute cumin et curcuma directement dans l'huile chaude. La chaleur libère les huiles essentielles des épices — la sauce prend une profondeur aromatique qu'une simple marinade ne donne pas.</span>
+          <span class="tip">💡 Cuisiner samedi 10 soir. Le collagène des cuisses lie la sauce naturellement. Citron en marinade = absorption du fer optimisée.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide · 115 kcal · 24g P</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MARDI 12 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-mar12',this)">
+      <span class="day-label">Mardi 12 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mar12" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
+          Recette identique lundi — cuisiner <strong>lundi 11 soir</strong>. Diviser en 2 parts.
+          <span class="tip">💡 Réchauffer à feu très doux 5 min ou micro-ondes couvert.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MERCREDI 13 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-mer13',this)">
+      <span class="day-label">Mercredi 13 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mer13" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Salade Niçoise Protéinée aux Sardines — Cuiseur à riz (vapeur)</strong>
+          <ul>
+            <li>Mode vapeur : <strong>150g pommes de terre</strong> en rondelles + <strong>200g légumes 3-en-1 surgelés</strong> + <strong>4 œufs plein air</strong></li>
+            <li>Laisser refroidir · écaler les œufs</li>
+            <li>Dresser les légumes · ajouter <strong>2 boîtes sardines à l'huile</strong> égouttées</li>
+            <li><strong>OBLIGATOIRE lipides</strong> : 20ml huile d'olive + jus citron frais + <strong>20g graines de courge</strong></li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Écrase une demi-sardine à la fourchette dans un bol avec le jus de citron et l'huile d'olive avant d'assembler la salade. Tu obtiens une vinaigrette liée naturellement par les graisses de la sardine, qui enrobe les pommes de terre tièdes bien mieux qu'une vinaigrette classique.</span>
+          <span class="tip">💡 Cuisiner mardi 12 soir. Huile d'olive + graines de courge non-négociables pour atteindre 90g L/j.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── JEUDI 14 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-jeu14',this)">
+      <span class="day-label">Jeudi 14 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-jeu14" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
+          <ul>
+            <li>10ml huile d'olive · faire revenir cumin + coriandre + ail émincé</li>
+            <li>Ajouter <strong>160g lentilles corail crues</strong> + <strong>200g épinards surgelés</strong> + <strong>100ml lait de coco</strong></li>
+            <li>Couvrir d'eau · cuire jusqu'à absorption (~20 min)</li>
+            <li>Creuser <strong>8 puits</strong> · casser 8 œufs plein air · couvrir 5 min pour pocher</li>
+            <li>Finir : <strong>jus citron frais obligatoire</strong> + sriracha au goût</li>
+            <li>Diviser en 2 parts — 4 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Poche les œufs à couvert sur feu éteint — la chaleur résiduelle suffit. Le jaune reste coulant et se mélange au dhal au moment de manger, ce qui lie la sauce sans cuisson supplémentaire.</span>
+          <span class="tip">💡 Cuisiner mercredi 13 soir. Citron final obligatoire — vitamine C triple l'absorption du fer des lentilles et épinards.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VENDREDI 15 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-ven15',this)">
+      <span class="day-label">Vendredi 15 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-ven15" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Chakchouka Épinards, Tomates &amp; Maïs aux Œufs — Cocotte</strong>
+          <ul>
+            <li>15ml huile d'olive · faire revenir <strong>1 échalote</strong> émincée + cumin + paprika fumé</li>
+            <li>Ajouter <strong>200g épinards surgelés</strong> + <strong>300g tomates pelées au jus</strong> + <strong>150g maïs doux</strong></li>
+            <li>Mijoter feu doux <strong>15 min</strong> · assaisonner gochujang</li>
+            <li>Creuser <strong>4 puits</strong> · casser 4 œufs plein air · couvrir 5 min pour pocher</li>
+            <li><strong>OBLIGATOIRE lipides</strong> : 20g graines de courge + jus citron frais</li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Laisse réduire la sauce à découvert 5 minutes avant de creuser les puits pour les œufs. Moins d'eau = sucs concentrés. Le gochujang et le maïs ressortent beaucoup plus nettement dans une sauce serrée que dans une sauce liquide.</span>
+          <span class="tip">💡 Cuisiner jeudi 14 soir. Graines de courge obligatoires pour les lipides. Citron = fer des épinards.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SAMEDI 16 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-sam16',this)">
+      <span class="day-label">Samedi 16 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-sam16" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong>
+          <ul>
+            <li>10ml huile d'olive · faire revenir <strong>½ oignon</strong> + cumin + coriandre + gochujang</li>
+            <li>Ajouter <strong>120g lentilles corail crues</strong> + <strong>200g tomates pelées au jus</strong> + eau à couvert</li>
+            <li>Cuire <strong>20 min</strong> jusqu'à absorption quasi-complète</li>
+            <li>Creuser <strong>4 puits</strong> · pocher 4 œufs plein air · couvrir 5 min</li>
+            <li>Finir : sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 En fin de cuisson, remue énergiquement les lentilles 1 minute hors du feu. Elles libèrent leur amidon et épaississent la tomate naturellement. Ajoute les graines de courge dans l'assiette au dernier moment — elles perdent leur croquant en 2 minutes dans la sauce chaude.</span>
+          <span class="tip">💡 Cuisiner vendredi 15 soir. Lentilles corail = sauce crémeuse naturelle dans la tomate. Graines de courge obligatoires pour les lipides.</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIMANCHE 17 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-dim17',this)">
+      <span class="day-label fast">Dimanche 17 Mai &nbsp;🚫 Repos</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-dim17" style="padding-top:10px;">
+      <div class="meal fast-card">
+        <div class="meal-time">Journée complète</div>
+        <div class="meal-body">
+          <strong>JEÛNE TOTAL 24h</strong><br><br>
+          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
+          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le lundi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LUNDI 18 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-lun18',this)">
+      <span class="day-label">Lundi 18 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-lun18" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
+          Recette identique S1 Lundi — cuisiner <strong>samedi 16 soir</strong> (avant le jeûne). Diviser en 2 parts.
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MARDI 19 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-mar19',this)">
+      <span class="day-label">Mardi 19 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mar19" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
+          Recette identique S1 — cuisiner <strong>lundi 18 soir</strong>. Diviser en 2 parts.
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MERCREDI 20 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-mer20',this)">
+      <span class="day-label">Mercredi 20 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mer20" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Salade Niçoise Protéinée aux Sardines — Cuiseur à riz</strong><br>
+          Recette identique S1 Mercredi — cuisiner <strong>mardi 19 soir</strong>. Huile d'olive + graines de courge obligatoires. Diviser en 2 parts.
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── JEUDI 21 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-jeu21',this)">
+      <span class="day-label">Jeudi 21 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-jeu21" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong><br>
+          Recette identique S1 Jeudi — cuisiner <strong>mercredi 20 soir</strong>. Citron obligatoire. Diviser en 2 parts (4 œufs/portion).
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── VENDREDI 22 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-ven22',this)">
+      <span class="day-label">Vendredi 22 Mai &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-ven22" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Chakchouka Épinards, Tomates &amp; Maïs aux Œufs — Cocotte</strong><br>
+          Recette identique S1 Vendredi — cuisiner <strong>jeudi 21 soir</strong>. Graines de courge + huile d'olive obligatoires. Diviser en 2 parts.
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SAMEDI 23 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-sam23',this)">
+      <span class="day-label">Samedi 23 Mai &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-sam23" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong><br>
+          Recette identique S1 Samedi — cuisiner <strong>vendredi 22 soir</strong>. Graines de courge + citron obligatoires. Diviser en 2 parts.
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DIMANCHE 24 ── -->
+
+  <div class="day-block">
+    <div class="day-head collapsed" onclick="toggleSection('day-dim24',this)">
+      <span class="day-label fast">Dimanche 24 Mai &nbsp;🚫 Repos</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-dim24" style="padding-top:10px;">
+      <div class="meal fast-card">
+        <div class="meal-time">Journée complète</div>
+        <div class="meal-body">
+          <strong>JEÛNE TOTAL 24h</strong><br><br>
+          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
+          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le lundi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CIBLES EN BAS ── -->
+
+  <div class="macro-ref" style="margin-top:24px;">
+    <h3>Cibles journalières</h3>
+    <div class="macro-grid">
+      <div class="macro-cell kcal"><div class="val">2 017</div><div class="lbl">kcal/j</div></div>
+      <div class="macro-cell prot"><div class="val">170g</div><div class="lbl">Protéines</div></div>
+      <div class="macro-cell gluc"><div class="val">132g</div><div class="lbl">Glucides</div></div>
+      <div class="macro-cell lip"><div class="val">90g</div><div class="lbl">Lipides</div></div>
+    </div>
+  </div>
+
+</div><!-- /view-recettes -->
+
+<script>
+  function showTab(name) {
+    ['courses','prep','recettes'].forEach(function(t) {
+      document.getElementById('view-' + t).classList.remove('active');
+      document.querySelectorAll('.tab-btn').forEach(function(b,i) {
+        if (['courses','prep','recettes'][i] === t) b.classList.remove('active');
+      });
+    });
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(function(b,i) {
+      if (['courses','prep','recettes'][i] === name) b.classList.add('active');
+    });
+  }
+
+  function check(el) {
+    if (!el.classList.contains('stock')) {
+      el.classList.toggle('checked');
+      saveChecked();
+    }
+  }
+
+  function saveChecked() {
+    var items = document.querySelectorAll('.shop-item:not(.stock)');
+    var state = [];
+    items.forEach(function(item) {
+      state.push(item.classList.contains('checked') ? 1 : 0);
+    });
+    localStorage.setItem('mp-checked', JSON.stringify(state));
+  }
+
+  function loadChecked() {
+    var saved = localStorage.getItem('mp-checked');
+    if (!saved) return;
+    var state = JSON.parse(saved);
+    var items = document.querySelectorAll('.shop-item:not(.stock)');
+    items.forEach(function(item, i) {
+      if (state[i]) item.classList.add('checked');
+    });
+  }
+
+  function resetChecked() {
+    document.querySelectorAll('.shop-item.checked').forEach(function(el) {
+      el.classList.remove('checked');
+    });
+    localStorage.removeItem('mp-checked');
+  }
+
+  function toggleSection(id, header) {
+    var body = document.getElementById(id);
+    var isCollapsed = body.classList.contains('collapsed');
+    if (isCollapsed) {
+      body.classList.remove('collapsed');
+      header.classList.remove('collapsed');
+    } else {
+      body.classList.add('collapsed');
+      header.classList.add('collapsed');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadChecked);
+</script>
+
+</body>
+</html>
