@@ -953,23 +953,6 @@
       document.getElementById(dayId).classList.remove('collapsed');
     }
 
-    /* Auto-open current week in Courses */
-    var month = now.getMonth() + 1;
-    var day   = now.getDate();
-    if (month === 5 && day >= 10 && day <= 16) {
-      openWeek('s1');
-    } else if (month === 5 && day >= 17 && day <= 24) {
-      openWeek('s2');
-    }
-  }
-
-  function openWeek(week) {
-    var body = document.getElementById('courses-' + week);
-    var head = document.getElementById('head-' + week);
-    if (body && body.classList.contains('collapsed')) {
-      body.classList.remove('collapsed');
-      head.classList.remove('collapsed');
-    }
   }
 
   /* ── Init ── */
