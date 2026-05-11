@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -21,124 +20,136 @@
       --seg-active: #3a3a3c;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 20px 16px 60px; padding-top: 56px; }
+    body { background: var(--bg); color: var(--text); padding: 20px 16px 60px; }
 
-```
-/* ── Header ── */
-.header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: baseline; }
-.header h1 { font-size: 26px; font-weight: 700; letter-spacing: .3px; }
-.header .date { font-size: 17px; font-weight: 400; color: var(--muted); }
-.header h1 span { color: var(--muted); font-weight: 400; font-size: 22px; }
-.macro-bar { display: flex; gap: 7px; margin-top: 10px; flex-wrap: wrap; }
-.macro-pill { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 11px; font-size: 12px; color: var(--muted); }
-.macro-pill strong { color: var(--text); }
+    /* ── Header ── */
+    .header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: baseline; }
+    .header h1 { font-size: 26px; font-weight: 700; letter-spacing: .3px; }
+    .header .date { font-size: 17px; font-weight: 400; color: var(--muted); }
 
-/* ── Tabs ── */
-.tabs { display: flex; background: var(--seg); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
-.tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 9px 0; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all .2s; cursor: pointer; }
-.tab-btn.active { background: var(--seg-active); color: var(--text); }
+    /* ── Tabs sticky ── */
+    .tabs {
+      display: flex;
+      background: rgba(28,28,30,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 20px;
+      position: sticky;
+      top: 8px;
+      z-index: 100;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 9px 0; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all .2s; cursor: pointer; }
+    .tab-btn.active { background: var(--seg-active); color: var(--text); }
 
-/* ── Views ── */
-.view { display: none; }
-.view.active { display: block; animation: fadeIn .2s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+    /* ── Views ── */
+    .view { display: none; }
+    .view.active { display: block; animation: fadeIn .2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 
-/* ── Week header ── */
-.week-head { display: flex; justify-content: space-between; align-items: center; background: var(--seg-active); padding: 12px 16px; border-radius: 10px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
-.week-head:first-child { margin-top: 0; }
-.week-head:active { opacity: .75; }
-.week-head h2 { font-size: 17px; margin: 0; }
-.week-head small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
-.budget-box { text-align: right; }
-.budget-box .cap { font-size: 10px; color: var(--muted); }
-.budget-box .price { font-size: 16px; font-weight: 700; color: var(--green); }
-.chevron { font-size: 18px; color: var(--muted); transition: transform .25s ease; margin-left: 12px; line-height: 1; flex-shrink: 0; display: inline-block; }
-.week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+    /* ── Week header ── */
+    .week-head { display: flex; justify-content: space-between; align-items: center; background: var(--seg-active); padding: 12px 16px; border-radius: 10px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .week-head:first-child { margin-top: 0; }
+    .week-head:active { opacity: .75; }
+    .week-head h2 { font-size: 17px; margin: 0; }
+    .week-head small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .chevron { font-size: 18px; color: var(--muted); transition: transform .25s ease; margin-left: 12px; line-height: 1; flex-shrink: 0; display: inline-block; }
+    .week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
 
-/* ── Accordion body ── */
-.accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding-top: 12px; }
-.accordion-body.collapsed { max-height: 0 !important; height: 0; opacity: 0; padding-top: 0; overflow: hidden; }
+    /* ── Accordion body ── */
+    .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding-top: 12px; }
+    .accordion-body.collapsed { max-height: 0 !important; height: 0; opacity: 0; padding-top: 0; overflow: hidden; }
 
-/* ── Prep week header ── */
-.prep-week-head { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
-.prep-week-head:active { opacity: .7; }
-.prep-week-head .chevron { font-size: 16px; }
-.prep-week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+    /* ── Prep week header ── */
+    .prep-week-head { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .prep-week-head:active { opacity: .7; }
+    .prep-week-head .chevron { font-size: 16px; }
+    .prep-week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
 
-.section-label { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .8px; margin: 16px 0 6px; }
-.section-label.stock-label { color: var(--green); display: flex; align-items: center; gap: 6px; }
-.section-label.stock-label::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+    .section-label { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .8px; margin: 16px 0 6px; }
+    .section-label.stock-label { color: var(--green); display: flex; align-items: center; gap: 6px; }
+    .section-label.stock-label::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
 
-/* ── Shopping items ── */
-.list-box { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
-.shop-item { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity .15s; }
-.shop-item:last-child { border-bottom: none; }
-.shop-item.stock { opacity: .45; cursor: default; }
-.check-ring { min-width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; margin-right: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; }
-.check-icon { display: none; font-size: 12px; font-weight: 700; color: #000; }
-.shop-item.checked .check-ring { background: var(--green); border-color: var(--green); }
-.shop-item.checked .check-icon { display: block; }
-.shop-item.checked .item-name { text-decoration: line-through; color: var(--muted); }
-.item-info { flex: 1; }
-.item-name { font-size: 15px; font-weight: 500; }
-.item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-.item-price { font-size: 15px; color: var(--muted); margin-left: 12px; white-space: nowrap; font-weight: 500; }
+    /* ── Shopping items ── */
+    .list-box { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
+    .shop-item { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity .15s; }
+    .shop-item:last-child { border-bottom: none; }
+    .shop-item.stock { opacity: .45; cursor: default; }
+    .check-ring { min-width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; margin-right: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; }
+    .check-icon { display: none; font-size: 12px; font-weight: 700; color: #000; }
+    .shop-item.checked .check-ring { background: var(--green); border-color: var(--green); }
+    .shop-item.checked .check-icon { display: block; }
+    .shop-item.checked .item-name { text-decoration: line-through; color: var(--muted); }
+    .item-info { flex: 1; }
+    .item-name { font-size: 15px; font-weight: 500; }
+    .item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .item-price { font-size: 15px; color: var(--muted); margin-left: 12px; white-space: nowrap; font-weight: 500; }
 
-/* ── Macro reference card ── */
-.macro-ref { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
-.macro-ref h3 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-.macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.macro-cell { text-align: center; background: var(--seg-active); border-radius: 8px; padding: 10px 4px; }
-.macro-cell .val { font-size: 17px; font-weight: 700; }
-.macro-cell .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.macro-cell.kcal .val { color: var(--orange); }
-.macro-cell.prot .val { color: var(--blue); }
-.macro-cell.gluc .val { color: var(--green); }
-.macro-cell.lip .val { color: var(--purple); }
+    /* ── Progress bar ── */
+    .progress-wrap { margin: 10px 0 6px; }
+    .progress-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
+    .progress-track { height: 4px; background: var(--seg-active); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .3s ease; }
 
-/* ── Day accordion head ── */
-.day-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; user-select: none; -webkit-user-select: none; border-bottom: 1px solid var(--border); transition: opacity .15s; }
-.day-head:active { opacity: .65; }
-.day-head .day-label { font-size: 17px; font-weight: 700; }
-.day-head .day-label.fast { color: var(--red); }
-.day-head:not(.collapsed) .chevron { transform: rotate(90deg); }
-.day-block { margin-bottom: 0; }
+    /* ── Storage groups ── */
+    .storage-group { margin-top: 16px; }
+    .storage-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #fff; padding: 0 2px 7px; display: block; }
+    .s-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .s-row:last-child { border-bottom: none; }
+    .s-item { flex: 1; font-weight: 500; }
 
-/* ── Meal cards ── */
-.meal { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--border); }
-.meal.main { border-left-color: var(--blue); }
-.meal.snack { border-left-color: var(--orange); }
-.meal.fast-card { border-left-color: var(--red); text-align: center; padding: 20px; }
-.meal-time { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; }
-.meal-body { font-size: 14px; line-height: 1.6; }
-.meal-body ul { padding-left: 16px; margin-top: 7px; }
-.meal-body li { margin-bottom: 5px; }
-.chef-tip { display: block; font-size: 13px; color: var(--text); margin-top: 10px; padding: 10px 12px; background: rgba(10,60,120,.25); border-radius: 8px; border-left: 3px solid #1a5fb4; line-height: 1.6; }
-.tip { display: block; font-style: italic; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    /* ── Macro reference card ── */
+    .macro-ref { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+    .macro-ref h3 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .macro-cell { text-align: center; background: var(--seg-active); border-radius: 8px; padding: 10px 4px; }
+    .macro-cell .val { font-size: 17px; font-weight: 700; }
+    .macro-cell .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .macro-cell.kcal .val { color: var(--orange); }
+    .macro-cell.prot .val { color: var(--blue); }
+    .macro-cell.gluc .val { color: var(--green); }
+    .macro-cell.lip .val { color: var(--purple); }
 
-/* ── Week divider ── */
-.week-divider { font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 16px; }
+    /* ── Day accordion head ── */
+    .day-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; user-select: none; -webkit-user-select: none; border-bottom: 1px solid var(--border); transition: opacity .15s; }
+    .day-head:active { opacity: .65; }
+    .day-head .day-label { font-size: 17px; font-weight: 700; }
+    .day-head .day-label.fast { color: var(--red); }
+    .day-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+    .day-block { margin-bottom: 0; }
 
-.reset-btn { display: block; width: 100%; margin-top: 20px; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
-.reset-btn:active { background: var(--seg-active); }
-.storage-group { margin-top: 16px; }
-.storage-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #fff; padding: 0 2px 7px; display: block; }
-.s-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
-.s-row:last-child { border-bottom: none; }
-.s-item { flex: 1; font-weight: 500; }
+    /* ── TODAY badge ── */
+    .today-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: #000;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-left: 8px;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
 
-/* ── Cooking schedule ── */
-.cook-schedule { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
-.cook-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); }
-.cook-row:last-child { border-bottom: none; }
-.cook-row.highlight { background: rgba(52,199,89,.07); }
-.cook-row.jeune { background: rgba(255,59,48,.05); }
-.cook-day { font-size: 12px; font-weight: 700; min-width: 95px; color: var(--muted); }
-.cook-arrow { font-size: 14px; margin: 0 8px; color: var(--border); }
-.cook-target { font-size: 13px; flex: 1; }
-.cook-row.jeune .cook-target { color: var(--red); }
-```
+    /* ── Meal cards ── */
+    .meal { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--border); }
+    .meal.main { border-left-color: var(--blue); }
+    .meal.snack { border-left-color: var(--orange); }
+    .meal.fast-card { border-left-color: var(--red); text-align: center; padding: 20px; }
+    .meal-time { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; }
+    .meal-body { font-size: 14px; line-height: 1.6; }
+    .meal-body ul { padding-left: 16px; margin-top: 7px; }
+    .meal-body li { margin-bottom: 5px; }
+    .chef-tip { display: block; font-size: 13px; color: var(--text); margin-top: 10px; padding: 10px 12px; background: rgba(10,60,120,.25); border-radius: 8px; border-left: 3px solid #1a5fb4; line-height: 1.6; }
+    .tip { display: block; font-style: italic; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
 
+    /* ── Reset button ── */
+    .reset-btn { display: block; width: 100%; margin-top: 20px; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; }
+    .reset-btn:active { background: var(--seg-active); }
   </style>
 </head>
 <body>
@@ -157,10 +168,9 @@
 <!-- ═══════════════════════════════
      TAB COURSES
 ═══════════════════════════════ -->
-
 <div id="view-courses" class="view active">
 
-  <div class="week-head collapsed" onclick="toggleSection('courses-s1', this)">
+  <div class="week-head collapsed" id="head-s1" onclick="toggleSection('courses-s1', this)">
     <div><h2>SEMAINE 1</h2><small>Samedi 10 Mai</small></div>
     <div style="display:flex;align-items:center;gap:12px;">
       <span style="font-size:15px;font-weight:700;color:var(--green);">~27,25 €</span>
@@ -168,124 +178,106 @@
     </div>
   </div>
   <div class="accordion-body collapsed" id="courses-s1">
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span id="prog-s1">0 / 0</span></div>
+      <div class="progress-track"><div class="progress-fill" id="fill-s1" style="width:0%"></div></div>
+    </div>
 
-```
-<div class="section-label">Viandes &amp; Volailles</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
-    <div class="item-price">~5,50 €</div>
-  </div>
-</div>
+    <div class="section-label">Viandes &amp; Volailles</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
+        <div class="item-price">~5,50 €</div>
+      </div>
+    </div>
 
-<div class="section-label">Poissonnerie / Conserves</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
-    <div class="item-price">~2,80 €</div>
-  </div>
-</div>
+    <div class="section-label">Poissonnerie / Conserves</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
+        <div class="item-price">~2,80 €</div>
+      </div>
+    </div>
 
-<div class="section-label">Crémerie</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
-    <div class="item-price">~3,25 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×12</div></div>
-    <div class="item-price">~3,00 €</div>
-  </div>
-</div>
+    <div class="section-label">Crémerie</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
+        <div class="item-price">~3,25 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×12</div></div>
+        <div class="item-price">~3,00 €</div>
+      </div>
+    </div>
 
-<div class="section-label">Fruits &amp; Légumes</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
-    <div class="item-price">~1,20 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
-    <div class="item-price">~1,00 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Pommes de terre — 1,5 kg</div></div>
-    <div class="item-price">~1,00 €</div>
-  </div>
-</div>
+    <div class="section-label">Fruits &amp; Légumes</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
+        <div class="item-price">~1,20 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
+        <div class="item-price">~1,00 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Pommes de terre — 1,5 kg</div></div>
+        <div class="item-price">~1,00 €</div>
+      </div>
+    </div>
 
-<div class="section-label">Épicerie</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Lentilles corail Bio — 500g</div></div>
-    <div class="item-price">~1,80 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Lait de coco — brique 400ml</div></div>
-    <div class="item-price">~1,90 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Graines de courge — 150g</div></div>
-    <div class="item-price">~2,50 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
-    <div class="item-price">~1,80 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
-    <div class="item-price">~1,50 €</div>
-  </div>
-</div>
+    <div class="section-label">Épicerie</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Lentilles corail Bio — 500g</div></div>
+        <div class="item-price">~1,80 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Lait de coco — brique 400ml</div></div>
+        <div class="item-price">~1,90 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Graines de courge — 150g</div></div>
+        <div class="item-price">~2,50 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
+        <div class="item-price">~1,80 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s1')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
+        <div class="item-price">~1,50 €</div>
+      </div>
+    </div>
 
-<div class="section-label stock-label">En stock</div>
-<div class="list-box">
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Épinards surgelés — 400g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Légumes surgelés 3-en-1 — 750g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Maïs doux — 2 × 300g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Ail — 190g · Échalotes — 240g · Oignons — 1,4 kg</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Gochujang · Soja · Sriracha · Huile d'olive · Épices</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Whey</div></div>
-  </div>
-</div>
-```
+    <div class="section-label stock-label">En stock</div>
+    <div class="list-box">
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Épinards surgelés — 400g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Légumes surgelés 3-en-1 — 750g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Maïs doux — 2 × 300g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Ail — 190g · Échalotes — 240g · Oignons — 1,4 kg</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Gochujang · Soja · Sriracha · Huile d'olive · Épices</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Whey</div></div></div>
+    </div>
 
-  </div><!-- /courses-s1 -->
+    <button class="reset-btn" onclick="resetWeek('s1')">↺ Réinitialiser la liste S1</button>
+  </div>
 
-  <div class="week-head collapsed" onclick="toggleSection('courses-s2', this)">
+  <div class="week-head collapsed" id="head-s2" onclick="toggleSection('courses-s2', this)">
     <div><h2>SEMAINE 2</h2><small>Samedi 17 Mai</small></div>
     <div style="display:flex;align-items:center;gap:12px;">
       <span style="font-size:15px;font-weight:700;color:var(--green);">~22,50 €</span>
@@ -293,110 +285,94 @@
     </div>
   </div>
   <div class="accordion-body collapsed" id="courses-s2">
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Progression</span><span id="prog-s2">0 / 0</span></div>
+      <div class="progress-track"><div class="progress-fill" id="fill-s2" style="width:0%"></div></div>
+    </div>
 
-```
-<div class="section-label">Viandes &amp; Volailles</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
-    <div class="item-price">~5,50 €</div>
+    <div class="section-label">Viandes &amp; Volailles</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
+        <div class="item-price">~5,50 €</div>
+      </div>
+    </div>
+
+    <div class="section-label">Poissonnerie / Conserves</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
+        <div class="item-price">~2,80 €</div>
+      </div>
+    </div>
+
+    <div class="section-label">Crémerie</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
+        <div class="item-price">~3,25 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×18</div></div>
+        <div class="item-price">~4,50 €</div>
+      </div>
+    </div>
+
+    <div class="section-label">Fruits &amp; Légumes</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
+        <div class="item-price">~1,20 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
+        <div class="item-price">~1,00 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Épinards surgelés — 500g</div></div>
+        <div class="item-price">~1,25 €</div>
+      </div>
+    </div>
+
+    <div class="section-label">Épicerie</div>
+    <div class="list-box">
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
+        <div class="item-price">~1,20 €</div>
+      </div>
+      <div class="shop-item" onclick="check(this,'s2')">
+        <div class="check-ring"><span class="check-icon">✓</span></div>
+        <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
+        <div class="item-price">~1,80 €</div>
+      </div>
+    </div>
+
+    <div class="section-label stock-label">Reports S1</div>
+    <div class="list-box">
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Lentilles corail — ~370g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Pommes de terre — ~950g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Lait de coco — 300ml</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Graines de courge — ~110g</div></div></div>
+      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Maïs · Aromates · Condiments · Whey</div></div></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetWeek('s2')">↺ Réinitialiser la liste S2</button>
   </div>
+
 </div>
-
-<div class="section-label">Poissonnerie / Conserves</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
-    <div class="item-price">~2,80 €</div>
-  </div>
-</div>
-
-<div class="section-label">Crémerie</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
-    <div class="item-price">~3,25 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×18</div></div>
-    <div class="item-price">~4,50 €</div>
-  </div>
-</div>
-
-<div class="section-label">Fruits &amp; Légumes</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
-    <div class="item-price">~1,20 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
-    <div class="item-price">~1,00 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Épinards surgelés — 500g</div></div>
-    <div class="item-price">~1,25 €</div>
-  </div>
-</div>
-
-<div class="section-label">Épicerie</div>
-<div class="list-box">
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
-    <div class="item-price">~1,20 €</div>
-  </div>
-  <div class="shop-item" onclick="check(this)">
-    <div class="check-ring"><span class="check-icon">✓</span></div>
-    <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
-    <div class="item-price">~1,80 €</div>
-  </div>
-</div>
-
-<div class="section-label stock-label">Reports S1</div>
-<div class="list-box">
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Lentilles corail — ~370g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Pommes de terre — ~950g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Lait de coco — 300ml</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Graines de courge — ~110g</div></div>
-  </div>
-  <div class="shop-item stock">
-    <div class="check-ring"></div>
-    <div class="item-info"><div class="item-name">Maïs · Aromates · Condiments · Whey</div></div>
-  </div>
-</div>
-```
-
-  </div><!-- /courses-s2 -->
-
-</div><!-- /view-courses -->
 
 <!-- ═══════════════════════════════
      TAB CONSERVATION
 ═══════════════════════════════ -->
-
 <div id="view-prep" class="view">
 
   <div class="prep-week-head collapsed" onclick="toggleSection('prep-s1', this)">
@@ -404,96 +380,81 @@
     <span class="chevron">›</span>
   </div>
   <div class="accordion-body collapsed" id="prep-s1">
-
-```
-<div class="storage-group">
-  <span class="storage-group-title">Frigo</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
-    <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
-    <div class="s-row"><span class="s-item">×24 Œufs (en bas, pointe vers le bas)</span></div>
+    <div class="storage-group">
+      <span class="storage-group-title">Frigo</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
+        <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
+        <div class="s-row"><span class="s-item">×24 Œufs (en bas, pointe vers le bas)</span></div>
+      </div>
+    </div>
+    <div class="storage-group">
+      <span class="storage-group-title">Placard</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
+        <div class="s-row"><span class="s-item">1,5 kg Pommes de terre (zone sèche, sombre)</span></div>
+        <div class="s-row"><span class="s-item">650g Lentilles corail (bocal hermétique)</span></div>
+        <div class="s-row"><span class="s-item">400ml Lait de coco (→ frigo dès ouverture)</span></div>
+        <div class="s-row"><span class="s-item">150g Graines de courge (bocal hermétique)</span></div>
+        <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
+        <div class="s-row"><span class="s-item">500g Flocons d'avoine (sec)</span></div>
+      </div>
+    </div>
+    <div class="storage-group">
+      <span class="storage-group-title">Étagère</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
+        <div class="s-row"><span class="s-item">×6 Citrons</span></div>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="storage-group">
-  <span class="storage-group-title">Placard</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
-    <div class="s-row"><span class="s-item">1,5 kg Pommes de terre (zone sèche, sombre)</span></div>
-    <div class="s-row"><span class="s-item">650g Lentilles corail (bocal hermétique)</span></div>
-    <div class="s-row"><span class="s-item">400ml Lait de coco (→ frigo dès ouverture)</span></div>
-    <div class="s-row"><span class="s-item">150g Graines de courge (bocal hermétique)</span></div>
-    <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
-    <div class="s-row"><span class="s-item">500g Flocons d'avoine (sec)</span></div>
-  </div>
-</div>
-
-<div class="storage-group">
-  <span class="storage-group-title">Étagère</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
-    <div class="s-row"><span class="s-item">×6 Citrons</span></div>
-  </div>
-</div>
-```
-
-  </div><!-- /prep-s1 -->
 
   <div class="prep-week-head collapsed" onclick="toggleSection('prep-s2', this)">
     <span>Semaine 2 — Samedi 17 Mai</span>
     <span class="chevron">›</span>
   </div>
   <div class="accordion-body collapsed" id="prep-s2">
-
-```
-<div class="storage-group">
-  <span class="storage-group-title">Frigo</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
-    <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
-    <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
+    <div class="storage-group">
+      <span class="storage-group-title">Frigo</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
+        <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
+        <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
+      </div>
+    </div>
+    <div class="storage-group">
+      <span class="storage-group-title">Congélateur</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">500g Épinards surgelés</span></div>
+      </div>
+    </div>
+    <div class="storage-group">
+      <span class="storage-group-title">Placard</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
+        <div class="s-row"><span class="s-item">800g Tomates pelées (→ frigo dès ouverture)</span></div>
+        <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
+      </div>
+    </div>
+    <div class="storage-group">
+      <span class="storage-group-title">Étagère</span>
+      <div class="list-box">
+        <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
+        <div class="s-row"><span class="s-item">×6 Citrons</span></div>
+      </div>
+    </div>
   </div>
+
 </div>
-
-<div class="storage-group">
-  <span class="storage-group-title">Congélateur</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">500g Épinards surgelés</span></div>
-  </div>
-</div>
-
-<div class="storage-group">
-  <span class="storage-group-title">Placard</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
-    <div class="s-row"><span class="s-item">800g Tomates pelées (→ frigo dès ouverture)</span></div>
-    <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
-  </div>
-</div>
-
-<div class="storage-group">
-  <span class="storage-group-title">Étagère</span>
-  <div class="storage-list">
-    <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
-    <div class="s-row"><span class="s-item">×6 Citrons</span></div>
-  </div>
-</div>
-```
-
-  </div><!-- /prep-s2 -->
-
-</div><!-- /view-prep -->
 
 <!-- ═══════════════════════════════
      TAB RECETTES
 ═══════════════════════════════ -->
-
 <div id="view-recettes" class="view">
 
-  <!-- ── LUNDI 11 ── -->
-
+  <!-- LUNDI 11 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-lun11',this)">
+    <div class="day-head collapsed" id="head-day-lun11" onclick="toggleSection('day-lun11',this)">
       <span class="day-label">Lundi 11 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -524,10 +485,9 @@
     </div>
   </div>
 
-  <!-- ── MARDI 12 ── -->
-
+  <!-- MARDI 12 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-mar12',this)">
+    <div class="day-head collapsed" id="head-day-mar12" onclick="toggleSection('day-mar12',this)">
       <span class="day-label">Mardi 12 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -551,10 +511,9 @@
     </div>
   </div>
 
-  <!-- ── MERCREDI 13 ── -->
-
+  <!-- MERCREDI 13 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-mer13',this)">
+    <div class="day-head collapsed" id="head-day-mer13" onclick="toggleSection('day-mer13',this)">
       <span class="day-label">Mercredi 13 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -585,10 +544,9 @@
     </div>
   </div>
 
-  <!-- ── JEUDI 14 ── -->
-
+  <!-- JEUDI 14 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-jeu14',this)">
+    <div class="day-head collapsed" id="head-day-jeu14" onclick="toggleSection('day-jeu14',this)">
       <span class="day-label">Jeudi 14 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -620,10 +578,9 @@
     </div>
   </div>
 
-  <!-- ── VENDREDI 15 ── -->
-
+  <!-- VENDREDI 15 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-ven15',this)">
+    <div class="day-head collapsed" id="head-day-ven15" onclick="toggleSection('day-ven15',this)">
       <span class="day-label">Vendredi 15 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -655,10 +612,9 @@
     </div>
   </div>
 
-  <!-- ── SAMEDI 16 ── -->
-
+  <!-- SAMEDI 16 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-sam16',this)">
+    <div class="day-head collapsed" id="head-day-sam16" onclick="toggleSection('day-sam16',this)">
       <span class="day-label">Samedi 16 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -690,10 +646,9 @@
     </div>
   </div>
 
-  <!-- ── DIMANCHE 17 ── -->
-
+  <!-- DIMANCHE 17 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-dim17',this)">
+    <div class="day-head collapsed" id="head-day-dim17" onclick="toggleSection('day-dim17',this)">
       <span class="day-label fast">Dimanche 17 Mai &nbsp;🚫 Repos</span>
       <span class="chevron">›</span>
     </div>
@@ -709,10 +664,9 @@
     </div>
   </div>
 
-  <!-- ── LUNDI 18 ── -->
-
+  <!-- LUNDI 18 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-lun18',this)">
+    <div class="day-head collapsed" id="head-day-lun18" onclick="toggleSection('day-lun18',this)">
       <span class="day-label">Lundi 18 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -735,10 +689,9 @@
     </div>
   </div>
 
-  <!-- ── MARDI 19 ── -->
-
+  <!-- MARDI 19 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-mar19',this)">
+    <div class="day-head collapsed" id="head-day-mar19" onclick="toggleSection('day-mar19',this)">
       <span class="day-label">Mardi 19 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -761,10 +714,9 @@
     </div>
   </div>
 
-  <!-- ── MERCREDI 20 ── -->
-
+  <!-- MERCREDI 20 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-mer20',this)">
+    <div class="day-head collapsed" id="head-day-mer20" onclick="toggleSection('day-mer20',this)">
       <span class="day-label">Mercredi 20 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -787,10 +739,9 @@
     </div>
   </div>
 
-  <!-- ── JEUDI 21 ── -->
-
+  <!-- JEUDI 21 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-jeu21',this)">
+    <div class="day-head collapsed" id="head-day-jeu21" onclick="toggleSection('day-jeu21',this)">
       <span class="day-label">Jeudi 21 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -813,10 +764,9 @@
     </div>
   </div>
 
-  <!-- ── VENDREDI 22 ── -->
-
+  <!-- VENDREDI 22 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-ven22',this)">
+    <div class="day-head collapsed" id="head-day-ven22" onclick="toggleSection('day-ven22',this)">
       <span class="day-label">Vendredi 22 Mai &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
@@ -839,10 +789,9 @@
     </div>
   </div>
 
-  <!-- ── SAMEDI 23 ── -->
-
+  <!-- SAMEDI 23 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-sam23',this)">
+    <div class="day-head collapsed" id="head-day-sam23" onclick="toggleSection('day-sam23',this)">
       <span class="day-label">Samedi 23 Mai &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
@@ -865,10 +814,9 @@
     </div>
   </div>
 
-  <!-- ── DIMANCHE 24 ── -->
-
+  <!-- DIMANCHE 24 -->
   <div class="day-block">
-    <div class="day-head collapsed" onclick="toggleSection('day-dim24',this)">
+    <div class="day-head collapsed" id="head-day-dim24" onclick="toggleSection('day-dim24',this)">
       <span class="day-label fast">Dimanche 24 Mai &nbsp;🚫 Repos</span>
       <span class="chevron">›</span>
     </div>
@@ -884,8 +832,6 @@
     </div>
   </div>
 
-  <!-- ── CIBLES EN BAS ── -->
-
   <div class="macro-ref" style="margin-top:24px;">
     <h3>Cibles journalières</h3>
     <div class="macro-grid">
@@ -899,65 +845,141 @@
 </div><!-- /view-recettes -->
 
 <script>
+  /* ── Date → section ID map ── */
+  const TODAY_MAP = {
+    '2026-05-11': 'day-lun11',
+    '2026-05-12': 'day-mar12',
+    '2026-05-13': 'day-mer13',
+    '2026-05-14': 'day-jeu14',
+    '2026-05-15': 'day-ven15',
+    '2026-05-16': 'day-sam16',
+    '2026-05-17': 'day-dim17',
+    '2026-05-18': 'day-lun18',
+    '2026-05-19': 'day-mar19',
+    '2026-05-20': 'day-mer20',
+    '2026-05-21': 'day-jeu21',
+    '2026-05-22': 'day-ven22',
+    '2026-05-23': 'day-sam23',
+    '2026-05-24': 'day-dim24',
+  };
+
+  /* ── Tabs ── */
   function showTab(name) {
     ['courses','prep','recettes'].forEach(function(t) {
       document.getElementById('view-' + t).classList.remove('active');
-      document.querySelectorAll('.tab-btn').forEach(function(b,i) {
-        if (['courses','prep','recettes'][i] === t) b.classList.remove('active');
-      });
+    });
+    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
+      b.classList.toggle('active', ['courses','prep','recettes'][i] === name);
     });
     document.getElementById('view-' + name).classList.add('active');
-    document.querySelectorAll('.tab-btn').forEach(function(b,i) {
-      if (['courses','prep','recettes'][i] === name) b.classList.add('active');
-    });
   }
 
-  function check(el) {
-    if (!el.classList.contains('stock')) {
-      el.classList.toggle('checked');
-      saveChecked();
-    }
-  }
-
-  function saveChecked() {
-    var items = document.querySelectorAll('.shop-item:not(.stock)');
-    var state = [];
-    items.forEach(function(item) {
-      state.push(item.classList.contains('checked') ? 1 : 0);
-    });
-    localStorage.setItem('mp-checked', JSON.stringify(state));
-  }
-
-  function loadChecked() {
-    var saved = localStorage.getItem('mp-checked');
-    if (!saved) return;
-    var state = JSON.parse(saved);
-    var items = document.querySelectorAll('.shop-item:not(.stock)');
-    items.forEach(function(item, i) {
-      if (state[i]) item.classList.add('checked');
-    });
-  }
-
-  function resetChecked() {
-    document.querySelectorAll('.shop-item.checked').forEach(function(el) {
-      el.classList.remove('checked');
-    });
-    localStorage.removeItem('mp-checked');
-  }
-
+  /* ── Accordion ── */
   function toggleSection(id, header) {
     var body = document.getElementById(id);
-    var isCollapsed = body.classList.contains('collapsed');
-    if (isCollapsed) {
-      body.classList.remove('collapsed');
-      header.classList.remove('collapsed');
-    } else {
-      body.classList.add('collapsed');
-      header.classList.add('collapsed');
+    var collapsed = body.classList.contains('collapsed');
+    body.classList.toggle('collapsed', !collapsed);
+    header.classList.toggle('collapsed', !collapsed);
+  }
+
+  /* ── Shopping check — keyed by item name (robust) ── */
+  function getStorageKey(week) { return 'mp-v2-' + week; }
+
+  function check(el, week) {
+    if (el.classList.contains('stock')) return;
+    el.classList.toggle('checked');
+    saveChecked(week);
+    updateProgress(week);
+  }
+
+  function saveChecked(week) {
+    var state = {};
+    var section = document.getElementById('courses-' + week);
+    section.querySelectorAll('.shop-item:not(.stock)').forEach(function(item) {
+      var key = item.querySelector('.item-name').textContent.trim();
+      state[key] = item.classList.contains('checked');
+    });
+    localStorage.setItem(getStorageKey(week), JSON.stringify(state));
+  }
+
+  function loadChecked(week) {
+    var saved = localStorage.getItem(getStorageKey(week));
+    if (!saved) return;
+    var state = JSON.parse(saved);
+    var section = document.getElementById('courses-' + week);
+    section.querySelectorAll('.shop-item:not(.stock)').forEach(function(item) {
+      var key = item.querySelector('.item-name').textContent.trim();
+      if (state[key]) item.classList.add('checked');
+    });
+    updateProgress(week);
+  }
+
+  function resetWeek(week) {
+    var section = document.getElementById('courses-' + week);
+    section.querySelectorAll('.shop-item.checked').forEach(function(el) {
+      el.classList.remove('checked');
+    });
+    localStorage.removeItem(getStorageKey(week));
+    updateProgress(week);
+  }
+
+  /* ── Progress bar ── */
+  function updateProgress(week) {
+    var section = document.getElementById('courses-' + week);
+    var all = section.querySelectorAll('.shop-item:not(.stock)');
+    var done = section.querySelectorAll('.shop-item:not(.stock).checked');
+    var pct = all.length ? Math.round(done.length / all.length * 100) : 0;
+    document.getElementById('prog-' + week).textContent = done.length + ' / ' + all.length;
+    document.getElementById('fill-' + week).style.width = pct + '%';
+  }
+
+  /* ── Auto-open today's day + badge ── */
+  function initToday() {
+    var now = new Date();
+    var pad = function(n) { return String(n).padStart(2,'0'); };
+    var key = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate());
+    var dayId = TODAY_MAP[key];
+    if (!dayId) return;
+
+    /* Badge on day head */
+    var headEl = document.getElementById('head-' + dayId);
+    if (headEl) {
+      var badge = document.createElement('span');
+      badge.className = 'today-badge';
+      badge.textContent = "Aujourd'hui";
+      headEl.querySelector('.day-label').appendChild(badge);
+      /* Open it */
+      headEl.classList.remove('collapsed');
+      document.getElementById(dayId).classList.remove('collapsed');
+    }
+
+    /* Auto-open current week in Courses */
+    var month = now.getMonth() + 1;
+    var day   = now.getDate();
+    if (month === 5 && day >= 10 && day <= 16) {
+      openWeek('s1');
+    } else if (month === 5 && day >= 17 && day <= 24) {
+      openWeek('s2');
     }
   }
 
-  document.addEventListener('DOMContentLoaded', loadChecked);
+  function openWeek(week) {
+    var body = document.getElementById('courses-' + week);
+    var head = document.getElementById('head-' + week);
+    if (body && body.classList.contains('collapsed')) {
+      body.classList.remove('collapsed');
+      head.classList.remove('collapsed');
+    }
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', function() {
+    loadChecked('s1');
+    loadChecked('s2');
+    updateProgress('s1');
+    updateProgress('s2');
+    initToday();
+  });
 </script>
 
 </body>
