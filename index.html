@@ -1,969 +1,616 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Meal Prep Sèche — 11-24 Mai 2026</title>
-  <style>
-    :root {
-      --bg: #000;
-      --card: #1c1c1e;
-      --text: #fff;
-      --muted: #8e8e93;
-      --green: #34c759;
-      --red: #ff3b30;
-      --orange: #ff9f0a;
-      --blue: #0a84ff;
-      --purple: #bf5af2;
-      --border: #38383a;
-      --seg: #1c1c1e;
-      --seg-active: #3a3a3c;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 20px 16px 60px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Budget mensuel — Hicham</title>
+<style>
+/* ── Lock screen ── */
+#lock-screen { position:fixed;inset:0;background:#1a1a1a;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem; }
+#lock-screen.hidden { display:none; }
+.lock-title { font-size:15px;color:#777;letter-spacing:.05em; }
+.pin-dots { display:flex;gap:18px; }
+.pin-dot { width:14px;height:14px;border-radius:50%;border:1.5px solid #555;background:transparent;transition:background .1s; }
+.pin-dot.filled { background:#e8e8e6;border-color:#e8e8e6; }
+.pin-dot.error { background:#e07070;border-color:#e07070; }
+.pin-pad { display:grid;grid-template-columns:repeat(3,72px);gap:12px; }
+.pin-key { width:72px;height:72px;border-radius:50%;border:1px solid #333;background:#2e2e2e;color:#e8e8e6;font-size:22px;font-family:-apple-system,Arial,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;user-select:none; }
+.pin-key:active { background:#444; }
+.pin-key.del { font-size:18px;color:#888; }
+.pin-key.empty { border:none;background:transparent;cursor:default; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+.shake { animation:shake .35s ease; }
 
-    /* ── Header ── */
-    .header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: baseline; }
-    .header h1 { font-size: 26px; font-weight: 700; letter-spacing: .3px; }
-    .header .date { font-size: 17px; font-weight: 400; color: var(--muted); }
+/* ── Base ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{overflow-x:hidden;}
+body { font-family:-apple-system,Arial,sans-serif;background:#1a1a1a;color:#e8e8e6;min-height:100vh;padding:.6rem .5rem; }
+input[type=number]{-moz-appearance:textfield;}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 
-    /* ── Tabs sticky ── */
-    .tabs {
-      display: flex;
-      background: rgba(28,28,30,0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 10px;
-      padding: 3px;
-      margin-bottom: 20px;
-      position: sticky;
-      top: 8px;
-      z-index: 100;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-    .tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 9px 0; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all .2s; cursor: pointer; }
-    .tab-btn.active { background: var(--seg-active); color: var(--text); }
+/* ── Header ── */
+.header { display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem; }
+.mois-label { font-size:18px;font-weight:400;color:#aaa; }
+.sync-badge { font-size:10px;display:flex;align-items:center;gap:4px;color:#666; }
+#sync-dot { width:6px;height:6px;border-radius:50%;background:#555;flex-shrink:0; }
+#sync-dot.syncing { background:#e8a84f;animation:pulse .8s infinite; }
+#sync-dot.ok { background:#6dbf8a; }
+#sync-dot.err { background:#e07070; }
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-    /* ── Views ── */
-    .view { display: none; }
-    .view.active { display: block; animation: fadeIn .2s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+/* ── Toast ── */
+#toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#2e2e2e;border:1px solid #444;border-radius:8px;padding:10px 18px;font-size:12px;color:#e8e8e6;z-index:500;transition:transform .3s ease,opacity .3s ease;opacity:0;pointer-events:none;white-space:nowrap; }
+#toast.show { transform:translateX(-50%) translateY(0);opacity:1; }
 
-    /* ── Week header ── */
-    .week-head { display: flex; justify-content: space-between; align-items: center; background: var(--seg-active); padding: 12px 16px; border-radius: 10px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
-    .week-head:first-child { margin-top: 0; }
-    .week-head:active { opacity: .75; }
-    .week-head h2 { font-size: 17px; margin: 0; }
-    .week-head small { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .chevron { font-size: 18px; color: var(--muted); transition: transform .25s ease; margin-left: 12px; line-height: 1; flex-shrink: 0; display: inline-block; }
-    .week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+/* ── Tabs ── */
+.tabs { display:flex;gap:6px;margin-bottom:.75rem; }
+.tab { flex:1;padding:8px 6px;border-radius:8px;border:1px solid #444;background:#2e2e2e;cursor:pointer;font-size:13px;color:#999;text-align:center;-webkit-tap-highlight-color:transparent; }
+.tab.active { background:#3a3a3a;color:#e8e8e6;font-weight:500;border-color:#666; }
+.panel { display:none; }
+.panel.active { display:block; }
 
-    /* ── Accordion body ── */
-    .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding-top: 12px; }
-    .accordion-body.collapsed { max-height: 0 !important; height: 0; opacity: 0; padding-top: 0; overflow: hidden; }
+/* ── Metric cards ── */
+.cards { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.75rem; }
+.card { background:#2e2e2e;border-radius:8px;padding:8px 10px;border:1px solid #383838;min-width:0; }
+.card.green-bg { background:#1e2e22;border-color:#2d4a33; }
+.card.red-bg { background:#2e1e1e;border-color:#4a2d2d; }
+.card-label { font-size:10px;color:#888;margin-bottom:2px; }
+.card-value { font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.card-value.green { color:#6dbf8a; }
+.card-value.red { color:#e07070; }
+.card-value.white { color:#e8e8e6; }
+.editable-val { background:none;border:none;border-bottom:1px dashed #555;color:#e8e8e6;font-size:17px;font-weight:500;font-family:-apple-system,Arial,sans-serif;width:80px;outline:none;appearance:textfield; }
+.editable-val:focus{border-bottom-color:#999;}
 
-    /* ── Prep week header ── */
-    .prep-week-head { display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 24px 0 0; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
-    .prep-week-head:active { opacity: .7; }
-    .prep-week-head .chevron { font-size: 16px; }
-    .prep-week-head:not(.collapsed) .chevron { transform: rotate(90deg); }
+/* ── Entry form ── */
+.entry-form { margin-bottom:.75rem; }
+.entry-row1 { display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px; }
+.entry-row2 { display:grid;grid-template-columns:1fr 1fr;gap:7px; }
+.entry-form input, .entry-form select {
+  padding:10px 8px;border:1px solid #444;border-radius:7px;
+  background:#2a2a2a;color:#e8e8e6;font-size:14px;
+  font-family:-apple-system,Arial,sans-serif;outline:none;width:100%;
+}
+.entry-form input[type=number]{appearance:textfield;}
+.btn-add { width:100%;padding:10px;background:#3a3a3a;border:1px solid #555;border-radius:7px;color:#e8e8e6;font-size:20px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
+.btn-add:active{background:#484848;}
+.btn-undo { width:100%;padding:10px;background:#3a3a3a;border:1px solid #555;border-radius:7px;color:#e8e8e6;font-size:20px;cursor:pointer;-webkit-tap-highlight-color:transparent; }
+.btn-undo:active{background:#484848;}
 
-    .section-label { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .8px; margin: 16px 0 6px; }
-    .section-label.stock-label { color: var(--green); display: flex; align-items: center; gap: 6px; }
-    .section-label.stock-label::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+/* ── Category groups ── */
+.cat-group { margin-bottom:.5rem; }
+.cat-header { display:flex;justify-content:space-between;align-items:center;padding:5px 6px;background:#242424;border-radius:6px 6px 0 0;border-bottom:1px solid #333; }
+.cat-header-name { font-size:11px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:.04em; }
+.cat-header-right { display:flex;gap:10px;align-items:center; }
+.cat-budget { font-size:10px;color:#666; }
+.cat-reste { font-size:12px;font-weight:500; }
+.cat-reste.green{color:#6dbf8a;} .cat-reste.red{color:#e07070;}
+.entry-row-item { display:flex;align-items:center;padding:7px 6px;border-bottom:1px solid #222;background:#1e1e1e; }
+.entry-row-item:last-child{border-bottom:none;border-radius:0 0 6px 6px;}
+.entry-desc { flex:1;font-size:13px;color:#ccc; }
+.entry-amount { font-size:13px;color:#bbb;font-variant-numeric:tabular-nums;margin-right:8px;white-space:nowrap; }
+.btn-del { background:none;border:none;color:#444;font-size:14px;cursor:pointer;padding:2px 4px;-webkit-tap-highlight-color:transparent; }
+.btn-del:active{color:#e07070;}
+.cat-empty { padding:8px 6px;font-size:12px;color:#444;background:#1e1e1e;border-radius:0 0 6px 6px; }
 
-    /* ── Shopping items ── */
-    .list-box { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
-    .shop-item { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity .15s; }
-    .shop-item:last-child { border-bottom: none; }
-    .shop-item.stock { opacity: .45; cursor: default; }
-    .check-ring { min-width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%; margin-right: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; }
-    .check-icon { display: none; font-size: 12px; font-weight: 700; color: #000; }
-    .shop-item.checked .check-ring { background: var(--green); border-color: var(--green); }
-    .shop-item.checked .check-icon { display: block; }
-    .shop-item.checked .item-name { text-decoration: line-through; color: var(--muted); }
-    .item-info { flex: 1; }
-    .item-name { font-size: 15px; font-weight: 500; }
-    .item-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-    .item-price { font-size: 15px; color: var(--muted); margin-left: 12px; white-space: nowrap; font-weight: 500; }
-
-    /* ── Progress bar ── */
-    .progress-wrap { margin: 10px 0 6px; }
-    .progress-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
-    .progress-track { height: 4px; background: var(--seg-active); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .3s ease; }
-
-    /* ── Storage groups ── */
-    .storage-group { margin-top: 16px; }
-    .storage-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #fff; padding: 0 2px 7px; display: block; }
-    .s-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
-    .s-row:last-child { border-bottom: none; }
-    .s-item { flex: 1; font-weight: 500; }
-
-    /* ── Macro reference card ── */
-    .macro-ref { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
-    .macro-ref h3 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .macro-cell { text-align: center; background: var(--seg-active); border-radius: 8px; padding: 10px 4px; }
-    .macro-cell .val { font-size: 17px; font-weight: 700; }
-    .macro-cell .lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
-    .macro-cell.kcal .val { color: var(--orange); }
-    .macro-cell.prot .val { color: var(--blue); }
-    .macro-cell.gluc .val { color: var(--green); }
-    .macro-cell.lip .val { color: var(--purple); }
-
-    /* ── Day accordion head ── */
-    .day-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; user-select: none; -webkit-user-select: none; border-bottom: 1px solid var(--border); transition: opacity .15s; }
-    .day-head:active { opacity: .65; }
-    .day-head .day-label { font-size: 17px; font-weight: 700; }
-    .day-head .day-label.fast { color: var(--red); }
-    .day-head:not(.collapsed) .chevron { transform: rotate(90deg); }
-    .day-block { margin-bottom: 0; }
-
-    /* ── TODAY badge ── */
-    .today-badge {
-      display: inline-block;
-      background: var(--orange);
-      color: #000;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .5px;
-      padding: 2px 7px;
-      border-radius: 6px;
-      margin-left: 8px;
-      vertical-align: middle;
-      text-transform: uppercase;
-    }
-
-    /* ── Meal cards ── */
-    .meal { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--border); }
-    .meal.main { border-left-color: var(--blue); }
-    .meal.snack { border-left-color: var(--orange); }
-    .meal.fast-card { border-left-color: var(--red); text-align: center; padding: 20px; }
-    .meal-time { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; }
-    .meal-body { font-size: 14px; line-height: 1.6; }
-    .meal-body ul { padding-left: 16px; margin-top: 7px; }
-    .meal-body li { margin-bottom: 5px; }
-    .chef-tip { display: block; font-size: 13px; color: var(--text); margin-top: 10px; padding: 10px 12px; background: rgba(10,60,120,.25); border-radius: 8px; border-left: 3px solid #1a5fb4; line-height: 1.6; }
-    .tip { display: block; font-style: italic; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
-
-    /* ── Reset button ── */
-    .reset-btn { display: block; width: 100%; margin-top: 20px; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; }
-    .reset-btn:active { background: var(--seg-active); }
-  </style>
+/* ── Budget projeté table ── */
+.budget-section { margin-bottom:.75rem; }
+.budget-section-title { font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.05em;padding:5px 4px;border-bottom:1px solid #2e2e2e;margin-bottom:2px; }
+.budget-row { display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid #222; }
+.budget-row:last-child{border-bottom:none;}
+.budget-row-label-input { flex:1;background:none;border:none;border-bottom:1px dashed #333;color:#d8d8d6;font-size:13px;font-family:-apple-system,Arial,sans-serif;outline:none;padding:0;min-width:0;margin-right:8px; }
+.budget-row-label-input:focus{border-bottom-color:#666;color:#e8e8e6;}
+.budget-input-wrap { position:relative;display:inline-block; }
+.budget-input { width:80px;text-align:right;padding:5px 26px 5px 6px;border:1px solid #444;border-radius:6px;background:#2e2e2e;color:#e8e8e6;font-size:13px;font-family:-apple-system,Arial,sans-serif;appearance:textfield;outline:none; }
+.budget-input:focus{border-color:#777;}
+.budget-arrows { position:absolute;right:0;top:0;bottom:0;width:22px;display:flex;flex-direction:column;border-left:1px solid #444; }
+.budget-arr { flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#777;font-size:8px;user-select:none;-webkit-tap-highlight-color:transparent; }
+.budget-arr:active{background:#3a3a3a;color:#ccc;}
+.budget-arr:first-child{border-bottom:1px solid #444;border-radius:0 6px 0 0;}
+.budget-arr:last-child{border-radius:0 0 6px 0;}
+.btn-row-del { background:none;border:none;color:#333;font-size:13px;cursor:pointer;padding:2px 4px;margin-left:6px;-webkit-tap-highlight-color:transparent;flex-shrink:0; }
+.btn-row-del:active{color:#e07070;}
+.btn-sec-add { width:100%;padding:8px;background:none;border:1px dashed #444;border-radius:6px;color:#666;font-size:12px;cursor:pointer;margin-top:4px;font-family:-apple-system,Arial,sans-serif;-webkit-tap-highlight-color:transparent; }
+.btn-sec-add:active{color:#999;border-color:#666;}
+</style>
 </head>
 <body>
 
-<div class="header">
-  <h1>MEAL PREP</h1>
-  <span class="date">11 – 24 Mai</span>
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- PIN -->
+<div id="lock-screen">
+  <div class="lock-title">Code d'accès</div>
+  <div class="pin-dots" id="pin-dots">
+    <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-pad">
+    <div class="pin-key" onclick="pinPress('1')">1</div><div class="pin-key" onclick="pinPress('2')">2</div><div class="pin-key" onclick="pinPress('3')">3</div>
+    <div class="pin-key" onclick="pinPress('4')">4</div><div class="pin-key" onclick="pinPress('5')">5</div><div class="pin-key" onclick="pinPress('6')">6</div>
+    <div class="pin-key" onclick="pinPress('7')">7</div><div class="pin-key" onclick="pinPress('8')">8</div><div class="pin-key" onclick="pinPress('9')">9</div>
+    <div class="pin-key empty"></div><div class="pin-key" onclick="pinPress('0')">0</div><div class="pin-key del" onclick="pinDel()">⌫</div>
+  </div>
 </div>
 
-<div class="tabs">
-  <button class="tab-btn active" onclick="showTab('courses')">Courses</button>
-  <button class="tab-btn" onclick="showTab('prep')">Conservation</button>
-  <button class="tab-btn" onclick="showTab('recettes')">Recettes</button>
-</div>
-
-<!-- ═══════════════════════════════
-     TAB COURSES
-═══════════════════════════════ -->
-<div id="view-courses" class="view active">
-
-  <div class="week-head collapsed" id="head-s1" onclick="toggleSection('courses-s1', this)">
-    <div><h2>SEMAINE 1</h2><small>Samedi 10 Mai</small></div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <span style="font-size:15px;font-weight:700;color:var(--green);">~27,25 €</span>
-      <div class="chevron">›</div>
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div style="display:flex;align-items:baseline;gap:6px">
+      <span style="font-size:18px;font-weight:600;color:#e8e8e6;letter-spacing:.02em">BUDGET</span>
+      <span class="mois-label" id="mois-input">Mai 2026</span>
     </div>
-  </div>
-  <div class="accordion-body collapsed" id="courses-s1">
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span id="prog-s1">0 / 0</span></div>
-      <div class="progress-track"><div class="progress-fill" id="fill-s1" style="width:0%"></div></div>
-    </div>
-
-    <div class="section-label">Viandes &amp; Volailles</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
-        <div class="item-price">~5,50 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Poissonnerie / Conserves</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
-        <div class="item-price">~2,80 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Crémerie</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
-        <div class="item-price">~3,25 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×12</div></div>
-        <div class="item-price">~3,00 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Fruits &amp; Légumes</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
-        <div class="item-price">~1,20 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
-        <div class="item-price">~1,00 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Pommes de terre — 1,5 kg</div></div>
-        <div class="item-price">~1,00 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Épicerie</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Lentilles corail Bio — 500g</div></div>
-        <div class="item-price">~1,80 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Lait de coco — brique 400ml</div></div>
-        <div class="item-price">~1,90 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Graines de courge — 150g</div></div>
-        <div class="item-price">~2,50 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
-        <div class="item-price">~1,80 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s1')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div>
-        <div class="item-price">~1,50 €</div>
-      </div>
-    </div>
-
-    <div class="section-label stock-label">En stock</div>
-    <div class="list-box">
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Épinards surgelés — 400g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Légumes surgelés 3-en-1 — 750g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Maïs doux — 2 × 300g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Ail — 190g · Échalotes — 240g · Oignons — 1,4 kg</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Gochujang · Soja · Sriracha · Huile d'olive · Épices</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Whey</div></div></div>
-    </div>
-
-    <button class="reset-btn" onclick="resetWeek('s1')">↺ Réinitialiser la liste S1</button>
+    <div class="sync-badge"><span id="sync-dot"></span><span id="sync-label">—</span></div>
   </div>
 
-  <div class="week-head collapsed" id="head-s2" onclick="toggleSection('courses-s2', this)">
-    <div><h2>SEMAINE 2</h2><small>Samedi 17 Mai</small></div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <span style="font-size:15px;font-weight:700;color:var(--green);">~22,50 €</span>
-      <div class="chevron">›</div>
-    </div>
-  </div>
-  <div class="accordion-body collapsed" id="courses-s2">
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Progression</span><span id="prog-s2">0 / 0</span></div>
-      <div class="progress-track"><div class="progress-fill" id="fill-s2" style="width:0%"></div></div>
-    </div>
-
-    <div class="section-label">Viandes &amp; Volailles</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Cuisses de poulet désossées — 1 kg</div></div>
-        <div class="item-price">~5,50 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Poissonnerie / Conserves</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Sardines à l'huile d'olive — 2 boîtes 140g</div></div>
-        <div class="item-price">~2,80 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Crémerie</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Skyr nature Délisse — 850g</div></div>
-        <div class="item-price">~3,25 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Œufs plein air Oméga — ×18</div></div>
-        <div class="item-price">~4,50 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Fruits &amp; Légumes</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Bananes — régime de 6</div></div>
-        <div class="item-price">~1,20 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Citrons jaunes — filet de 6</div></div>
-        <div class="item-price">~1,00 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Épinards surgelés — 500g</div></div>
-        <div class="item-price">~1,25 €</div>
-      </div>
-    </div>
-
-    <div class="section-label">Épicerie</div>
-    <div class="list-box">
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Tomates pelées au jus — 800g</div></div>
-        <div class="item-price">~1,20 €</div>
-      </div>
-      <div class="shop-item" onclick="check(this,'s2')">
-        <div class="check-ring"><span class="check-icon">✓</span></div>
-        <div class="item-info"><div class="item-name">Olives vertes — bocal 150g</div></div>
-        <div class="item-price">~1,80 €</div>
-      </div>
-    </div>
-
-    <div class="section-label stock-label">Reports S1</div>
-    <div class="list-box">
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Flocons d'avoine — 500g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Lentilles corail — ~370g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Pommes de terre — ~950g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Lait de coco — 300ml</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Graines de courge — ~110g</div></div></div>
-      <div class="shop-item stock"><div class="check-ring"></div><div class="item-info"><div class="item-name">Maïs · Aromates · Condiments · Whey</div></div></div>
-    </div>
-
-    <button class="reset-btn" onclick="resetWeek('s2')">↺ Réinitialiser la liste S2</button>
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('reel',this)">Dépenses réel</div>
+    <div class="tab" onclick="showTab('budget',this)">Budget projeté</div>
   </div>
 
-</div>
+  <!-- ── ONGLET 1 : DÉPENSES RÉEL ── -->
+  <div id="reel" class="panel active">
+    <!-- Formulaire de saisie -->
+    <div class="entry-form">
+      <div class="entry-row1">
+        <input type="number" id="e-montant" placeholder="Montant €" step="0.01">
+        <input type="text" id="e-desc" placeholder="Description">
+      </div>
+      <div class="entry-row2">
+        <select id="e-cat"></select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+          <button class="btn-add" onclick="addEntry()">+</button>
+          <button class="btn-undo" onclick="undoEntry()">&lt;</button>
+        </div>
+      </div>
+    </div>
 
-<!-- ═══════════════════════════════
-     TAB CONSERVATION
-═══════════════════════════════ -->
-<div id="view-prep" class="view">
+    <!-- Totaux -->
+    <div class="cards" style="margin-bottom:.75rem">
+      <div class="card">
+        <div class="card-label">Dépensé réel</div>
+        <div class="card-value white" id="r-reel">0,00 €</div>
+      </div>
+      <div class="card green-bg">
+        <div class="card-label">Reste réel</div>
+        <div class="card-value green" id="r-reste-reel">0 €</div>
+      </div>
+    </div>
 
-  <div class="prep-week-head collapsed" onclick="toggleSection('prep-s1', this)">
-    <span>Semaine 1 — Samedi 10 Mai</span>
-    <span class="chevron">›</span>
-  </div>
-  <div class="accordion-body collapsed" id="prep-s1">
-    <div class="storage-group">
-      <span class="storage-group-title">Frigo</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
-        <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
-        <div class="s-row"><span class="s-item">×24 Œufs (en bas, pointe vers le bas)</span></div>
-      </div>
-    </div>
-    <div class="storage-group">
-      <span class="storage-group-title">Placard</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
-        <div class="s-row"><span class="s-item">1,5 kg Pommes de terre (zone sèche, sombre)</span></div>
-        <div class="s-row"><span class="s-item">650g Lentilles corail (bocal hermétique)</span></div>
-        <div class="s-row"><span class="s-item">400ml Lait de coco (→ frigo dès ouverture)</span></div>
-        <div class="s-row"><span class="s-item">150g Graines de courge (bocal hermétique)</span></div>
-        <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
-        <div class="s-row"><span class="s-item">500g Flocons d'avoine (sec)</span></div>
-      </div>
-    </div>
-    <div class="storage-group">
-      <span class="storage-group-title">Étagère</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
-        <div class="s-row"><span class="s-item">×6 Citrons</span></div>
-      </div>
-    </div>
+    <!-- Liste par catégorie -->
+    <div id="cat-list"></div>
   </div>
 
-  <div class="prep-week-head collapsed" onclick="toggleSection('prep-s2', this)">
-    <span>Semaine 2 — Samedi 17 Mai</span>
-    <span class="chevron">›</span>
-  </div>
-  <div class="accordion-body collapsed" id="prep-s2">
-    <div class="storage-group">
-      <span class="storage-group-title">Frigo</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">880g Poulet (en bas)</span></div>
-        <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
-        <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
+  <!-- ── ONGLET 2 : BUDGET PROJETÉ ── -->
+  <div id="budget" class="panel">
+    <!-- Salaire / Fixes -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Salaire net</div>
+        <input class="editable-val" id="salaire" type="number" value="2779" oninput="recalc()">
+      </div>
+      <div class="card red-bg">
+        <div class="card-label">Total fixes</div>
+        <div class="card-value red" id="b-fixes">1 806 €</div>
       </div>
     </div>
-    <div class="storage-group">
-      <span class="storage-group-title">Congélateur</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">500g Épinards surgelés</span></div>
+
+    <!-- Budget variable / Reste -->
+    <div class="cards">
+      <div class="card red-bg">
+        <div class="card-label">Budget variable</div>
+        <div class="card-value red" id="b-variable">660 €</div>
+      </div>
+      <div class="card green-bg">
+        <div class="card-label">Reste (sal − fixes − variable)</div>
+        <div class="card-value green" id="b-reste">313 €</div>
       </div>
     </div>
-    <div class="storage-group">
-      <span class="storage-group-title">Placard</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">2 boîtes Sardines 140g</span></div>
-        <div class="s-row"><span class="s-item">800g Tomates pelées (→ frigo dès ouverture)</span></div>
-        <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
-      </div>
+
+    <!-- Variable -->
+    <div class="budget-section">
+      <div class="budget-section-title">Dépenses variables budgétées</div>
+      <div id="sec-variable"></div>
+      <button class="btn-sec-add" onclick="addBudgetRow('variable')">+ Ajouter une ligne</button>
     </div>
-    <div class="storage-group">
-      <span class="storage-group-title">Étagère</span>
-      <div class="list-box">
-        <div class="s-row"><span class="s-item">×6 Bananes (hors frigo)</span></div>
-        <div class="s-row"><span class="s-item">×6 Citrons</span></div>
-      </div>
+
+    <!-- Logement -->
+    <div class="budget-section">
+      <div class="budget-section-title">Logement</div>
+      <div id="sec-logement"></div>
+      <button class="btn-sec-add" onclick="addBudgetRow('logement')">+ Ajouter une ligne</button>
+    </div>
+
+    <!-- Abonnements -->
+    <div class="budget-section">
+      <div class="budget-section-title">Abonnements &amp; services</div>
+      <div id="sec-abonnements"></div>
+      <button class="btn-sec-add" onclick="addBudgetRow('abonnements')">+ Ajouter une ligne</button>
+    </div>
+
+    <!-- Épargne -->
+    <div class="budget-section">
+      <div class="budget-section-title">Épargne</div>
+      <div id="sec-epargne"></div>
+      <button class="btn-sec-add" onclick="addBudgetRow('epargne')">+ Ajouter une ligne</button>
     </div>
   </div>
 
 </div>
-
-<!-- ═══════════════════════════════
-     TAB RECETTES
-═══════════════════════════════ -->
-<div id="view-recettes" class="view">
-
-  <!-- LUNDI 11 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-lun11" onclick="toggleSection('day-lun11',this)">
-      <span class="day-label">Lundi 11 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-lun11" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong>
-          <ul>
-            <li>Mariner <strong>440g cuisses poulet désossées</strong> : jus 1 citron + cumin + curcuma + ail · <strong>20 min min.</strong></li>
-            <li>Cocotte · 20ml huile d'olive · saisir le poulet 3-4 min</li>
-            <li>Ajouter <strong>200g pommes de terre</strong> en gros dés + <strong>50g olives vertes</strong> + eau à mi-hauteur</li>
-            <li>Couvrir · mijoter feu très doux <strong>40 min</strong></li>
-            <li>Diviser en 2 parts égales</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 Fais chauffer l'huile d'olive à sec 30 secondes avant d'ajouter le poulet, puis ajoute cumin et curcuma directement dans l'huile chaude. La chaleur libère les huiles essentielles des épices — la sauce prend une profondeur aromatique qu'une simple marinade ne donne pas.</span>
-          <span class="tip">💡 Cuisiner samedi 10 soir. Le collagène des cuisses lie la sauce naturellement. Citron en marinade = absorption du fer optimisée.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide · 115 kcal · 24g P</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MARDI 12 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mar12" onclick="toggleSection('day-mar12',this)">
-      <span class="day-label">Mardi 12 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-mar12" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
-          Recette identique lundi — cuisiner <strong>lundi 11 soir</strong>. Diviser en 2 parts.
-          <span class="tip">💡 Réchauffer à feu très doux 5 min ou micro-ondes couvert.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MERCREDI 13 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mer13" onclick="toggleSection('day-mer13',this)">
-      <span class="day-label">Mercredi 13 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-mer13" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Salade Niçoise Protéinée aux Sardines — Cuiseur à riz (vapeur)</strong>
-          <ul>
-            <li>Mode vapeur : <strong>150g pommes de terre</strong> en rondelles + <strong>200g légumes 3-en-1 surgelés</strong> + <strong>4 œufs plein air</strong></li>
-            <li>Laisser refroidir · écaler les œufs</li>
-            <li>Dresser les légumes · ajouter <strong>2 boîtes sardines à l'huile</strong> égouttées</li>
-            <li><strong>OBLIGATOIRE lipides</strong> : 20ml huile d'olive + jus citron frais + <strong>20g graines de courge</strong></li>
-            <li>Diviser en 2 parts — 2 œufs par portion</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 Écrase une demi-sardine à la fourchette dans un bol avec le jus de citron et l'huile d'olive avant d'assembler la salade. Tu obtiens une vinaigrette liée naturellement par les graisses de la sardine, qui enrobe les pommes de terre tièdes bien mieux qu'une vinaigrette classique.</span>
-          <span class="tip">💡 Cuisiner mardi 12 soir. Huile d'olive + graines de courge non-négociables pour atteindre 90g L/j.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- JEUDI 14 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-jeu14" onclick="toggleSection('day-jeu14',this)">
-      <span class="day-label">Jeudi 14 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-jeu14" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
-          <ul>
-            <li>10ml huile d'olive · faire revenir cumin + coriandre + ail émincé</li>
-            <li>Ajouter <strong>160g lentilles corail crues</strong> + <strong>200g épinards surgelés</strong> + <strong>100ml lait de coco</strong></li>
-            <li>Couvrir d'eau · cuire jusqu'à absorption (~20 min)</li>
-            <li>Creuser <strong>8 puits</strong> · casser 8 œufs plein air · couvrir 5 min pour pocher</li>
-            <li>Finir : <strong>jus citron frais obligatoire</strong> + sriracha au goût</li>
-            <li>Diviser en 2 parts — 4 œufs par portion</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 Poche les œufs à couvert sur feu éteint — la chaleur résiduelle suffit. Le jaune reste coulant et se mélange au dhal au moment de manger, ce qui lie la sauce sans cuisson supplémentaire.</span>
-          <span class="tip">💡 Cuisiner mercredi 13 soir. Citron final obligatoire — vitamine C triple l'absorption du fer des lentilles et épinards.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- VENDREDI 15 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-ven15" onclick="toggleSection('day-ven15',this)">
-      <span class="day-label">Vendredi 15 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-ven15" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Chakchouka Épinards, Tomates &amp; Maïs aux Œufs — Cocotte</strong>
-          <ul>
-            <li>15ml huile d'olive · faire revenir <strong>1 échalote</strong> émincée + cumin + paprika fumé</li>
-            <li>Ajouter <strong>200g épinards surgelés</strong> + <strong>300g tomates pelées au jus</strong> + <strong>150g maïs doux</strong></li>
-            <li>Mijoter feu doux <strong>15 min</strong> · assaisonner gochujang</li>
-            <li>Creuser <strong>4 puits</strong> · casser 4 œufs plein air · couvrir 5 min pour pocher</li>
-            <li><strong>OBLIGATOIRE lipides</strong> : 20g graines de courge + jus citron frais</li>
-            <li>Diviser en 2 parts — 2 œufs par portion</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 Laisse réduire la sauce à découvert 5 minutes avant de creuser les puits pour les œufs. Moins d'eau = sucs concentrés. Le gochujang et le maïs ressortent beaucoup plus nettement dans une sauce serrée que dans une sauce liquide.</span>
-          <span class="tip">💡 Cuisiner jeudi 14 soir. Graines de courge obligatoires pour les lipides. Citron = fer des épinards.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SAMEDI 16 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-sam16" onclick="toggleSection('day-sam16',this)">
-      <span class="day-label">Samedi 16 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-sam16" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong>
-          <ul>
-            <li>10ml huile d'olive · faire revenir <strong>½ oignon</strong> + cumin + coriandre + gochujang</li>
-            <li>Ajouter <strong>120g lentilles corail crues</strong> + <strong>200g tomates pelées au jus</strong> + eau à couvert</li>
-            <li>Cuire <strong>20 min</strong> jusqu'à absorption quasi-complète</li>
-            <li>Creuser <strong>4 puits</strong> · pocher 4 œufs plein air · couvrir 5 min</li>
-            <li>Finir : sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
-            <li>Diviser en 2 parts — 2 œufs par portion</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 En fin de cuisson, remue énergiquement les lentilles 1 minute hors du feu. Elles libèrent leur amidon et épaississent la tomate naturellement. Ajoute les graines de courge dans l'assiette au dernier moment — elles perdent leur croquant en 2 minutes dans la sauce chaude.</span>
-          <span class="tip">💡 Cuisiner vendredi 15 soir. Lentilles corail = sauce crémeuse naturelle dans la tomate. Graines de courge obligatoires pour les lipides.</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIMANCHE 17 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-dim17" onclick="toggleSection('day-dim17',this)">
-      <span class="day-label fast">Dimanche 17 Mai &nbsp;🚫 Repos</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-dim17" style="padding-top:10px;">
-      <div class="meal fast-card">
-        <div class="meal-time">Journée complète</div>
-        <div class="meal-body">
-          <strong>JEÛNE TOTAL 24h</strong><br><br>
-          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
-          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le lundi</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LUNDI 18 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-lun18" onclick="toggleSection('day-lun18',this)">
-      <span class="day-label">Lundi 18 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-lun18" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
-          Recette identique S1 Lundi — cuisiner <strong>samedi 16 soir</strong> (avant le jeûne). Diviser en 2 parts.
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MARDI 19 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mar19" onclick="toggleSection('day-mar19',this)">
-      <span class="day-label">Mardi 19 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-mar19" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Tajine Poulet, Pommes de Terre &amp; Olives — Cocotte</strong><br>
-          Recette identique S1 — cuisiner <strong>lundi 18 soir</strong>. Diviser en 2 parts.
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MERCREDI 20 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mer20" onclick="toggleSection('day-mer20',this)">
-      <span class="day-label">Mercredi 20 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-mer20" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Salade Niçoise Protéinée aux Sardines — Cuiseur à riz</strong><br>
-          Recette identique S1 Mercredi — cuisiner <strong>mardi 19 soir</strong>. Huile d'olive + graines de courge obligatoires. Diviser en 2 parts.
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- JEUDI 21 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-jeu21" onclick="toggleSection('day-jeu21',this)">
-      <span class="day-label">Jeudi 21 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-jeu21" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong><br>
-          Recette identique S1 Jeudi — cuisiner <strong>mercredi 20 soir</strong>. Citron obligatoire. Diviser en 2 parts (4 œufs/portion).
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- VENDREDI 22 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-ven22" onclick="toggleSection('day-ven22',this)">
-      <span class="day-label">Vendredi 22 Mai &nbsp;🏃 Cardio</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-ven22" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Chakchouka Épinards, Tomates &amp; Maïs aux Œufs — Cocotte</strong><br>
-          Recette identique S1 Vendredi — cuisiner <strong>jeudi 21 soir</strong>. Graines de courge + huile d'olive obligatoires. Diviser en 2 parts.
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SAMEDI 23 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-sam23" onclick="toggleSection('day-sam23',this)">
-      <span class="day-label">Samedi 23 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-sam23" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
-          <strong>Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong><br>
-          Recette identique S1 Samedi — cuisiner <strong>vendredi 22 soir</strong>. Graines de courge + citron obligatoires. Diviser en 2 parts.
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Shaker Whey</strong> — 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DIMANCHE 24 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-dim24" onclick="toggleSection('day-dim24',this)">
-      <span class="day-label fast">Dimanche 24 Mai &nbsp;🚫 Repos</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-dim24" style="padding-top:10px;">
-      <div class="meal fast-card">
-        <div class="meal-time">Journée complète</div>
-        <div class="meal-body">
-          <strong>JEÛNE TOTAL 24h</strong><br><br>
-          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
-          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le lundi</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="macro-ref" style="margin-top:24px;">
-    <h3>Cibles journalières</h3>
-    <div class="macro-grid">
-      <div class="macro-cell kcal"><div class="val">2 017</div><div class="lbl">kcal/j</div></div>
-      <div class="macro-cell prot"><div class="val">170g</div><div class="lbl">Protéines</div></div>
-      <div class="macro-cell gluc"><div class="val">132g</div><div class="lbl">Glucides</div></div>
-      <div class="macro-cell lip"><div class="val">90g</div><div class="lbl">Lipides</div></div>
-    </div>
-  </div>
-
-</div><!-- /view-recettes -->
 
 <script>
-  /* ── Date → section ID map ── */
-  const TODAY_MAP = {
-    '2026-05-11': 'day-lun11',
-    '2026-05-12': 'day-mar12',
-    '2026-05-13': 'day-mer13',
-    '2026-05-14': 'day-jeu14',
-    '2026-05-15': 'day-ven15',
-    '2026-05-16': 'day-sam16',
-    '2026-05-17': 'day-dim17',
-    '2026-05-18': 'day-lun18',
-    '2026-05-19': 'day-mar19',
-    '2026-05-20': 'day-mer20',
-    '2026-05-21': 'day-jeu21',
-    '2026-05-22': 'day-ven22',
-    '2026-05-23': 'day-sam23',
-    '2026-05-24': 'day-dim24',
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx7KOFqysA2tM2Z8cLvonibuhULS7TSrLyTj77bRLn5undjoIlAooeY50RiicOedtixpg/exec';
+
+  // ── PIN (SHA-256 du code 6810) ────────────────────────────────────────────
+  // Pour changer le code : remplacer cette valeur par le SHA-256 du nouveau code
+  // sha256('6810') = cf96e7... calcul en ligne sur sha256.fr
+  const PIN_HASH = '77264818a004f87091854cd1dd037092477a3eb340b05c1f31a76ad78988ace9';
+
+  async function hashPin(pin) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pin));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  let entries = [], entryId = 0, budgetRowId = 0;
+
+  function getCats() { return budgetSections.variable.map(r => r.label); }
+
+  function refreshCatSelect() {
+    const sel = document.getElementById('e-cat');
+    const current = sel.value;
+    sel.innerHTML = getCats().map(c => `<option${c===current?' selected':''}>${c}</option>`).join('');
+  }
+
+  let budgetSections = {
+    variable: [
+      {id:1,label:'Courses',value:300},{id:2,label:'Restaurants',value:100},
+      {id:3,label:'Loisirs',value:100},{id:4,label:'J. Challenge',value:20},
+      {id:5,label:'L. Challenge',value:60},{id:6,label:'Divers',value:80}
+    ],
+    logement: [
+      {id:7,label:'Loyer',value:640},{id:8,label:'Électricité',value:50},{id:9,label:'Internet',value:24}
+    ],
+    abonnements: [
+      {id:10,label:'Téléphone',value:9},{id:11,label:'Assurance habitation',value:14},
+      {id:12,label:'Frais bancaires',value:2.5},{id:13,label:'Spotify',value:13},
+      {id:14,label:'Claude Pro',value:22},{id:15,label:'Gemini',value:11}
+    ],
+    epargne: [
+      {id:16,label:'Famille',value:200},{id:17,label:'PEA',value:200},{id:18,label:'PER',value:250},
+      {id:19,label:'Assurance vie',value:50},{id:20,label:"Fin d'année",value:120},{id:21,label:'P. Challenge',value:200}
+    ]
   };
+  budgetRowId = 21;
 
-  /* ── Tabs ── */
-  function showTab(name) {
-    ['courses','prep','recettes'].forEach(function(t) {
-      document.getElementById('view-' + t).classList.remove('active');
+  const fmt = n => n.toFixed(2).replace('.',',') + ' €';
+  const fmtR = n => Math.round(n) + ' €';
+  const gv = id => parseFloat(document.getElementById(id)?.value) || 0;
+
+  // ── Toast ─────────────────────────────────────────────────────────────────
+  let toastTimer = null;
+  function showToast(msg, duration = 3500) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), duration);
+  }
+
+  function showTab(id, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+  }
+
+  function getFixesTotal() {
+    return ['logement','abonnements','epargne'].reduce((s,sec) =>
+      s + budgetSections[sec].reduce((ss,r) => ss + r.value, 0), 0);
+  }
+  function getVariableTotal() { return budgetSections.variable.reduce((s,r) => s + r.value, 0); }
+  function getVariableBudgetForCat(cat) {
+    const row = budgetSections.variable.find(r => r.label.trim().toLowerCase() === cat.trim().toLowerCase());
+    return row ? row.value : 0;
+  }
+  function getReelTotal() { return entries.reduce((s,e) => s + e.montant, 0); }
+  function getSpentByCat(cat) {
+    return entries.filter(e => e.cat?.trim().toLowerCase() === cat.trim().toLowerCase()).reduce((s,e) => s + e.montant, 0);
+  }
+
+  function renderBudgetSection(secKey) {
+    const container = document.getElementById('sec-' + secKey);
+    if (!container) return;
+    container.innerHTML = '';
+    budgetSections[secKey].forEach(row => {
+      const div = document.createElement('div');
+      div.className = 'budget-row';
+      div.id = 'brow-' + row.id;
+      div.innerHTML = `
+        <input class="budget-row-label-input" type="text" value="${row.label}"
+          onchange="updateBudgetRow(${row.id},'label',this.value)">
+        <div class="budget-input-wrap">
+          <input class="budget-input" type="number" value="${row.value}"
+            onchange="updateBudgetRow(${row.id},'value',this.value)">
+          <div class="budget-arrows">
+            <div class="budget-arr" onclick="stepBudgetRow(${row.id},10)">▲</div>
+            <div class="budget-arr" onclick="stepBudgetRow(${row.id},-10)">▼</div>
+          </div>
+        </div>
+        <button class="btn-row-del" onclick="removeBudgetRow('${secKey}',${row.id})">✕</button>`;
+      container.appendChild(div);
     });
-    document.querySelectorAll('.tab-btn').forEach(function(b, i) {
-      b.classList.toggle('active', ['courses','prep','recettes'][i] === name);
-    });
-    document.getElementById('view-' + name).classList.add('active');
   }
-
-  /* ── Accordion ── */
-  function toggleSection(id, header) {
-    var body = document.getElementById(id);
-    var collapsed = body.classList.contains('collapsed');
-    body.classList.toggle('collapsed', !collapsed);
-    header.classList.toggle('collapsed', !collapsed);
+  function renderAllBudgetSections() {
+    ['variable','logement','abonnements','epargne'].forEach(renderBudgetSection);
+    refreshCatSelect();
   }
-
-  /* ── Shopping check — keyed by item name (robust) ── */
-  function getStorageKey(week) { return 'mp-v2-' + week; }
-
-  function check(el, week) {
-    if (el.classList.contains('stock')) return;
-    el.classList.toggle('checked');
-    saveChecked(week);
-    updateProgress(week);
-  }
-
-  function saveChecked(week) {
-    var state = {};
-    var section = document.getElementById('courses-' + week);
-    section.querySelectorAll('.shop-item:not(.stock)').forEach(function(item) {
-      var key = item.querySelector('.item-name').textContent.trim();
-      state[key] = item.classList.contains('checked');
-    });
-    localStorage.setItem(getStorageKey(week), JSON.stringify(state));
-  }
-
-  function loadChecked(week) {
-    var saved = localStorage.getItem(getStorageKey(week));
-    if (!saved) return;
-    var state = JSON.parse(saved);
-    var section = document.getElementById('courses-' + week);
-    section.querySelectorAll('.shop-item:not(.stock)').forEach(function(item) {
-      var key = item.querySelector('.item-name').textContent.trim();
-      if (state[key]) item.classList.add('checked');
-    });
-    updateProgress(week);
-  }
-
-  function resetWeek(week) {
-    var section = document.getElementById('courses-' + week);
-    section.querySelectorAll('.shop-item.checked').forEach(function(el) {
-      el.classList.remove('checked');
-    });
-    localStorage.removeItem(getStorageKey(week));
-    updateProgress(week);
-  }
-
-  /* ── Progress bar ── */
-  function updateProgress(week) {
-    var section = document.getElementById('courses-' + week);
-    var all = section.querySelectorAll('.shop-item:not(.stock)');
-    var done = section.querySelectorAll('.shop-item:not(.stock).checked');
-    var pct = all.length ? Math.round(done.length / all.length * 100) : 0;
-    document.getElementById('prog-' + week).textContent = done.length + ' / ' + all.length;
-    document.getElementById('fill-' + week).style.width = pct + '%';
-  }
-
-  /* ── Auto-open today's day + badge ── */
-  function initToday() {
-    var now = new Date();
-    var pad = function(n) { return String(n).padStart(2,'0'); };
-    var key = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate());
-    var dayId = TODAY_MAP[key];
-    if (!dayId) return;
-
-    /* Badge on day head */
-    var headEl = document.getElementById('head-' + dayId);
-    if (headEl) {
-      var badge = document.createElement('span');
-      badge.className = 'today-badge';
-      badge.textContent = "Aujourd'hui";
-      headEl.querySelector('.day-label').appendChild(badge);
-      /* Open it */
-      headEl.classList.remove('collapsed');
-      document.getElementById(dayId).classList.remove('collapsed');
+  function updateBudgetRow(id, field, value) {
+    for (const [secKey, sec] of Object.entries(budgetSections)) {
+      const row = sec.find(r => r.id === id);
+      if (row) {
+        if (field === 'value') row.value = parseFloat(value) || 0;
+        else row[field] = value;
+        if (secKey === 'variable' && field === 'label') refreshCatSelect();
+        break;
+      }
     }
-
+    recalc();
+  }
+  function stepBudgetRow(id, delta) {
+    for (const sec of Object.values(budgetSections)) {
+      const row = sec.find(r => r.id === id);
+      if (row) { row.value = Math.max(0, row.value + delta); break; }
+    }
+    renderAllBudgetSections(); recalc();
+  }
+  function addBudgetRow(secKey) {
+    budgetSections[secKey].push({id:++budgetRowId, label:'Nouvelle ligne', value:0});
+    renderBudgetSection(secKey);
+    if (secKey === 'variable') refreshCatSelect();
+    recalc();
+  }
+  function removeBudgetRow(secKey, id) {
+    if (budgetSections[secKey].length <= 1) return;
+    budgetSections[secKey] = budgetSections[secKey].filter(r => r.id !== id);
+    renderBudgetSection(secKey);
+    if (secKey === 'variable') refreshCatSelect();
+    recalc();
   }
 
-  /* ── Init ── */
-  document.addEventListener('DOMContentLoaded', function() {
-    loadChecked('s1');
-    loadChecked('s2');
-    updateProgress('s1');
-    updateProgress('s2');
-    initToday();
-  });
-</script>
+  function recalc() {
+    const fixes = getFixesTotal();
+    const variable = getVariableTotal();
+    const salaire = gv('salaire');
+    const reste = salaire - fixes - variable;
+    const reelTotal = getReelTotal();
+    const resteReel = salaire - fixes - reelTotal;
 
+    document.getElementById('b-fixes').textContent = fmtR(fixes);
+    document.getElementById('b-variable').textContent = fmtR(variable);
+    document.getElementById('b-reste').textContent = fmtR(reste);
+    document.getElementById('b-reste').className = 'card-value ' + (reste >= 0 ? 'green' : 'red');
+
+    document.getElementById('r-reel').textContent = fmt(reelTotal);
+    document.getElementById('r-reste-reel').textContent = fmtR(resteReel);
+    document.getElementById('r-reste-reel').className = 'card-value ' + (resteReel >= 0 ? 'green' : 'red');
+    document.getElementById('r-reste-reel').closest('.card').className = 'card ' + (resteReel >= 0 ? 'green-bg' : 'red-bg');
+
+    refreshCatList();
+    save();
+  }
+
+  function refreshCatList() {
+    const container = document.getElementById('cat-list');
+    container.innerHTML = '';
+    getCats().forEach(cat => {
+      const budget = getVariableBudgetForCat(cat);
+      const spent = getSpentByCat(cat);
+      const reste = budget - spent;
+      const catEntries = entries.filter(e => e.cat?.trim().toLowerCase() === cat.trim().toLowerCase());
+
+      const grouped = {};
+      catEntries.forEach(e => {
+        const key = (e.desc || '—').trim().toLowerCase();
+        if (!grouped[key]) grouped[key] = { desc: (e.desc || '—').trim(), total: 0, ids: [] };
+        grouped[key].total += e.montant;
+        grouped[key].ids.push(e.id);
+      });
+
+      const grp = document.createElement('div');
+      grp.className = 'cat-group';
+      const clrReste = reste >= 0 ? 'green' : 'red';
+      grp.innerHTML = `
+        <div class="cat-header">
+          <span class="cat-header-name">${cat}</span>
+          <div class="cat-header-right">
+            <span class="cat-budget">budget ${fmtR(budget)}</span>
+            <span class="cat-reste ${clrReste}">${reste >= 0 ? '+' : ''}${fmtR(reste)}</span>
+          </div>
+        </div>`;
+
+      if (Object.keys(grouped).length === 0) {
+        grp.innerHTML += `<div class="cat-empty">Aucune dépense</div>`;
+      } else {
+        Object.values(grouped).forEach(g => {
+          const row = document.createElement('div');
+          row.className = 'entry-row-item';
+          const countBadge = g.ids.length > 1 ? ` <span style="font-size:10px;color:#666;margin-left:4px">${g.ids.length}×</span>` : '';
+          row.innerHTML = `
+            <span class="entry-desc">${g.desc}${countBadge}</span>
+            <span class="entry-amount">${fmt(g.total)}</span>
+            <button class="btn-del" onclick="removeGroup('${cat}','${g.desc.replace(/'/g,"\\'")}')">✕</button>`;
+          grp.appendChild(row);
+        });
+      }
+      container.appendChild(grp);
+    });
+  }
+
+  function removeGroup(cat, desc) {
+    entries = entries.filter(e => !(e.cat?.trim().toLowerCase() === cat.trim().toLowerCase() && (e.desc || '—').trim() === desc));
+    recalc();
+  }
+
+  function addEntry() {
+    const montant = parseFloat(document.getElementById('e-montant').value);
+    const desc = document.getElementById('e-desc').value.trim();
+    const cat = document.getElementById('e-cat').value;
+    if (!montant || montant <= 0) return;
+    entries.push({ id: ++entryId, montant, desc, cat });
+    document.getElementById('e-montant').value = '';
+    document.getElementById('e-desc').value = '';
+    recalc();
+  }
+
+  function undoEntry() {
+    if (entries.length === 0) return;
+    entries.pop();
+    recalc();
+  }
+
+  // ── Sync ─────────────────────────────────────────────────────────────────
+  function setSyncStatus(state, label) {
+    const dot = document.getElementById('sync-dot');
+    const lbl = document.getElementById('sync-label');
+    dot.className = state;
+    lbl.textContent = label || (state === 'syncing' ? 'Sync…' : state === 'ok' ? 'Synchronisé' : 'Hors ligne');
+  }
+
+  function getPayload() {
+    return { entries, entryId, budgetSections, budgetRowId,
+      mois: document.getElementById('mois-input').textContent, salaire: gv('salaire') };
+  }
+
+  function applyData(d) {
+    if (d.entries) entries = d.entries;
+    if (d.entryId) entryId = parseInt(d.entryId);
+    if (d.budgetSections) budgetSections = d.budgetSections;
+    if (d.budgetRowId) budgetRowId = parseInt(d.budgetRowId);
+    if (d.mois) document.getElementById('mois-input').textContent = d.mois;
+    if (d.salaire) document.getElementById('salaire').value = d.salaire;
+  }
+
+  let saveTimer = null;
+  function save() {
+    localStorage.setItem('bm_bak', JSON.stringify(getPayload()));
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      setSyncStatus('syncing');
+      try {
+        await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body: JSON.stringify(getPayload()) });
+        setSyncStatus('ok');
+      } catch(e) { setSyncStatus('err'); }
+    }, 800);
+  }
+
+  async function load() {
+    setSyncStatus('syncing');
+    try {
+      const r = await fetch(SCRIPT_URL);
+      const d = await r.json();
+      if (d && Object.keys(d).length > 0) { applyData(d); setSyncStatus('ok'); }
+      else {
+        const bk = localStorage.getItem('bm_bak');
+        if (bk) applyData(JSON.parse(bk));
+        setSyncStatus('ok');
+      }
+    } catch(e) {
+      const bk = localStorage.getItem('bm_bak');
+      if (bk) applyData(JSON.parse(bk));
+      setSyncStatus('err');
+    }
+  }
+
+  // ── Bascule automatique de mois ──────────────────────────────────────────
+  const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin',
+                   'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  function getMoisAttendu() {
+    const now = new Date();
+    return MOIS_FR[now.getMonth()] + ' ' + now.getFullYear();
+  }
+
+  async function verifierNouveauMois() {
+    const moisActuel = document.getElementById('mois-input').textContent.trim();
+    const moisAttendu = getMoisAttendu();
+    if (!moisActuel || moisActuel === moisAttendu) return; // même mois, rien à faire
+
+    // Archivage silencieux du mois précédent
+    setSyncStatus('syncing', 'Archivage ' + moisActuel + '…');
+    showToast('📦 Archivage de ' + moisActuel + ' en cours…', 5000);
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ action: 'archive', mois: moisActuel, data: getPayload() })
+      });
+      // Reset des dépenses, passage au nouveau mois
+      entries = [];
+      entryId = 0;
+      document.getElementById('mois-input').textContent = moisAttendu;
+      recalc(); // recalc → save → sync du nouveau mois vide
+      setSyncStatus('ok');
+      showToast('✓ ' + moisActuel + ' archivé — Bienvenue en ' + moisAttendu + ' !', 4000);
+    } catch(e) {
+      setSyncStatus('err');
+      showToast('⚠ Archivage échoué — réessaie dans un instant', 5000);
+      // En cas d'erreur : on stocke localement une copie de secours de l'ancien mois
+      localStorage.setItem('bm_archive_bak_' + moisActuel, JSON.stringify(getPayload()));
+    }
+  }
+
+  // ── PIN (hash SHA-256, PIN jamais en clair dans le code) ──────────────────
+  let pinEntry = '';
+
+  async function pinPress(d) {
+    if (pinEntry.length >= 4) return;
+    pinEntry += d; updateDots();
+    if (pinEntry.length === 4) {
+      const h = await hashPin(pinEntry);
+      if (h === PIN_HASH) {
+        sessionStorage.setItem('bm_unlocked','1');
+        document.getElementById('lock-screen').classList.add('hidden');
+        initApp();
+      } else {
+        const dots = document.getElementById('pin-dots');
+        dots.classList.add('shake');
+        document.querySelectorAll('.pin-dot').forEach(d => d.classList.add('error'));
+        setTimeout(() => {
+          dots.classList.remove('shake');
+          document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('error','filled'));
+          pinEntry = '';
+        }, 600);
+      }
+    }
+  }
+  function pinDel() { pinEntry = pinEntry.slice(0,-1); updateDots(); }
+  function updateDots() { for(let i=0;i<4;i++) document.getElementById('d'+i).classList.toggle('filled', i < pinEntry.length); }
+
+  function initApp() {
+    (async () => {
+      await load();
+      renderAllBudgetSections();
+      refreshCatSelect();
+      recalc();
+      await verifierNouveauMois(); // auto-bascule si nouveau mois
+    })();
+  }
+
+  // Fix iOS scroll shift
+  document.addEventListener('focusin', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+      setTimeout(() => e.target.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
+    }
+  });
+
+  if (sessionStorage.getItem('bm_unlocked') === '1') {
+    document.getElementById('lock-screen').classList.add('hidden');
+    initApp();
+  }
+</script>
 </body>
 </html>
