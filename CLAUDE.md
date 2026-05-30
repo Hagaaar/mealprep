@@ -3,15 +3,15 @@
 
 ---
 
-## Workflow pipeline (chaque semaine)
+## Workflow pipeline
 
-1. Lire `stock.md` (mis à jour par l'utilisateur)
-2. Proposer un planning 6 jours actifs + lundi jeûne
-3. Attendre validation de l'utilisateur
+1. L'utilisateur donne son stock et précise **1 ou 2 semaines** (il décide sur le coup)
+2. Proposer le planning (1 ou 2 semaines de jours actifs + lundi jeûne)
+3. Attendre validation — l'utilisateur modifie ce qu'il veut
 4. Générer `index.html` complet (structure §6 ci-dessous)
-5. `git add index.html && git commit -m "Meal prep S[N] — [dates]"` puis `git push -u origin main`
+5. `git add index.html && git commit -m "Meal prep [dates]"` puis `git push -u origin main`
 
-**Branche de production : `main`** — GitHub Pages sert `index.html` sur main.
+**Branche de production : `main`** — GitHub Pages sert `index.html` sur main. L'URL ne change pas, seul le contenu est remplacé.
 
 ---
 
@@ -194,14 +194,16 @@
 
 ### 6.3 Structure du fichier HTML attendu
 
-**Variables à mettre à jour à chaque semaine :**
+**Variables à mettre à jour à chaque génération :**
 ```html
-<title>Meal Prep S[N] — [date_debut]–[date_fin] [Mois] [Année]</title>
-<h1>MEAL PREP · S[N]</h1>
+<title>Meal Prep — [date_debut]–[date_fin] [Mois] [Année]</title>
+<h1>MEAL PREP</h1>
 <span class="date">[date_debut] – [date_fin] [Mois]</span>
-var STORE_KEY = 'mp-s[N]-[année]';
-const TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... }
+var STORE_KEY = 'mp-[date_debut]-[année]';
+const TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... }  /* toutes les dates couvertes */
 ```
+
+Pour 2 semaines : `TODAY_MAP` couvre 14 entrées, les jours s'enchaînent normalement.
 
 **Design system :**
 - Thème sombre iOS natif. Fond `#000`, cartes `#1c1c1e`, bordures `#38383a`, état actif `#3a3a3c`.
