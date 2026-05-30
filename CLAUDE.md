@@ -208,6 +208,12 @@ const TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... }  /* toutes les dates couvertes
 
 Pour 2 semaines : `TODAY_MAP` couvre 14 entrées, les jours s'enchaînent normalement.
 
+**Séparateurs de semaine (accordéon Recettes) :**
+- **1 semaine** : pas de séparateur, accordéon simple Lundi→Dimanche.
+- **2 semaines** : insérer un badge séparateur visuel entre le dimanche S1 et le lundi S2.
+  - Style : bandeau pleine largeur, fond `rgba(255,159,10,.12)`, bordure `1px solid rgba(255,159,10,.3)`, texte centré orange `#ff9f0a`, font-size 12px uppercase bold, ex : `— SEMAINE 2 · 9–15 Juin —`
+  - Le badge n'est pas un accordéon, juste un `div` séparateur non cliquable.
+
 **Design system :**
 - Thème sombre iOS natif. Fond `#000`, cartes `#1c1c1e`, bordures `#38383a`, état actif `#3a3a3c`.
 - Couleurs sémantiques : vert `#34c759`, orange `#ff9f0a`, bleu `#0a84ff`, rouge `#ff3b30`, violet `#bf5af2`, muted `#8e8e93`.
