@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Meal Prep S2 — 18–24 Mai 2026</title>
+  <title>Meal Prep — 1–14 Juin 2026</title>
   <style>
     :root {
       --bg: #000;
@@ -24,12 +24,10 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 16px 16px 72px; }
 
-    /* ── Header ── */
     .header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: baseline; }
     .header h1 { font-size: 24px; font-weight: 700; letter-spacing: .3px; }
     .header .date { font-size: 15px; font-weight: 500; color: var(--orange); background: rgba(255,159,10,.12); border: 1px solid rgba(255,159,10,.3); border-radius: 8px; padding: 3px 10px; }
 
-    /* ── Tabs sticky ── */
     .tabs {
       display: flex; background: rgba(28,28,30,0.95);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -40,12 +38,10 @@
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 9px 0; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all .2s; cursor: pointer; }
     .tab-btn.active { background: var(--seg-active); color: var(--text); }
 
-    /* ── Views ── */
     .view { display: none; }
     .view.active { display: block; animation: fadeIn .2s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 
-    /* ── Day head ── */
     .day-block { margin-bottom: 0; }
     .day-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; cursor: pointer; user-select: none; -webkit-user-select: none; border-bottom: 1px solid var(--border); transition: opacity .15s; }
     .day-head:active { opacity: .65; }
@@ -54,14 +50,11 @@
     .day-head:not(.collapsed) .chevron { transform: rotate(90deg); }
     .chevron { font-size: 18px; color: var(--muted); transition: transform .25s ease; margin-left: 12px; line-height: 1; flex-shrink: 0; display: inline-block; }
 
-    /* ── Accordion ── */
     .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding-top: 12px; }
     .accordion-body.collapsed { max-height: 0 !important; height: 0; opacity: 0; padding-top: 0; overflow: hidden; }
 
-    /* ── TODAY badge ── */
     .today-badge { display: inline-block; background: var(--orange); color: #000; font-size: 10px; font-weight: 800; letter-spacing: .5px; padding: 2px 7px; border-radius: 6px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; }
 
-    /* ── Meal cards ── */
     .meal { background: var(--card); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--border); }
     .meal.main { border-left-color: var(--blue); }
     .meal.snack { border-left-color: var(--orange); }
@@ -75,7 +68,8 @@
     .tip { display: block; font-style: italic; font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
     .prep-alert { display: block; font-size: 13px; font-weight: 600; color: var(--red); margin-top: 8px; padding: 8px 10px; background: rgba(255,59,48,.12); border-radius: 8px; border: 1px solid rgba(255,59,48,.3); }
 
-    /* ── Macro ref ── */
+    .week-sep { width: 100%; text-align: center; padding: 12px 16px; margin: 16px 0 4px; background: rgba(255,159,10,.12); border: 1px solid rgba(255,159,10,.3); border-radius: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #ff9f0a; }
+
     .macro-ref { background: var(--card); border-radius: 12px; padding: 14px 16px; margin: 20px 0 0; }
     .macro-ref h3 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
     .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -87,10 +81,10 @@
     .macro-cell.gluc .val { color: var(--green); }
     .macro-cell.lip  .val { color: var(--purple); }
 
-    /* ── Shopping ── */
     .section-label { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: .8px; margin: 16px 0 6px; }
     .section-label.stock-label { color: var(--green); display: flex; align-items: center; gap: 6px; }
     .section-label.stock-label::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--green); border-radius: 50%; }
+    .week-courses-label { font-size: 12px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .8px; margin: 20px 0 8px; padding: 8px 12px; background: rgba(255,159,10,.08); border-radius: 8px; border: 1px solid rgba(255,159,10,.2); }
 
     .list-box { background: var(--card); border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
     .shop-item { display: flex; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity .15s; }
@@ -105,7 +99,6 @@
     .item-name { font-size: 15px; font-weight: 500; line-height: 1.3; }
     .item-price { font-size: 15px; color: var(--muted); margin-left: 12px; white-space: nowrap; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
 
-    /* ── Dish tags (NEW) ── */
     .item-dishes { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px; }
     .dish-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: rgba(255,255,255,.08); color: var(--muted); letter-spacing: .2px; }
     .dish-tag.poulet { background: rgba(10,132,255,.15); color: #4da3ff; }
@@ -116,28 +109,24 @@
     .item-sub { font-size: 11px; color: var(--muted); margin-top: 5px; font-style: italic; line-height: 1.4; }
     .item-sub.warn-sub { color: rgba(255,159,10,.85); font-style: normal; font-weight: 500; }
 
-    /* ── Progress ── */
     .progress-wrap { margin: 10px 0 6px; }
     .progress-label { font-size: 12px; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
     .progress-track { height: 4px; background: var(--seg-active); border-radius: 2px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width .3s ease; }
 
-    /* ── Budget banner ── */
-    .budget-banner { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(52,199,89,.3); }
+    .budget-banner { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(52,199,89,.3); }
     .bdg-label { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
     .bdg-amount { font-size: 26px; font-weight: 700; color: var(--green); }
     .bdg-right { text-align: right; }
     .bdg-max { font-size: 11px; color: var(--muted); }
     .bdg-remain { font-size: 13px; font-weight: 700; color: var(--green); margin-top: 2px; }
 
-    /* ── Storage ── */
     .storage-group { margin-top: 14px; }
     .storage-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #fff; padding: 0 2px 7px; display: block; }
     .s-row { display: flex; align-items: center; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
     .s-row:last-child { border-bottom: none; }
     .s-item { flex: 1; font-weight: 500; }
 
-    /* ── Reset ── */
     .reset-btn { display: block; width: 100%; margin-top: 16px; padding: 12px; background: transparent; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
     .reset-btn:active { background: var(--seg-active); }
   </style>
@@ -145,8 +134,8 @@
 <body>
 
 <div class="header">
-  <h1>MEAL PREP · S2</h1>
-  <span class="date">18 – 24 Mai</span>
+  <h1>MEAL PREP</h1>
+  <span class="date">1 – 14 Juin</span>
 </div>
 
 <div class="tabs">
@@ -160,20 +149,38 @@
 ════════════════════════════════════════════════ -->
 <div id="view-recettes" class="view active">
 
-  <!-- LUNDI 18 -->
+  <!-- LUNDI 1 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-lun18" onclick="toggleDay('day-lun18', this)">
-      <span class="day-label">Lundi 18 Mai &nbsp;🏃 Cardio</span>
+    <div class="day-head collapsed" id="head-day-lun1" onclick="toggleDay('day-lun1', this)">
+      <span class="day-label fast">Lundi 1er Juin &nbsp;🚫 Jeûne</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-lun18" style="padding-top:10px;">
+    <div class="accordion-body collapsed" id="day-lun1" style="padding-top:10px;">
       <div class="meal alert-card">
-        <div class="meal-time">⚠️ Rappel préparation</div>
+        <div class="meal-time">⚠️ Rappel cuisine</div>
         <div class="meal-body">
-          <strong style="color:var(--red);">Cuisiner SAMEDI 16 SOIR</strong><br>
-          Dimanche = jeûne total — impossible de préparer la veille habituelle.
+          <strong style="color:var(--red);">Cuisiner DIMANCHE 31 MAI au soir</strong><br>
+          Lundi = jeûne — impossible de cuisiner la veille habituelle. Le Yakitori de mardi doit être préparé ce dimanche.
         </div>
       </div>
+      <div class="meal fast-card">
+        <div class="meal-time">Journée complète</div>
+        <div class="meal-body">
+          <strong>JEÛNE TOTAL 24h</strong><br><br>
+          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
+          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le mardi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARDI 2 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-mar2" onclick="toggleDay('day-mar2', this)">
+      <span class="day-label">Mardi 2 Juin &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mar2" style="padding-top:10px;">
       <div class="meal snack">
         <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
         <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
@@ -181,71 +188,34 @@
       <div class="meal main">
         <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
         <div class="meal-body">
-          <strong>Poulet Tikka Masala aux Épinards — Cocotte + Cuiseur à riz</strong>
-          <ul>
-            <li>Mariner <strong>350g émincés de volaille</strong> : jus 1 citron + curry + gochujang + gingembre · <strong>20 min min.</strong></li>
-            <li>Lancer cuiseur à riz : <strong>160g riz</strong> (80g/portion)</li>
-            <li>Cocotte · 15ml huile d'olive · revenir <strong>1 gros oignon</strong> émincé 5 min</li>
-            <li>Ajouter <strong>4 gousses ail</strong> + curry 2 c.à.c + cumin + paprika + piment · mélanger 2 min</li>
-            <li>Verser <strong>400g tomates pelées</strong> + <strong>1 c.à.s purée tomate</strong> · écraser · mijoter 10 min</li>
-            <li>Ajouter les émincés marinés · cuire 8 min à feu moyen</li>
-            <li>Intégrer <strong>150g épinards frais</strong> + <strong>1 c.à.c maïzena</strong> diluée dans 2 c.à.s eau froide · mijoter 5 min</li>
-            <li>Diviser en 2 parts égales · ajouter <strong>15g graines de courge</strong>/portion</li>
-          </ul>
-          <span class="chef-tip">👨‍🍳 Les émincés cuisent vite — 8 min max sinon ils sèchent. Coupe-les en bandes larges si le paquet les livre trop fines. Le gochujang dans la marinade crée une croûte umami à la surface dès que la viande touche la sauce chaude.</span>
-          <span class="tip">💡 Cuisiner samedi 16 soir. Citron dans la marinade = absorption fer potentialisée. Graines de courge obligatoires pour atteindre 90g L/j.</span>
-          <span class="prep-alert">🔪 Ce soir (lun 18) : cuisiner le Yakitori pour mardi 19</span>
-        </div>
-      </div>
-      <div class="meal snack">
-        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MARDI 19 -->
-  <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mar19" onclick="toggleDay('day-mar19', this)">
-      <span class="day-label">Mardi 19 Mai &nbsp;💪 Force</span>
-      <span class="chevron">›</span>
-    </div>
-    <div class="accordion-body collapsed" id="day-mar19" style="padding-top:10px;">
-      <div class="meal snack">
-        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
-      </div>
-      <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
-        <div class="meal-body">
           <strong>Yakitori Soja-Miel — Air Fryer + Cuiseur à riz</strong>
           <ul>
-            <li>Marinade <strong>30 min</strong> : <strong>300g émincés de volaille</strong> (reste du paquet) + 3 c.à.s soja + 1 c.à.c miel + 1 c.à.c gochujang + ail haché + gingembre + jus ½ citron</li>
-            <li>Lancer cuiseur à riz : <strong>160g riz</strong> (80g/portion)</li>
-            <li>Air Fryer <strong>200°C</strong> · poser les émincés sans superposer · <strong>12 min</strong>, retourner à mi-cuisson</li>
-            <li>Sauce : verser la marinade restante dans la cocotte + <strong>1 c.à.c maïzena</strong> diluée · réduire 3 min feu vif</li>
-            <li>Dresser : riz + émincés nappés de sauce + <strong>15g graines de courge</strong>/portion</li>
+            <li>Marinade <strong>30 min</strong> : <strong>350g émincés volaille</strong> + 3 c.à.s soja + 1 c.à.c miel + 1 c.à.c gochujang + ail haché + gingembre + jus ½ citron</li>
+            <li>Lancer cuiseur à riz : <strong>120g riz cru</strong> (60g/portion)</li>
+            <li>Air Fryer <strong>200°C · 12 min</strong>, retourner à mi-cuisson — ne pas superposer</li>
+            <li>Sauce : marinade restante dans cocotte + <strong>1 c.à.c maïzena</strong> diluée · réduire 3 min feu vif</li>
+            <li>Dresser : riz + émincés nappés + <strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts identiques</li>
           </ul>
-          <span class="chef-tip">👨‍🍳 Ne mets pas trop d'émincés dans le panier d'un coup — ils doivent tous avoir de l'air pour griller, pas cuire à la vapeur. Si le panier est petit, fais en deux fournées de 6 min chacune plutôt qu'une seule de 12 min en couches.</span>
-          <span class="tip">💡 Cuisiner lundi 18 soir. Le soja remplace le sel dans tout le plat — ne pas re-saler.</span>
-          <span class="prep-alert">🔪 Ce soir (mar 19) : cuisiner la Salade Niçoise pour mercredi 20</span>
+          <span class="chef-tip">👨‍🍳 Air à plein volume dans le panier — ne pas superposer les émincés. Si panier petit : 2 fournées de 6 min plutôt qu'une seule de 12 min en couches.</span>
+          <span class="tip">💡 Préparé dimanche 31 mai au soir. Le soja remplace le sel — ne pas re-saler.</span>
+          <span class="prep-alert">🔪 Ce soir (mar 2) : cuisiner la Salade Niçoise pour mercredi 3</span>
         </div>
       </div>
       <div class="meal snack">
         <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
 
-  <!-- MERCREDI 20 -->
+  <!-- MERCREDI 3 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-mer20" onclick="toggleDay('day-mer20', this)">
-      <span class="day-label">Mercredi 20 Mai &nbsp;🏃 Cardio</span>
+    <div class="day-head collapsed" id="head-day-mer3" onclick="toggleDay('day-mer3', this)">
+      <span class="day-label">Mercredi 3 Juin &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-mer20" style="padding-top:10px;">
+    <div class="accordion-body collapsed" id="day-mer3" style="padding-top:10px;">
       <div class="meal snack">
         <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
         <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
@@ -253,33 +223,34 @@
       <div class="meal main">
         <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
         <div class="meal-body">
-          <strong>Salade Niçoise Protéinée aux Sardines — Cuiseur à riz (vapeur)</strong>
+          <strong>Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
           <ul>
-            <li>Mode vapeur cuiseur à riz : <strong>200g pommes de terre</strong> en rondelles + <strong>200g légumes surgelés 3-en-1</strong> + <strong>4 œufs plein air</strong></li>
+            <li>Mode vapeur cuiseur à riz : <strong>200g pommes de terre</strong> en rondelles + <strong>4 œufs</strong></li>
             <li>Laisser refroidir · écaler les œufs</li>
-            <li>Dresser les légumes + <strong>2 boîtes sardines citron-basilic</strong> égouttées</li>
-            <li><strong>OBLIGATOIRE lipides :</strong> 20ml huile d'olive + jus citron entier + <strong>20g graines de courge</strong></li>
+            <li>Dresser : pommes de terre + <strong>2 boîtes sardines citron-basilic</strong> égouttées</li>
+            <li><strong>OBLIGATOIRE lipides :</strong> vinaigrette 20ml huile d'olive + jus 1 citron entier + herbes de Provence</li>
+            <li><strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">👨‍🍳 Écrase une demi-sardine à la fourchette dans un bol avec le jus de citron et l'huile d'olive avant d'assembler. Tu obtiens une vinaigrette naturellement liée par les graisses de la sardine, qui enrobe les pommes de terre tièdes bien mieux qu'une vinaigrette classique.</span>
-          <span class="tip">💡 Cuisiner mardi 19 soir. Huile d'olive + graines de courge non-négociables — sans eux les lipides 90g/j sont impossibles les jours sardines.</span>
-          <span class="prep-alert">🔪 Ce soir (mer 20) : cuisiner le Dhal pour jeudi 21</span>
+          <span class="chef-tip">👨‍🍳 Écraser une demi-sardine à la fourchette dans un bol avec le jus de citron et l'huile d'olive avant d'assembler. Tu obtiens une vinaigrette naturellement liée par les graisses de la sardine.</span>
+          <span class="tip">💡 Préparé mardi 2 soir. Huile olive + graines courge non-négociables — seuls leviers lipides sur un jour sardines.</span>
+          <span class="prep-alert">🔪 Ce soir (mer 3) : cuisiner le Dhal pour jeudi 4</span>
         </div>
       </div>
       <div class="meal snack">
         <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
 
-  <!-- JEUDI 21 -->
+  <!-- JEUDI 4 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-jeu21" onclick="toggleDay('day-jeu21', this)">
-      <span class="day-label">Jeudi 21 Mai &nbsp;💪 Force</span>
+    <div class="day-head collapsed" id="head-day-jeu4" onclick="toggleDay('day-jeu4', this)">
+      <span class="day-label">Jeudi 4 Juin &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-jeu21" style="padding-top:10px;">
+    <div class="accordion-body collapsed" id="day-jeu4" style="padding-top:10px;">
       <div class="meal snack">
         <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
         <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
@@ -289,32 +260,32 @@
         <div class="meal-body">
           <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
           <ul>
-            <li>10ml huile d'olive · faire revenir cumin + coriandre + <strong>ail émincé</strong></li>
+            <li>10ml huile d'olive · faire revenir cumin + coriandre + <strong>ail émincé</strong> 2 min</li>
             <li>Ajouter <strong>160g lentilles corail crues</strong> + <strong>200g épinards surgelés</strong> + <strong>100ml lait de coco</strong></li>
             <li>Couvrir d'eau · cuire jusqu'à absorption complète (~20 min)</li>
-            <li>Creuser <strong>8 puits</strong> · casser 8 œufs plein air · couvrir 5 min feu éteint</li>
+            <li>Creuser <strong>6 puits</strong> · casser 6 œufs · couvrir 5 min feu éteint</li>
             <li>Finir : sriracha + <strong>jus citron frais obligatoire</strong> + <strong>20g graines de courge</strong></li>
-            <li>Diviser en 2 parts — 4 œufs par portion</li>
+            <li>Diviser en 2 parts — 3 œufs par portion</li>
           </ul>
-          <span class="chef-tip">👨‍🍳 Poche les œufs feu éteint — la chaleur résiduelle du dhal suffit. Le jaune reste coulant et se mélange au dhal au moment de manger, ce qui lie la sauce sans cuisson supplémentaire.</span>
-          <span class="tip">💡 Cuisiner mercredi 20 soir. Citron final obligatoire — la vitamine C triple l'absorption du fer des lentilles.</span>
-          <span class="prep-alert">🔪 Ce soir (jeu 21) : cuisiner la Chakchouka pour vendredi 22</span>
+          <span class="chef-tip">👨‍🍳 Poche les œufs feu éteint — la chaleur résiduelle du dhal suffit. Le jaune reste coulant et se mélange au dhal au moment de manger.</span>
+          <span class="tip">💡 Préparé mercredi 3 soir. Citron final obligatoire — la vitamine C triple l'absorption du fer des lentilles.</span>
+          <span class="prep-alert">🔪 Ce soir (jeu 4) : cuisiner la Chakchouka pour vendredi 5</span>
         </div>
       </div>
       <div class="meal snack">
         <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
 
-  <!-- VENDREDI 22 -->
+  <!-- VENDREDI 5 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-ven22" onclick="toggleDay('day-ven22', this)">
-      <span class="day-label">Vendredi 22 Mai &nbsp;🏃 Cardio</span>
+    <div class="day-head collapsed" id="head-day-ven5" onclick="toggleDay('day-ven5', this)">
+      <span class="day-label">Vendredi 5 Juin &nbsp;💪 Force</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-ven22" style="padding-top:10px;">
+    <div class="accordion-body collapsed" id="day-ven5" style="padding-top:10px;">
       <div class="meal snack">
         <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
         <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
@@ -322,34 +293,268 @@
       <div class="meal main">
         <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
         <div class="meal-body">
-          <strong>Chakchouka Épinards, Tomates &amp; Maïs aux Œufs — Cocotte</strong>
+          <strong>Chakchouka Épinards, Maïs &amp; Œufs — Cocotte</strong>
           <ul>
-            <li>15ml huile d'olive · faire revenir <strong>1 échalote</strong> émincée + cumin + paprika fumé</li>
-            <li>Ajouter <strong>200g épinards surgelés</strong> + <strong>300g tomates pelées</strong> + <strong>150g maïs doux</strong></li>
-            <li>Mijoter feu doux <strong>15 min</strong> · assaisonner gochujang</li>
+            <li>15ml huile d'olive · faire revenir <strong>1 échalote</strong> émincée + cumin + paprika fumé 3 min</li>
+            <li>Ajouter <strong>300g tomates pelées</strong> + <strong>200g épinards surgelés</strong> + <strong>150g maïs doux</strong></li>
+            <li>Mijoter feu doux <strong>15 min</strong> · assaisonner gochujang + sel</li>
             <li>Réduire à découvert 5 min · creuser <strong>4 puits</strong> · casser 4 œufs · couvrir 5 min</li>
             <li><strong>OBLIGATOIRE :</strong> 20g graines de courge + jus citron frais</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">👨‍🍳 Laisse réduire la sauce à découvert 5 min avant de creuser les puits. Moins d'eau = sucs concentrés. Le gochujang et le maïs ressortent bien plus nettement dans une sauce serrée.</span>
-          <span class="tip">💡 Cuisiner jeudi 21 soir. Graines de courge obligatoires pour les lipides.</span>
-          <span class="prep-alert">🔪 Ce soir (ven 22) : cuisiner la Shakshuka Corail pour samedi 23</span>
+          <span class="chef-tip">👨‍🍳 Laisser réduire 5 min à découvert avant les œufs — sauce serrée = saveurs concentrées. Le gochujang et le maïs ressortent bien plus nettement.</span>
+          <span class="tip">💡 Préparé jeudi 4 soir. Graines de courge obligatoires pour les lipides.</span>
+          <span class="prep-alert">🔪 Ce soir (ven 5) : cuisiner la Shakshuka Corail pour samedi 6</span>
         </div>
       </div>
       <div class="meal snack">
         <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
 
-  <!-- SAMEDI 23 -->
+  <!-- SAMEDI 6 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-sam23" onclick="toggleDay('day-sam23', this)">
-      <span class="day-label">Samedi 23 Mai &nbsp;💪 Force</span>
+    <div class="day-head collapsed" id="head-day-sam6" onclick="toggleDay('day-sam6', this)">
+      <span class="day-label">Samedi 6 Juin &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-sam23" style="padding-top:10px;">
+    <div class="accordion-body collapsed" id="day-sam6" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong>
+          <ul>
+            <li>10ml huile d'olive · faire revenir <strong>½ oignon</strong> + cumin + coriandre + gochujang 3 min</li>
+            <li>Ajouter <strong>120g lentilles corail crues</strong> + <strong>200g tomates pelées</strong> + eau à couvert</li>
+            <li>Cuire <strong>20 min</strong> jusqu'à absorption quasi-complète</li>
+            <li>Remuer énergiquement 1 min hors du feu pour libérer l'amidon</li>
+            <li>Creuser <strong>4 puits</strong> · pocher 4 œufs · couvrir 5 min feu éteint</li>
+            <li>Finir : sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Remuer les lentilles énergiquement 1 min hors du feu — elles libèrent leur amidon et épaississent la tomate naturellement. Graines de courge dans l'assiette au dernier moment — elles perdent leur croquant en 2 min dans la sauce chaude.</span>
+          <span class="tip">💡 Préparé vendredi 5 soir. Citron obligatoire pour l'absorption du fer des lentilles.</span>
+          <span class="prep-alert">🔪 Ce soir (sam 6) : cuisiner la Salade Niçoise pour dimanche 7</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIMANCHE 7 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-dim7" onclick="toggleDay('day-dim7', this)">
+      <span class="day-label">Dimanche 7 Juin &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-dim7" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
+          <ul>
+            <li>Mode vapeur cuiseur à riz : <strong>200g pommes de terre</strong> en rondelles + <strong>4 œufs</strong></li>
+            <li>Laisser refroidir · écaler les œufs</li>
+            <li>Dresser : pommes de terre + <strong>2 boîtes sardines</strong> égouttées</li>
+            <li><strong>OBLIGATOIRE lipides :</strong> 20ml huile d'olive + jus 1 citron + herbes</li>
+            <li><strong>15g graines de courge</strong>/portion</li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Même technique que mercredi : écraser une sardine dans l'huile et le citron pour créer une vinaigrette liée.</span>
+          <span class="tip">💡 Préparé samedi 6 soir. Huile d'olive + graines courge obligatoires pour atteindre 90g L/j.</span>
+          <span class="prep-alert">🔪 ⚠️ Ce soir (dim 7) : cuisiner le Tikka Masala pour MARDI 9 — lundi 8 = jeûne, impossible de cuisiner demain</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÉPARATEUR SEMAINE 2 -->
+  <div class="week-sep">— SEMAINE 2 · 8–14 Juin —</div>
+
+  <!-- LUNDI 8 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-lun8" onclick="toggleDay('day-lun8', this)">
+      <span class="day-label fast">Lundi 8 Juin &nbsp;🚫 Jeûne</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-lun8" style="padding-top:10px;">
+      <div class="meal fast-card">
+        <div class="meal-time">Journée complète</div>
+        <div class="meal-body">
+          <strong>JEÛNE TOTAL 24h</strong><br><br>
+          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
+          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le mardi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARDI 9 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-mar9" onclick="toggleDay('day-mar9', this)">
+      <span class="day-label">Mardi 9 Juin &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mar9" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Poulet Tikka Masala aux Épinards — Cocotte + Cuiseur à riz</strong>
+          <ul>
+            <li>Mariner <strong>350g émincés volaille</strong> : jus 1 citron + curry 2 c.à.c + gochujang + gingembre · <strong>20 min min.</strong></li>
+            <li>Lancer cuiseur à riz : <strong>120g riz cru</strong> (60g/portion)</li>
+            <li>Cocotte · 15ml huile d'olive · revenir <strong>1 oignon</strong> émincé 5 min</li>
+            <li>Ajouter <strong>3 gousses ail</strong> + curry 2 c.à.c + cumin + paprika · mélanger 2 min</li>
+            <li>Verser <strong>300g tomates pelées</strong> · mijoter 10 min</li>
+            <li>Ajouter les émincés marinés · cuire <strong>8 min max</strong> à feu moyen</li>
+            <li>Intégrer <strong>150g épinards surgelés</strong> + <strong>1 c.à.c maïzena</strong> diluée · 5 min</li>
+            <li>Diviser en 2 parts · <strong>15g graines de courge</strong>/portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Émincés max 8 min sinon ils sèchent. La maïzena en fin de cuisson lie la sauce et lui donne ce brillant caractéristique des tikka masala de restaurant.</span>
+          <span class="tip">💡 Préparé dimanche 7 soir. Protéines fraîches achetées samedi 7 juin — à utiliser en priorité cette semaine.</span>
+          <span class="prep-alert">🔪 Ce soir (mar 9) : cuisiner le Yakitori pour mercredi 10</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MERCREDI 10 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-mer10" onclick="toggleDay('day-mer10', this)">
+      <span class="day-label">Mercredi 10 Juin &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-mer10" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Yakitori Soja-Miel — Air Fryer + Cuiseur à riz</strong>
+          <ul>
+            <li>Marinade <strong>30 min</strong> : <strong>400g émincés volaille</strong> (reste du paquet) + 3 c.à.s soja + 1 c.à.c miel + 1 c.à.c gochujang + ail + gingembre + jus ½ citron</li>
+            <li>Lancer cuiseur à riz : <strong>120g riz cru</strong></li>
+            <li>Air Fryer <strong>200°C · 12 min</strong>, retourner à mi-cuisson — 2 fournées si nécessaire</li>
+            <li>Sauce : marinade + maïzena diluée · réduire 3 min</li>
+            <li>Dresser : riz + émincés nappés + <strong>15g graines de courge</strong>/portion</li>
+            <li>Diviser en 2 parts identiques</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 400g = paquet entamé lundi — à utiliser impérativement aujourd'hui (fraîcheur). Portion légèrement plus grande que mardi, ajuster si besoin au dressage.</span>
+          <span class="tip">💡 Préparé mardi 9 soir. Utiliser tout le poulet restant — ne pas laisser au frigo.</span>
+          <span class="prep-alert">🔪 Ce soir (mer 10) : cuisiner le Dhal pour jeudi 11</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JEUDI 11 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-jeu11" onclick="toggleDay('day-jeu11', this)">
+      <span class="day-label">Jeudi 11 Juin &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-jeu11" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
+          <ul>
+            <li>10ml huile d'olive · revenir cumin + coriandre + ail émincé 2 min</li>
+            <li>Ajouter <strong>160g lentilles corail crues</strong> + <strong>200g épinards surgelés</strong> + <strong>100ml lait de coco</strong></li>
+            <li>Couvrir d'eau · cuire jusqu'à absorption (~20 min)</li>
+            <li>Creuser <strong>6 puits</strong> · casser 6 œufs · couvrir 5 min feu éteint</li>
+            <li>Finir : sriracha + <strong>jus citron frais obligatoire</strong> + <strong>20g graines de courge</strong></li>
+            <li>Diviser en 2 parts — 3 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Même recette que jeudi 4, mais tu la maîtrises déjà. Feu éteint pour les œufs — jaune coulant garanti.</span>
+          <span class="tip">💡 Préparé mercredi 10 soir. Citron final obligatoire.</span>
+          <span class="prep-alert">🔪 Ce soir (jeu 11) : cuisiner la Chakchouka pour vendredi 12</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENDREDI 12 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-ven12" onclick="toggleDay('day-ven12', this)">
+      <span class="day-label">Vendredi 12 Juin &nbsp;💪 Force</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-ven12" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-body">
+          <strong>Chakchouka Épinards, Maïs &amp; Œufs — Cocotte</strong>
+          <ul>
+            <li>15ml huile d'olive · faire revenir <strong>1 échalote</strong> + cumin + paprika fumé 3 min</li>
+            <li>Ajouter <strong>300g tomates pelées</strong> + <strong>200g épinards surgelés</strong> + <strong>maïs restant</strong></li>
+            <li>Mijoter 15 min + gochujang · réduire 5 min à découvert</li>
+            <li>Creuser <strong>4 puits</strong> · casser 4 œufs · couvrir 5 min</li>
+            <li><strong>20g graines de courge</strong> + jus citron</li>
+            <li>Diviser en 2 parts — 2 œufs par portion</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Deuxième Chakchouka de la quinzaine — tu connais la technique. Réduire à découvert avant les œufs reste le geste clé.</span>
+          <span class="tip">💡 Préparé jeudi 11 soir. Maïs = reste du stock S1.</span>
+          <span class="prep-alert">🔪 Ce soir (ven 12) : cuisiner la Shakshuka Corail pour samedi 13</span>
+        </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAMEDI 13 JUIN -->
+  <div class="day-block">
+    <div class="day-head collapsed" id="head-day-sam13" onclick="toggleDay('day-sam13', this)">
+      <span class="day-label">Samedi 13 Juin &nbsp;🏃 Cardio</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="accordion-body collapsed" id="day-sam13" style="padding-top:10px;">
       <div class="meal snack">
         <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
         <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
@@ -361,36 +566,52 @@
           <ul>
             <li>10ml huile d'olive · faire revenir <strong>½ oignon</strong> + cumin + coriandre + gochujang</li>
             <li>Ajouter <strong>120g lentilles corail crues</strong> + <strong>200g tomates pelées</strong> + eau à couvert</li>
-            <li>Cuire <strong>20 min</strong> jusqu'à absorption quasi-complète</li>
-            <li>Creuser <strong>4 puits</strong> · pocher 4 œufs plein air · couvrir 5 min</li>
-            <li>Finir : sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
+            <li>Cuire <strong>20 min</strong> · remuer énergiquement 1 min hors du feu</li>
+            <li>Creuser <strong>4 puits</strong> · pocher 4 œufs · couvrir 5 min feu éteint</li>
+            <li>Sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">👨‍🍳 En fin de cuisson, remue énergiquement les lentilles 1 min hors du feu. Elles libèrent leur amidon et épaississent la tomate naturellement. Ajoute les graines de courge dans l'assiette au dernier moment — elles perdent leur croquant en 2 min dans la sauce chaude.</span>
-          <span class="tip">💡 Cuisiner vendredi 22 soir. Ce soir (sam 23) : anticiper et prévoir la S3 — cuisiner le repas de lundi 25.</span>
+          <span class="chef-tip">👨‍🍳 Même recette que samedi 6. Graines de courge dans l'assiette, pas dans la casserole chaude.</span>
+          <span class="tip">💡 Préparé vendredi 12 soir.</span>
+          <span class="prep-alert">🔪 Ce soir (sam 13) : cuisiner la Salade Niçoise pour dimanche 14</span>
         </div>
       </div>
       <div class="meal snack">
         <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
-        <div class="meal-body"><strong>Skyr nature ou Shaker Whey</strong> — 150g skyr / 30g whey · 250ml eau froide</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
 
-  <!-- DIMANCHE 24 -->
+  <!-- DIMANCHE 14 JUIN -->
   <div class="day-block">
-    <div class="day-head collapsed" id="head-day-dim24" onclick="toggleDay('day-dim24', this)">
-      <span class="day-label fast">Dimanche 24 Mai &nbsp;🚫 Repos</span>
+    <div class="day-head collapsed" id="head-day-dim14" onclick="toggleDay('day-dim14', this)">
+      <span class="day-label">Dimanche 14 Juin &nbsp;🏃 Cardio</span>
       <span class="chevron">›</span>
     </div>
-    <div class="accordion-body collapsed" id="day-dim24" style="padding-top:10px;">
-      <div class="meal fast-card">
-        <div class="meal-time">Journée complète</div>
+    <div class="accordion-body collapsed" id="day-dim14" style="padding-top:10px;">
+      <div class="meal snack">
+        <div class="meal-time">10h00 — PRE-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Collation Avoine</strong><br>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
+      </div>
+      <div class="meal main">
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
         <div class="meal-body">
-          <strong>JEÛNE TOTAL 24h</strong><br><br>
-          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
-          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le lundi</span>
+          <strong>Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
+          <ul>
+            <li>Mode vapeur : <strong>200g pommes de terre</strong> en rondelles + <strong>4 œufs</strong></li>
+            <li>Dresser : pommes de terre + <strong>2 boîtes sardines</strong> égouttées</li>
+            <li><strong>OBLIGATOIRE :</strong> 20ml huile d'olive + jus 1 citron + herbes</li>
+            <li><strong>15g graines de courge</strong>/portion — 2 œufs par portion</li>
+            <li>Diviser en 2 parts</li>
+          </ul>
+          <span class="chef-tip">👨‍🍳 Dernier repas de la quinzaine. Vinaigrette sardine-citron-olive comme les deux Niçoise précédentes.</span>
+          <span class="tip">💡 Préparé samedi 13 soir. Fin du planning — penser à faire le bilan stock pour la prochaine session.</span>
         </div>
+      </div>
+      <div class="meal snack">
+        <div class="meal-time">16h00 — POST-TRAINING · 1 portion</div>
+        <div class="meal-body"><strong>Skyr nature</strong> — 150g skyr</div>
       </div>
     </div>
   </div>
@@ -415,38 +636,49 @@
 
   <div class="budget-banner">
     <div>
-      <div class="bdg-label">Dépensé samedi 16</div>
-      <div class="bdg-amount">14,92€</div>
+      <div class="bdg-label">Courses Sam 30 Mai · S1</div>
+      <div class="bdg-amount">36,35€</div>
     </div>
     <div class="bdg-right">
       <div class="bdg-max">Budget max · 50,00€</div>
-      <div class="bdg-remain">✓ Reste 35,08€</div>
+      <div class="bdg-remain">✓ Reste 13,65€</div>
+    </div>
+  </div>
+
+  <div class="budget-banner">
+    <div>
+      <div class="bdg-label">Courses Sam 7 Juin · S2</div>
+      <div class="bdg-amount">27,60€</div>
+    </div>
+    <div class="bdg-right">
+      <div class="bdg-max">Budget max · 50,00€</div>
+      <div class="bdg-remain">✓ Reste 22,40€</div>
     </div>
   </div>
 
   <div class="progress-wrap">
-    <div class="progress-label"><span>Articles cochés</span><span id="prog-s2">0 / 0</span></div>
-    <div class="progress-track"><div class="progress-fill" id="fill-s2" style="width:0%"></div></div>
+    <div class="progress-label"><span>Articles cochés</span><span id="prog-text">0 / 0</span></div>
+    <div class="progress-track"><div class="progress-fill" id="fill-prog" style="width:0%"></div></div>
   </div>
 
-  <!-- VIANDES -->
+  <!-- SEMAINE 1 -->
+  <div class="week-courses-label">Semaine 1 — Samedi 30 Mai</div>
+
   <div class="section-label">Viandes &amp; Volailles</div>
   <div class="list-box">
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Émincés de volaille 100% filet — ~750g</div>
+        <div class="item-name">Émincés de volaille 100% filet — 750g</div>
         <div class="item-dishes">
-          <span class="dish-tag poulet">Tikka Masala · Lun 18</span>
-          <span class="dish-tag poulet">Yakitori · Mar 19</span>
+          <span class="dish-tag poulet">Yakitori · Mar 2 (350g)</span>
         </div>
-        <div class="item-sub">✦ Blanc pur, cuisson rapide. Non substituable cette semaine.</div>
+        <div class="item-sub">✦ Cuisiner DIMANCHE 31 MAI au soir — lundi = jeûne</div>
       </div>
-      <div class="item-price">5,00€ ✅</div>
+      <div class="item-price">~5,00€</div>
     </div>
   </div>
 
-  <!-- CONSERVES -->
   <div class="section-label">Poissonnerie / Conserves</div>
   <div class="list-box">
     <div class="shop-item" onclick="check(this)">
@@ -454,205 +686,356 @@
       <div class="item-info">
         <div class="item-name">Sardines citron-basilic — ×4 boîtes</div>
         <div class="item-dishes">
-          <span class="dish-tag poisson">Salade Niçoise · Mer 20 (×2)</span>
-          <span class="dish-tag poisson">Chakchouka Sardines · Jeu 21 (×2)</span>
+          <span class="dish-tag poisson">Niçoise · Mer 3 (×2)</span>
+          <span class="dish-tag poisson">Niçoise · Dim 7 (×2)</span>
         </div>
-        <div class="item-sub">✦ Substituable par maquereaux conserve ou thon au naturel + 20ml huile olive si rupture</div>
+        <div class="item-sub">✦ Substituable par maquereaux fumés ou thon au naturel + 20ml huile olive</div>
       </div>
-      <div class="item-price">stock ✅</div>
+      <div class="item-price">~3,20€</div>
     </div>
   </div>
 
-  <!-- CRÉMERIE -->
   <div class="section-label">Crémerie</div>
   <div class="list-box">
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Skyr nature Délisse — 850g</div>
+        <div class="item-name">Skyr nature Délisse — 850g ×2 pots</div>
         <div class="item-dishes">
-          <span class="dish-tag quotidien">PRE-training 10h · quotidien</span>
-          <span class="dish-tag quotidien">POST-training 16h · quotidien</span>
+          <span class="dish-tag quotidien">PRE-training 10h · quotidien (150g)</span>
+          <span class="dish-tag quotidien">POST-training 16h · quotidien (150g)</span>
         </div>
-        <div class="item-sub">✦ Substituable par yaourt grec 0% ou fromage blanc 0% (même profil protéique)</div>
+        <div class="item-sub">✦ Substituable par yaourt grec 0% ou fromage blanc 0%</div>
       </div>
-      <div class="item-price">~3,25€</div>
+      <div class="item-price">~6,50€</div>
     </div>
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Œufs plein air Oméga — ×18 (12+6)</div>
+        <div class="item-name">Œufs plein air — ×18</div>
         <div class="item-dishes">
-          <span class="dish-tag oeufs">Salade Niçoise · Mer 20 (×4)</span>
-          <span class="dish-tag oeufs">Dhal · Jeu 21 (×8)</span>
-          <span class="dish-tag oeufs">Chakchouka · Ven 22 (×4)</span>
-          <span class="dish-tag oeufs">Shakshuka · Sam 23 (×4)</span>
+          <span class="dish-tag oeufs">Niçoise · Mer 3 (×4)</span>
+          <span class="dish-tag oeufs">Dhal · Jeu 4 (×6)</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 5 (×4)</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 6 (×4)</span>
         </div>
-        <div class="item-sub">✦ Colonne vertébrale des jours légumineuses — pas de substitution directe</div>
       </div>
-      <div class="item-price">4,20€ ✅</div>
+      <div class="item-price">~4,20€</div>
     </div>
   </div>
 
-  <!-- FRUITS & LÉGUMES -->
   <div class="section-label">Fruits &amp; Légumes</div>
   <div class="list-box">
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Épinards feuilles frais — 600g</div>
+        <div class="item-name">Bananes — régime de 6</div>
         <div class="item-dishes">
-          <span class="dish-tag poulet">Tikka Masala · Lun 18 (150g)</span>
-          <span class="dish-tag poisson">Salade Niçoise · Mer 20 (optionnel)</span>
+          <span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs</span>
         </div>
-        <div class="item-sub">✦ Substituable par épinards surgelés (stock 500g) — décongeler la veille au frigo</div>
       </div>
-      <div class="item-price">1,35€ ✅</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Bananes françaises — régime de 6</div>
-        <div class="item-dishes">
-          <span class="dish-tag quotidien">PRE-training 10h · tous les jours</span>
-        </div>
-        <div class="item-sub">✦ Substituable par 1 pomme + 1 orange (maintenir ~47g glucides)</div>
-      </div>
-      <div class="item-price">2,95€ ✅</div>
+      <div class="item-price">~2,95€</div>
     </div>
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
         <div class="item-name">Citrons jaunes — filet de 6</div>
         <div class="item-dishes">
-          <span class="dish-tag quotidien">Marinades · chaque soir de cuisine</span>
-          <span class="dish-tag quotidien">Absorption fer non héminique · quotidien</span>
+          <span class="dish-tag quotidien">Marinades · tous les soirs de cuisine</span>
+          <span class="dish-tag quotidien">Absorption fer · lentilles + épinards</span>
         </div>
-        <div class="item-sub">✦ Non substituable — rôle biochimique (vit. C × absorption fer lentilles/épinards)</div>
+        <div class="item-sub">✦ Non substituable — rôle biochimique (vit. C × absorption fer)</div>
       </div>
       <div class="item-price">~1,00€</div>
     </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Épinards surgelés — 600g</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Dhal · Jeu 4 (200g)</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 5 (200g)</span>
+        </div>
+        <div class="item-sub">✦ Reste ~200g reporté en S2 pour Tikka Mar 9</div>
+      </div>
+      <div class="item-price">~1,50€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Pommes de terre — 1kg</div>
+        <div class="item-dishes">
+          <span class="dish-tag poisson">Niçoise · Mer 3 (200g)</span>
+          <span class="dish-tag poisson">Niçoise · Dim 7 (200g)</span>
+          <span class="dish-tag poisson">Niçoise · Dim 14 (200g) — report S2</span>
+        </div>
+      </div>
+      <div class="item-price">~1,50€</div>
+    </div>
   </div>
 
-  <!-- ÉPICERIE -->
   <div class="section-label">Épicerie</div>
   <div class="list-box">
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Tomates pelées au jus — 800g</div>
+        <div class="item-name">Flocons d'avoine — 500g</div>
         <div class="item-dishes">
-          <span class="dish-tag poulet">Tikka Masala · Lun 18 (400g)</span>
-          <span class="dish-tag oeufs">Chakchouka · Ven 22 (300g)</span>
-          <span class="dish-tag oeufs">Shakshuka · Sam 23 (200g)</span>
+          <span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs (55g/j)</span>
         </div>
-        <div class="item-sub">✦ Substituable par passata ou tomates fraîches mixées + 1 c.à.c concentré</div>
       </div>
-      <div class="item-price">~1,20€</div>
+      <div class="item-price">~0,85€</div>
     </div>
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Purée de tomate — 72ml</div>
+        <div class="item-name">Riz blanc — 1kg</div>
         <div class="item-dishes">
-          <span class="dish-tag poulet">Tikka Masala · Lun 18 (épaissir sauce)</span>
+          <span class="dish-tag poulet">Yakitori · Mar 2 (120g)</span>
+          <span class="dish-tag poulet">Tikka · Mar 9 (120g) — report S2</span>
+          <span class="dish-tag poulet">Yakitori · Mer 10 (120g) — report S2</span>
         </div>
-        <div class="item-sub">✦ Substituable par 1 c.à.s concentré de tomate</div>
       </div>
-      <div class="item-price">1,22€ ✅</div>
+      <div class="item-price">~1,50€</div>
     </div>
     <div class="shop-item" onclick="check(this)">
       <div class="check-ring"><span class="check-icon">✓</span></div>
       <div class="item-info">
-        <div class="item-name">Olives vertes — bocal 150g</div>
+        <div class="item-name">Lentilles corail — 500g</div>
         <div class="item-dishes">
-          <span class="dish-tag poisson">Salade Niçoise · Mer 20 (garniture)</span>
+          <span class="dish-tag oeufs">Dhal · Jeu 4 (160g)</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 6 (120g)</span>
+          <span class="dish-tag warn">⚠️ Reste ~220g — insuffisant S2, racheter sam 7</span>
         </div>
-        <div class="item-sub">✦ Substituable par câpres ou olives noires Kalamata</div>
       </div>
-      <div class="item-price">~1,80€</div>
+      <div class="item-price">~1,50€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Tomates pelées au jus — 800g ×2 boîtes</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Chakchouka · Ven 5 (300g)</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 6 (200g)</span>
+          <span class="dish-tag poulet">Tikka · Mar 9 (300g) — report S2</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 12 (300g) — report S2</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 13 (200g) — report S2</span>
+        </div>
+      </div>
+      <div class="item-price">~2,40€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Maïs doux — 300g</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Chakchouka · Ven 5 (150g)</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 12 (150g) — report S2</span>
+        </div>
+      </div>
+      <div class="item-price">~0,80€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Lait de coco — 200ml</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Dhal · Jeu 4 (100ml)</span>
+          <span class="dish-tag oeufs">Dhal · Jeu 11 (100ml) — report S2</span>
+        </div>
+      </div>
+      <div class="item-price">~0,95€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Graines de courge — 250g</div>
+        <div class="item-dishes">
+          <span class="dish-tag warn">⚠️ OBLIGATOIRE lipides · 15–20g par portion chaque jour</span>
+        </div>
+        <div class="item-sub warn-sub">⚠️ Stock S1 couvre 6 jours (~180g). Racheter sam 7 pour S2.</div>
+      </div>
+      <div class="item-price">~2,50€</div>
     </div>
   </div>
 
-  <!-- REPORTS S1 -->
-  <div class="section-label stock-label">Reports S1 — disponibles</div>
+  <!-- SEMAINE 2 -->
+  <div class="week-courses-label">Semaine 2 — Samedi 7 Juin</div>
+
+  <div class="section-label">Viandes &amp; Volailles</div>
+  <div class="list-box">
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Émincés de volaille 100% filet — 750g</div>
+        <div class="item-dishes">
+          <span class="dish-tag poulet">Tikka Masala · Mar 9 (350g)</span>
+          <span class="dish-tag poulet">Yakitori · Mer 10 (400g)</span>
+        </div>
+        <div class="item-sub">✦ Cuisiner dimanche 7 soir (Tikka Mar 9) et mardi 9 soir (Yakitori Mer 10)</div>
+      </div>
+      <div class="item-price">~5,00€</div>
+    </div>
+  </div>
+
+  <div class="section-label">Poissonnerie / Conserves</div>
+  <div class="list-box">
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Sardines citron-basilic — ×2 boîtes</div>
+        <div class="item-dishes">
+          <span class="dish-tag poisson">Niçoise · Dim 14 (×2)</span>
+        </div>
+      </div>
+      <div class="item-price">~1,60€</div>
+    </div>
+  </div>
+
+  <div class="section-label">Crémerie</div>
+  <div class="list-box">
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Skyr nature Délisse — 850g ×2 pots</div>
+        <div class="item-dishes">
+          <span class="dish-tag quotidien">PRE-training + POST-training · 6 jours actifs</span>
+        </div>
+      </div>
+      <div class="item-price">~6,50€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Œufs plein air — ×18</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Dhal · Jeu 11 (×6)</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 12 (×4)</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 13 (×4)</span>
+          <span class="dish-tag oeufs">Niçoise · Dim 14 (×4)</span>
+        </div>
+      </div>
+      <div class="item-price">~4,20€</div>
+    </div>
+  </div>
+
+  <div class="section-label">Fruits &amp; Légumes</div>
+  <div class="list-box">
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Bananes — régime de 6</div>
+        <div class="item-dishes">
+          <span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs</span>
+        </div>
+      </div>
+      <div class="item-price">~2,95€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Citrons jaunes — filet de 6</div>
+        <div class="item-dishes">
+          <span class="dish-tag quotidien">Marinades + absorption fer · toute la semaine</span>
+        </div>
+      </div>
+      <div class="item-price">~1,00€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Épinards surgelés — 600g</div>
+        <div class="item-dishes">
+          <span class="dish-tag poulet">Tikka · Mar 9 (150g)</span>
+          <span class="dish-tag oeufs">Dhal · Jeu 11 (200g)</span>
+          <span class="dish-tag oeufs">Chakchouka · Ven 12 (200g)</span>
+        </div>
+      </div>
+      <div class="item-price">~1,50€</div>
+    </div>
+  </div>
+
+  <div class="section-label">Épicerie</div>
+  <div class="list-box">
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Flocons d'avoine — 500g</div>
+        <div class="item-dishes">
+          <span class="dish-tag quotidien">PRE-training 10h · 6 jours actifs (55g/j)</span>
+        </div>
+      </div>
+      <div class="item-price">~0,85€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Lentilles corail — 500g</div>
+        <div class="item-dishes">
+          <span class="dish-tag oeufs">Dhal · Jeu 11 (160g)</span>
+          <span class="dish-tag oeufs">Shakshuka · Sam 13 (120g)</span>
+        </div>
+        <div class="item-sub">✦ Complète le reste de S1 (~220g) — total ~720g disponible, besoin 280g</div>
+      </div>
+      <div class="item-price">~1,50€</div>
+    </div>
+    <div class="shop-item" onclick="check(this)">
+      <div class="check-ring"><span class="check-icon">✓</span></div>
+      <div class="item-info">
+        <div class="item-name">Graines de courge — 250g</div>
+        <div class="item-dishes">
+          <span class="dish-tag warn">⚠️ OBLIGATOIRE lipides · 15–20g par portion chaque jour</span>
+        </div>
+      </div>
+      <div class="item-price">~2,50€</div>
+    </div>
+  </div>
+
+  <!-- REPORTS S1 → S2 -->
+  <div class="section-label stock-label">Reports S1 → S2 — disponibles</div>
   <div class="list-box">
     <div class="shop-item stock">
       <div class="check-ring"></div>
       <div class="item-info">
-        <div class="item-name">Flocons d'avoine — ~500g</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · tous les jours (55g/j)</span></div>
+        <div class="item-name">Riz blanc — ~640g restant</div>
+        <div class="item-dishes"><span class="dish-tag poulet">Tikka Mar 9 + Yakitori Mer 10 (240g total)</span></div>
       </div>
     </div>
     <div class="shop-item stock">
       <div class="check-ring"></div>
       <div class="item-info">
-        <div class="item-name">Lentilles corail — ~370g</div>
+        <div class="item-name">Tomates pelées — ~1 100g restant</div>
         <div class="item-dishes">
-          <span class="dish-tag oeufs">Dhal · Jeu 21 (160g)</span>
-          <span class="dish-tag oeufs">Shakshuka · Sam 23 (120g)</span>
-        </div>
-        <div class="item-sub warn-sub">⚠️ Vérifier stock — besoin 280g total</div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Pommes de terre — ~950g</div>
-        <div class="item-dishes"><span class="dish-tag poisson">Salade Niçoise · Mer 20 (200g)</span></div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Lait de coco — ~300ml</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 21 (100ml)</span></div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Graines de courge — ~110g</div>
-        <div class="item-dishes">
-          <span class="dish-tag warn">⚠️ OBLIGATOIRE jours sardines · Mer 20 &amp; Jeu 21</span>
-          <span class="dish-tag">Tous les plats (15–20g/portion)</span>
-        </div>
-        <div class="item-sub warn-sub">⚠️ Stock limité — priorité absolue aux jours sardines pour les lipides</div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Épinards surgelés — 500g</div>
-        <div class="item-dishes">
-          <span class="dish-tag oeufs">Dhal · Jeu 21 (200g)</span>
-          <span class="dish-tag oeufs">Chakchouka · Ven 22 (200g)</span>
+          <span class="dish-tag poulet">Tikka Mar 9 (300g)</span>
+          <span class="dish-tag oeufs">Chakchouka Ven 12 (300g)</span>
+          <span class="dish-tag oeufs">Shakshuka Sam 13 (200g)</span>
         </div>
       </div>
     </div>
     <div class="shop-item stock">
       <div class="check-ring"></div>
       <div class="item-info">
-        <div class="item-name">Maïs doux — 300g · Légumes surgelés 3-en-1 — 750g</div>
-        <div class="item-dishes">
-          <span class="dish-tag poisson">Salade Niçoise · Mer 20 (légumes 3-en-1)</span>
-          <span class="dish-tag oeufs">Chakchouka · Ven 22 (maïs 150g)</span>
-        </div>
+        <div class="item-name">Maïs doux — ~150g restant</div>
+        <div class="item-dishes"><span class="dish-tag oeufs">Chakchouka Ven 12 (150g)</span></div>
       </div>
     </div>
     <div class="shop-item stock">
       <div class="check-ring"></div>
       <div class="item-info">
-        <div class="item-name">Huile d'olive · Gochujang · Soja · Miel · Épices</div>
-        <div class="item-dishes">
-          <span class="dish-tag warn">⚠️ Huile olive OBLIGATOIRE jours sardines (20ml/portion)</span>
-          <span class="dish-tag">Toutes les marinades et sauces de la semaine</span>
-        </div>
+        <div class="item-name">Pommes de terre — ~600g restant</div>
+        <div class="item-dishes"><span class="dish-tag poisson">Niçoise Dim 14 (200g)</span></div>
+      </div>
+    </div>
+    <div class="shop-item stock">
+      <div class="check-ring"></div>
+      <div class="item-info">
+        <div class="item-name">Lait de coco — ~100ml restant</div>
+        <div class="item-dishes"><span class="dish-tag oeufs">Dhal Jeu 11 (100ml)</span></div>
       </div>
     </div>
   </div>
 
-  <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser la liste</button>
+  <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser les listes</button>
 
 </div><!-- /view-courses -->
 
@@ -665,41 +1048,41 @@
   <div class="storage-group">
     <span class="storage-group-title">Frigo</span>
     <div class="list-box">
-      <div class="s-row"><span class="s-item">~750g Émincés de volaille (en bas · consommer avant mer 20)</span></div>
-      <div class="s-row"><span class="s-item">850g Skyr (en haut)</span></div>
+      <div class="s-row"><span class="s-item" style="color:var(--red);">⚠️ 750g Émincés volaille — cuisiner DIM 31 MAI au soir en priorité</span></div>
+      <div class="s-row"><span class="s-item">Skyr nature ×2 pots 850g (en haut)</span></div>
       <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
-      <div class="s-row"><span class="s-item">Épinards frais 600g (bac légumes · 3–4 jours max)</span></div>
-      <div class="s-row"><span class="s-item">×6 Bananes (comptoir — pas au frigo)</span></div>
     </div>
   </div>
 
   <div class="storage-group">
     <span class="storage-group-title">Congélateur</span>
     <div class="list-box">
-      <div class="s-row"><span class="s-item">500g Épinards surgelés</span></div>
-      <div class="s-row"><span class="s-item">750g Légumes 3-en-1 surgelés</span></div>
+      <div class="s-row"><span class="s-item">600g Épinards surgelés</span></div>
     </div>
   </div>
 
   <div class="storage-group">
     <span class="storage-group-title">Placard sec</span>
     <div class="list-box">
-      <div class="s-row"><span class="s-item">4 boîtes Sardines citron-basilic</span></div>
-      <div class="s-row"><span class="s-item">800g Tomates pelées (→ frigo dès ouverture)</span></div>
-      <div class="s-row"><span class="s-item">Bocal Olives vertes (→ frigo dès ouverture, sous saumure)</span></div>
-      <div class="s-row"><span class="s-item">~370g Lentilles corail (bocal hermétique)</span></div>
-      <div class="s-row"><span class="s-item">~300ml Lait de coco (→ frigo dès ouverture)</span></div>
-      <div class="s-row"><span class="s-item">~110g Graines de courge (bocal hermétique — au sec)</span></div>
+      <div class="s-row"><span class="s-item">×4 Sardines citron-basilic</span></div>
+      <div class="s-row"><span class="s-item">500g Lentilles corail (bocal hermétique)</span></div>
+      <div class="s-row"><span class="s-item">1kg Riz blanc</span></div>
       <div class="s-row"><span class="s-item">500g Flocons d'avoine</span></div>
-      <div class="s-row"><span class="s-item">~950g Pommes de terre (zone sèche, sombre, aérée)</span></div>
+      <div class="s-row"><span class="s-item">800g Tomates pelées ×2 boîtes (→ frigo dès ouverture)</span></div>
+      <div class="s-row"><span class="s-item">300g Maïs doux (→ frigo dès ouverture)</span></div>
+      <div class="s-row"><span class="s-item">200ml Lait de coco (→ frigo dès ouverture)</span></div>
+      <div class="s-row"><span class="s-item">250g Graines de courge (bocal hermétique)</span></div>
+      <div class="s-row"><span class="s-item">1kg Pommes de terre (endroit sec, sombre, ventilé)</span></div>
+      <div class="s-row"><span class="s-item">×6 Bananes (comptoir — jamais au frigo)</span></div>
+      <div class="s-row"><span class="s-item">×6 Citrons (comptoir)</span></div>
     </div>
   </div>
 
   <div class="storage-group">
     <span class="storage-group-title">Plats cuisinés — durées au frigo</span>
     <div class="list-box">
-      <div class="s-row"><span class="s-item">Tikka Masala / Yakitori poulet → 3 jours max</span></div>
-      <div class="s-row"><span class="s-item">Salade Niçoise sardines → 24h max (poisson)</span></div>
+      <div class="s-row"><span class="s-item">Yakitori / Tikka Masala poulet → 3 jours max</span></div>
+      <div class="s-row"><span class="s-item">Salade Niçoise sardines → 24h max</span></div>
       <div class="s-row"><span class="s-item">Dhal lentilles / Chakchouka / Shakshuka → 3–4 jours</span></div>
     </div>
   </div>
@@ -708,18 +1091,23 @@
 
 
 <script>
-  /* ── Map date → day section ── */
   const TODAY_MAP = {
-    '2026-05-18': 'day-lun18',
-    '2026-05-19': 'day-mar19',
-    '2026-05-20': 'day-mer20',
-    '2026-05-21': 'day-jeu21',
-    '2026-05-22': 'day-ven22',
-    '2026-05-23': 'day-sam23',
-    '2026-05-24': 'day-dim24',
+    '2026-06-01': 'day-lun1',
+    '2026-06-02': 'day-mar2',
+    '2026-06-03': 'day-mer3',
+    '2026-06-04': 'day-jeu4',
+    '2026-06-05': 'day-ven5',
+    '2026-06-06': 'day-sam6',
+    '2026-06-07': 'day-dim7',
+    '2026-06-08': 'day-lun8',
+    '2026-06-09': 'day-mar9',
+    '2026-06-10': 'day-mer10',
+    '2026-06-11': 'day-jeu11',
+    '2026-06-12': 'day-ven12',
+    '2026-06-13': 'day-sam13',
+    '2026-06-14': 'day-dim14',
   };
 
-  /* ── Tabs ── */
   function showTab(name) {
     ['recettes','courses','conservation'].forEach(function(t) {
       document.getElementById('view-' + t).classList.remove('active');
@@ -730,7 +1118,6 @@
     document.getElementById('view-' + name).classList.add('active');
   }
 
-  /* ── Day accordion ── */
   function toggleDay(id, header) {
     var body = document.getElementById(id);
     var collapsed = body.classList.contains('collapsed');
@@ -738,8 +1125,7 @@
     header.classList.toggle('collapsed', !collapsed);
   }
 
-  /* ── Shopping check ── */
-  var STORE_KEY = 'mp-s2-2026';
+  var STORE_KEY = 'mp-1juin-2026';
 
   function check(el) {
     if (el.classList.contains('stock')) return;
@@ -781,39 +1167,30 @@
     var all  = document.querySelectorAll('#view-courses .shop-item:not(.stock)');
     var done = document.querySelectorAll('#view-courses .shop-item:not(.stock).checked');
     var pct = all.length ? Math.round(done.length / all.length * 100) : 0;
-    document.getElementById('prog-s2').textContent = done.length + ' / ' + all.length;
-    document.getElementById('fill-s2').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = done.length + ' / ' + all.length;
+    document.getElementById('fill-prog').style.width = pct + '%';
   }
 
-  /* ── Auto-open today ── */
   function initToday() {
     var now = new Date();
     var pad = function(n) { return String(n).padStart(2,'0'); };
     var key = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate());
     var dayId = TODAY_MAP[key];
     if (!dayId) return;
-
     var headEl = document.getElementById('head-' + dayId);
     var bodyEl = document.getElementById(dayId);
     if (!headEl || !bodyEl) return;
-
-    /* Add TODAY badge */
     var badge = document.createElement('span');
     badge.className = 'today-badge';
     badge.textContent = "Aujourd'hui";
     headEl.querySelector('.day-label').appendChild(badge);
-
-    /* Open the accordion */
     headEl.classList.remove('collapsed');
     bodyEl.classList.remove('collapsed');
-
-    /* Scroll into view after a brief delay (let the page render) */
     setTimeout(function() {
       headEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 120);
   }
 
-  /* ── Init ── */
   document.addEventListener('DOMContentLoaded', function() {
     load();
     updateProgress();
