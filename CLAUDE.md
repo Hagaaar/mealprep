@@ -6,10 +6,13 @@
 ## Workflow pipeline
 
 1. L'utilisateur donne son stock et précise **1 ou 2 semaines** (il décide sur le coup)
-2. Proposer le planning (1 ou 2 semaines de jours actifs + lundi jeûne)
-3. Attendre validation — l'utilisateur modifie ce qu'il veut
-4. Générer `index.html` complet (structure §6 ci-dessous)
-5. `git add index.html && git commit -m "Meal prep [dates]"` puis `git push -u origin main`
+2. Déduire les dates exactes à partir de la date du jour — **demander confirmation si incertain**
+3. Proposer le planning avec **les dates exactes de chaque jour** (ex : Lundi 1er Juin, Mardi 2 Juin…)
+4. Attendre validation — l'utilisateur modifie ce qu'il veut
+5. Générer `index.html` complet (structure §6 ci-dessous)
+6. `git add index.html && git commit -m "Meal prep [dates]"` puis `git push -u origin main`
+
+> ⚠️ **DATES OBLIGATOIRES** : chaque jour du planning et chaque en-tête d'accordéon HTML doit afficher la date exacte (jour + numéro + mois). Le `TODAY_MAP` du JS doit couvrir toutes les dates réelles de la période.
 
 **Branche de production : `main`** — GitHub Pages sert `index.html` sur main. L'URL ne change pas, seul le contenu est remplacé.
 
