@@ -209,11 +209,10 @@ const TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... }
 - Police : `-apple-system, BlinkMacSystemFont, "Segoe UI"` — pas de Google Fonts.
 - Toutes les couleurs en variables CSS `:root`.
 
-**4 onglets (sticky, style pill iOS, backdrop-filter blur) :**
+**3 onglets (sticky, style pill iOS, backdrop-filter blur) :**
 1. **Recettes** — accordéon jour par jour
 2. **Courses** — liste checkable avec budget et progression
 3. **Stockage** — zones frigo/congélo/placard/durées
-4. **Règles** — macros et règles critiques du profil
 
 **Onglet Recettes :**
 - Accordéon par jour (Lundi→Dimanche), chevron tourne à 90° quand ouvert.
@@ -235,11 +234,6 @@ const TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... }
 
 **Onglet Stockage :**
 - Groupes : Frigo / Congélateur / Placard sec / Plats cuisinés durées.
-
-**Onglet Règles :**
-- Tableau macros cibles (4 colonnes, valeurs colorées).
-- Blocs règles critiques : fond coloré translucide + bordure colorée.
-- Tableau exclusions absolues.
 
 **Comportement JS :**
 - `DOMContentLoaded` : charger localStorage + progression + badge Aujourd'hui + scrollIntoView `setTimeout(120ms)`.
