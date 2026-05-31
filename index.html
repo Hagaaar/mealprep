@@ -41,7 +41,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-    body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background: transparent; padding: 26px 18px 84px; min-height: 100vh; }
+    body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background: transparent; padding: 0 18px 100px; min-height: 100vh; }
 
     /* ── HEADER ───────────────────────────── */
     .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
@@ -51,21 +51,45 @@
 
     /* ── TABS ─────────────────────────────── */
     .tabs {
-      display: flex; gap: 4px; background: var(--card2);
-      border: 1px solid var(--line); border-radius: 12px; padding: 4px; margin-bottom: 22px;
-      position: sticky; top: 8px; z-index: 100;
-      box-shadow: 0 2px 10px rgba(90,50,10,.06); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; gap: 0; background: var(--card2);
+      border-radius: 18px; padding: 4px;
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 36px); max-width: 464px; z-index: 100;
+      box-shadow: 0 4px 24px rgba(90,50,10,.18), 0 1px 6px rgba(90,50,10,.10);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
-    .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 8px; cursor: pointer; transition: all .2s; }
-    .tab-btn.active { background: var(--card); color: var(--brown); box-shadow: 0 1px 3px rgba(90,40,5,.14); }
+    .tab-slider {
+      position: absolute; top: 4px; left: 4px;
+      height: calc(100% - 8px);
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 1px 4px rgba(90,40,5,.12);
+      transition: left .3s cubic-bezier(0.4, 0, 0.2, 1), width .3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 14px; cursor: pointer; transition: color .2s ease; position: relative; z-index: 1; }
+    .tab-btn.active { background: transparent; color: var(--brown); }
 
     /* ── PER-VIEW HEADER ──────────────────── */
-    .view-head { margin: 4px 0 20px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
+    .view-head { margin: 16px 0 20px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
     .view-head .eyebrow { margin-bottom: 9px; }
     .vh-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
     .view-head h1 { font-family: var(--serif); font-weight: 600; font-size: 37px; line-height: .92; letter-spacing: -.5px; color: var(--ink); }
     .view-sub { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-soft); margin-top: 8px; }
     .budget-chip { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--forest-deep); background: color-mix(in srgb, var(--olive) 20%, var(--card)); border: 1px solid var(--olive); border-radius: 9px; padding: 7px 11px; white-space: nowrap; flex-shrink: 0; }
+
+    /* ── RECETTES HERO BANNER ─────────────── */
+    #view-recettes > .view-head {
+      margin: 0 -18px 24px;
+      padding: 48px 22px 32px;
+      background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
+      border-radius: 0 0 32px 32px;
+      border-bottom: none;
+    }
+    #view-recettes > .view-head .eyebrow { color: rgba(251,244,220,.65); }
+    #view-recettes > .view-head h1 { color: #FBF4DC; font-size: 42px; }
+    #view-recettes > .view-head .view-sub { color: rgba(251,244,220,.72); }
 
     /* ── ACCORDION BARS (courses / stockage) ─ */
     .acc-block { margin-bottom: 8px; }
@@ -203,13 +227,14 @@
     .s-row:last-child { border-bottom: none; }
     .s-item { flex: 1; font-weight: 500; color: var(--ink); }
 
-    .reset-btn { display: block; width: 100%; margin-top: 18px; padding: 14px; background: transparent; border: 1.5px solid var(--brown); border-radius: 12px; color: var(--brown); font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
-    .reset-btn:active { background: rgba(140,55,3,.08); }
+    .reset-btn { display: block; width: 100%; margin-top: 18px; padding: 14px; background: rgba(140,55,3,.10); border: none; border-radius: 12px; color: var(--brown); font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
+    .reset-btn:active { background: rgba(140,55,3,.18); }
   </style>
 </head>
-<body style="background-color: rgb(255, 255, 255); font-family: &quot;SF Mono&quot;">
+<body>
 
-<div class="tabs">
+<div class="tabs" id="tabs-nav">
+  <div class="tab-slider" id="tab-slider"></div>
   <button class="tab-btn active" onclick="showTab('recettes')">Recettes</button>
   <button class="tab-btn" onclick="showTab('courses')">Courses</button>
   <button class="tab-btn" onclick="showTab('conservation')">Stockage</button>
@@ -1228,14 +1253,27 @@
     '2026-06-14': 'day-dim14',
   };
 
+  function moveSlider(idx) {
+    var btns = document.querySelectorAll('.tab-btn');
+    var slider = document.getElementById('tab-slider');
+    var nav = document.getElementById('tabs-nav');
+    if (!slider || !btns[idx] || !nav) return;
+    var navRect = nav.getBoundingClientRect();
+    var btnRect = btns[idx].getBoundingClientRect();
+    slider.style.left = (btnRect.left - navRect.left) + 'px';
+    slider.style.width = btnRect.width + 'px';
+  }
+
   function showTab(name) {
-    ['recettes','courses','conservation'].forEach(function(t) {
+    var tabs = ['recettes','courses','conservation'];
+    tabs.forEach(function(t) {
       document.getElementById('view-' + t).classList.remove('active');
     });
     document.querySelectorAll('.tab-btn').forEach(function(b, i) {
-      b.classList.toggle('active', ['recettes','courses','conservation'][i] === name);
+      b.classList.toggle('active', tabs[i] === name);
     });
     document.getElementById('view-' + name).classList.add('active');
+    moveSlider(tabs.indexOf(name));
   }
 
   function toggleDay(id, header) {
@@ -1324,6 +1362,7 @@
     load();
     updateProgress();
     initToday();
+    moveSlider(0);
   });
 </script>
 
