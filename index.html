@@ -193,9 +193,10 @@
     .week-block {
       position: relative; margin: -26px -18px 0; padding: 40px 18px 0;
       border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
     }
-    .week-block.w1 { background: color-mix(in srgb, #8EA604 32%, var(--paper)); }
-    .week-block.w2 { background: color-mix(in srgb, #8EA604 16%, var(--paper)); }
+    .week-block.w1 { background: #DCE896; }
+    .week-block.w2 { background: #E4EDA8; }
     
     .week-head {
       display: flex; align-items: center; justify-content: space-between; width: 100%;
@@ -217,7 +218,7 @@
     /* ── RAYON GROUPS ────────────────────────── */
     .rayon-group { padding: 0 2px; }
     /* Rayon label : serif, même police/taille que les articles, vert foncé */
-    .rayon-label { font-family: var(--serif); font-size: 15px; font-weight: 600; color: #375200; padding: 12px 0 5px; display: flex; align-items: center; border-top: 1.5px solid rgba(0,0,0,.10); }
+    .rayon-label { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--brown-deep); padding: 12px 0 5px; display: flex; align-items: center; border-top: 1.5px solid rgba(0,0,0,.10); }
     .rayon-group:first-child .rayon-label { border-top: none; padding-top: 5px; }
     .rayon-label::before { display: none; }
 
@@ -248,9 +249,10 @@
       position: relative;
       margin: -26px -18px 0;
       padding: 42px 22px 26px;
-      background: color-mix(in srgb, #8EA604 7%, var(--paper));
+      background: #ECF2BC;
       border-radius: 0 0 24px 24px;
       display: flex; flex-direction: column; align-items: flex-end;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
     }
     .courses-total-lbl { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
     .courses-total-amt { font-family: var(--serif); font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1; }
@@ -261,13 +263,12 @@
       margin: -26px -18px 0;
       padding: 40px 18px 10px;
       border-radius: 0 0 24px 24px;
-      /* ombre portée vers le bas : la carte du dessus projette sur celle du dessous */
-      box-shadow: 0 6px 18px rgba(0,0,0,.14);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
     }
-    .s-freezer { background: #85AABF; z-index: 10; }
-    .s-fridge  { background: #9BBCCF; z-index: 9; }
-    .s-pantry  { background: #B1CDDD; z-index: 8; }
-    .s-cooked  { background: #C8DFEB; z-index: 7; }
+    .s-freezer { background: #8AAFC8; z-index: 10; }
+    .s-fridge  { background: #91B9CA; z-index: 9; }
+    .s-pantry  { background: #96B9BE; z-index: 8; }
+    .s-cooked  { background: #A8BAB2; z-index: 7; }
 
     .storage-title {
       font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink);
