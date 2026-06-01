@@ -81,8 +81,10 @@
 
     /* ── RECETTES HERO BANNER ─────────────── */
     #view-recettes > .view-head {
-      margin: 0 -18px 24px;
-      padding: 48px 22px 32px;
+      position: relative;
+      z-index: 20;
+      margin: 0 -18px 0;
+      padding: 48px 22px 36px;
       background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
       border-radius: 0 0 32px 32px;
       border-bottom: none;
@@ -114,22 +116,28 @@
     .d-sam { --day: #899536; --deep: #5E6B26; }
     .d-dim { --day: #355A35; --deep: #244023; }
 
-    .day-block { margin-bottom: 8px; }
-    .day-head { display: flex; align-items: center; gap: 13px; padding: 14px 16px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--day); border-radius: 13px; cursor: pointer; user-select: none; -webkit-user-select: none; box-shadow: 0 1px 2px rgba(90,50,10,.05); transition: background .15s; }
-    .day-head:active { background: var(--card2); }
-    .day-num { font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1; color: var(--deep); min-width: 34px; height: 34px; border: 1.5px solid var(--day); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .day-block {
+      position: relative;
+      margin: -28px -18px 0;
+      padding: 28px 18px 20px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--day) 28%, var(--paper)) 0%, color-mix(in srgb, var(--day) 14%, var(--paper)) 100%);
+      border-radius: 0 0 32px 32px;
+    }
+    .day-head { display: flex; align-items: center; gap: 13px; padding: 12px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .day-head:active { opacity: .7; }
+    .day-num { font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1; color: var(--deep); min-width: 36px; height: 36px; background: rgba(255,255,255,.45); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .day-info { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
     .day-label { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.05; color: var(--ink); }
-    .day-label.fast { color: var(--brown); }
+    .day-label.fast { color: var(--deep); }
     .day-train { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); }
     .t-force  { color: var(--orange-deep); }
     .t-cardio { color: var(--olive-deep); }
     .t-jeune  { color: var(--brown); }
-    .chevron { font-size: 13px; color: var(--day); transition: transform .25s ease; line-height: 1; flex-shrink: 0; }
+    .chevron { font-size: 13px; color: var(--deep); transition: transform .25s ease; line-height: 1; flex-shrink: 0; opacity: .7; }
     .day-head:not(.collapsed) .chevron, .acc-head:not(.collapsed) .chevron { transform: rotate(180deg); }
-    .day-head.is-today { background: var(--deep); border-color: var(--deep); }
-    .day-head.is-today .day-label, .day-head.is-today .day-num, .day-head.is-today .day-train, .day-head.is-today .chevron { color: #FBF4DC; }
-    .day-head.is-today .day-num { border-color: rgba(251,244,220,.55); }
+    .day-head.is-today { background: var(--deep); border-radius: 14px; padding: 12px 14px; }
+    .day-head.is-today .day-label, .day-head.is-today .day-num, .day-head.is-today .day-train, .day-head.is-today .chevron { color: #FBF4DC; opacity: 1; }
+    .day-head.is-today .day-num { background: rgba(251,244,220,.18); }
     .day-head.is-today .today-badge { background: #FBF4DC; color: var(--deep); }
 
     .today-badge { font-family: var(--mono); display: inline-block; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 6px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; }
@@ -158,11 +166,18 @@
     .prep-alert::before { content: 'À préparer ce soir'; display: block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown); margin-bottom: 4px; }
 
     /* ── WEEK SEPARATOR ───────────────────── */
-    .week-sep { display: flex; align-items: center; gap: 14px; margin: 28px 0 6px; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--brown); }
+    .week-sep {
+      display: flex; align-items: center; gap: 14px;
+      position: relative;
+      margin: 0 -18px 0;
+      padding: 24px 18px 28px;
+      background: var(--paper);
+      font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--brown);
+    }
     .week-sep::before, .week-sep::after { content: ''; flex: 1; height: 2px; background: var(--brown); opacity: .3; }
 
     /* ── MACROS ───────────────────────────── */
-    .macro-ref { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 28px 0 0; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
+    .macro-ref { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 28px 0 0; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
     .macro-ref h3 { font-family: var(--mono); font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
     .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .macro-cell { text-align: center; background: var(--card2); border: 1px solid var(--line); border-radius: 10px; padding: 13px 4px; }
@@ -1358,11 +1373,20 @@
     }, 120);
   }
 
+  function initDayZindex() {
+    var siblings = document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .week-sep, #view-recettes > .macro-ref');
+    var total = siblings.length;
+    siblings.forEach(function(el, i) {
+      el.style.zIndex = String(total - i);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     load();
     updateProgress();
     initToday();
     moveSlider(0);
+    initDayZindex();
   });
 </script>
 
