@@ -120,7 +120,7 @@
       position: relative;
       margin: -28px -18px 0;
       padding: 28px 18px 20px;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--day) 28%, var(--paper)) 0%, color-mix(in srgb, var(--day) 14%, var(--paper)) 100%);
+      background: color-mix(in srgb, var(--day) 22%, var(--paper));
       border-radius: 0 0 32px 32px;
     }
     .day-head { display: flex; align-items: center; gap: 13px; padding: 12px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
@@ -135,12 +135,10 @@
     .t-jeune  { color: var(--brown); }
     .chevron { font-size: 13px; color: var(--deep); transition: transform .25s ease; line-height: 1; flex-shrink: 0; opacity: .7; }
     .day-head:not(.collapsed) .chevron, .acc-head:not(.collapsed) .chevron { transform: rotate(180deg); }
-    .day-head.is-today { background: var(--deep); border-radius: 14px; padding: 12px 14px; }
-    .day-head.is-today .day-label, .day-head.is-today .day-num, .day-head.is-today .day-train, .day-head.is-today .chevron { color: #FBF4DC; opacity: 1; }
-    .day-head.is-today .day-num { background: rgba(251,244,220,.18); }
-    .day-head.is-today .today-badge { background: #FBF4DC; color: var(--deep); }
+    .day-head.is-today { background: transparent; padding: 12px 0; }
+    .day-head.is-today .day-num { background: var(--deep); color: #FBF4DC; }
 
-    .today-badge { font-family: var(--mono); display: inline-block; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 6px; margin-left: 8px; vertical-align: middle; text-transform: uppercase; }
+    .today-badge { font-family: var(--mono); display: inline-flex; align-items: center; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 9px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
 
     .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding: 6px 0 16px; }
     .accordion-body.collapsed { max-height: 0 !important; opacity: 0; padding-top: 0; padding-bottom: 0; }
@@ -151,6 +149,24 @@
     .meal.snack { background: var(--card2); }
     .meal.alert-card { border-color: rgba(140,55,3,.35); border-left-color: var(--brown); background: #FAEADB; }
     .meal.fast-card { border: 1.5px dashed var(--brown); border-left: 1.5px dashed var(--brown); background: #F8E9D8; text-align: center; padding: 24px 20px; }
+
+    /* ── MEAL NESTING inside day accordions ─ */
+    .day-block .accordion-body { padding: 0 0 24px; }
+    .day-block .accordion-body .meal {
+      position: relative;
+      border: none; border-left: none; border-radius: 0 0 28px 28px;
+      box-shadow: none; margin: -20px 0 0; padding: 34px 16px 16px;
+    }
+    .day-block .accordion-body .meal:first-child { margin-top: 4px; padding-top: 16px; }
+    .day-block .accordion-body .meal.main { border-left: none; box-shadow: none; }
+    .day-block .accordion-body .meal.fast-card { border: none; padding: 34px 20px 24px; }
+    .day-block .accordion-body .meal.fast-card:first-child { padding-top: 24px; }
+    .day-block .accordion-body .meal:nth-child(1) { z-index: 7; }
+    .day-block .accordion-body .meal:nth-child(2) { z-index: 6; }
+    .day-block .accordion-body .meal:nth-child(3) { z-index: 5; }
+    .day-block .accordion-body .meal:nth-child(4) { z-index: 4; }
+    .day-block .accordion-body .meal:nth-child(5) { z-index: 3; }
+    .day-block .accordion-body .meal:nth-child(6) { z-index: 2; }
     .meal-time { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--deep); margin-bottom: 9px; }
     .alert-card .meal-time, .fast-card .meal-time { color: var(--brown); }
     .meal-body { font-size: 14px; line-height: 1.6; color: var(--ink); }
@@ -165,16 +181,6 @@
     .prep-alert { display: block; font-size: 12.5px; font-weight: 600; color: var(--brown-deep); margin-top: 11px; padding: 10px 12px; background: #F6E7D6; border: 1px solid rgba(140,55,3,.25); border-radius: 8px; line-height: 1.5; }
     .prep-alert::before { content: 'À préparer ce soir'; display: block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown); margin-bottom: 4px; }
 
-    /* ── WEEK SEPARATOR ───────────────────── */
-    .week-sep {
-      display: flex; align-items: center; gap: 14px;
-      position: relative;
-      margin: 0 -18px 0;
-      padding: 24px 18px 28px;
-      background: var(--paper);
-      font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--brown);
-    }
-    .week-sep::before, .week-sep::after { content: ''; flex: 1; height: 2px; background: var(--brown); opacity: .3; }
 
     /* ── MACROS ───────────────────────────── */
     .macro-ref { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 28px 0 0; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
@@ -529,9 +535,6 @@
       </div>
     </div>
   </div>
-
-  <!-- SÉPARATEUR SEMAINE 2 -->
-  <div class="week-sep">Semaine 2 · 8–14 Juin</div>
 
   <!-- LUNDI 8 JUIN -->
   <div class="day-block d-lun">
@@ -1364,7 +1367,7 @@
     var badge = document.createElement('span');
     badge.className = 'today-badge';
     badge.textContent = "Aujourd'hui";
-    headEl.querySelector('.day-label').appendChild(badge);
+    headEl.insertBefore(badge, headEl.querySelector('.chevron'));
     headEl.classList.add('is-today');
     headEl.classList.remove('collapsed');
     bodyEl.classList.remove('collapsed');
@@ -1374,7 +1377,7 @@
   }
 
   function initDayZindex() {
-    var siblings = document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .week-sep, #view-recettes > .macro-ref');
+    var siblings = document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .macro-ref');
     var total = siblings.length;
     siblings.forEach(function(el, i) {
       el.style.zIndex = String(total - i);
