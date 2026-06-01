@@ -89,10 +89,12 @@
       border-radius: 0 0 32px 32px;
       border-bottom: none;
     }
-    .hero-left { flex: 1; }
+    #view-recettes > .view-head { align-items: flex-start; }
+    .hero-left { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 16px; }
     #view-recettes > .view-head h1 { font-family: var(--serif); font-size: 54px; font-weight: 600; line-height: .88; letter-spacing: -1.5px; color: #FBF4DC; }
+    .hero-sub { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(251,244,220,.68); margin-top: 10px; line-height: 1.4; }
     .hero-right { text-align: right; flex-shrink: 0; }
-    .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 8px; }
+    .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 6px; }
     .hero-date { font-family: var(--mono); font-size: 13px; font-weight: 700; color: rgba(251,244,220,.9); display: block; }
 
     /* ── ACCORDION BARS (courses / stockage) ─ */
@@ -127,7 +129,7 @@
     }
     .day-head { display: flex; align-items: center; gap: 12px; padding: 6px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
     .day-head:active { opacity: .7; }
-    .day-num { font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1; color: var(--deep); min-width: 36px; height: 36px; background: rgba(255,255,255,.45); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .day-num { display: none; }
     .day-info { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
     .day-label { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.05; color: var(--ink); }
     .day-label.fast { color: var(--deep); }
@@ -137,8 +139,14 @@
     .t-jeune  { color: var(--brown); }
     .chevron { font-size: 13px; color: var(--deep); transition: transform .25s ease; line-height: 1; flex-shrink: 0; opacity: .7; }
     .day-head:not(.collapsed) .chevron, .acc-head:not(.collapsed) .chevron { transform: rotate(180deg); }
-    .day-head.is-today { background: transparent; padding: 12px 0; }
-    .day-head.is-today .day-num { background: var(--deep); color: #FBF4DC; }
+    .day-head.is-today {
+      background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin: 2px -14px;
+    }
+    .day-head.is-today .day-label, .day-head.is-today .day-train, .day-head.is-today .chevron { color: #FBF4DC; opacity: 1; }
+    .day-head.is-today .today-badge { background: rgba(251,244,220,.22); color: #FBF4DC; }
 
     .today-badge { font-family: var(--mono); display: inline-flex; align-items: center; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 9px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
 
@@ -159,7 +167,7 @@
 
     /* ── MEAL NESTING — full-bleed edge-to-edge inside day accordions ─ */
     .day-block .accordion-body .meal {
-      position: relative;
+      position: relative; background: transparent;
       border: none; border-left: none; border-radius: 0 0 28px 28px;
       box-shadow: none; margin: -22px -18px 0; padding: 36px 18px 16px;
     }
@@ -275,9 +283,10 @@
   <header class="view-head">
     <div class="hero-left">
       <h1>Salut<br>chef&nbsp;!</h1>
+      <p class="hero-sub">Alors qu'est-ce qu'on mange aujourd'hui&nbsp;?</p>
     </div>
     <div class="hero-right">
-      <span class="eyebrow">Meal Prep</span>
+      <span class="eyebrow">Planning Repas</span>
       <span class="hero-date">1–14 Juin</span>
     </div>
   </header>
