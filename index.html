@@ -195,7 +195,7 @@
 
 
     /* ── MACROS ───────────────────────────── */
-    .macro-ref { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin: 28px 0 0; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
+    .macro-ref { position: relative; margin: -28px -18px 0; padding: 36px 18px 18px; background: var(--card2); border-radius: 0 0 32px 32px; }
     .macro-ref h3 { font-family: var(--mono); font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
     .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .macro-cell { text-align: center; background: var(--card2); border: 1px solid var(--line); border-radius: 10px; padding: 13px 4px; }
@@ -213,7 +213,7 @@
     .s-veg { --sec: #899536; } .s-grocery { --sec: #355A35; }
     .stock-label { --sec: #355A35; }
 
-    .week-courses-label { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); margin: 30px 0 12px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+    .week-courses-label { position: relative; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); margin: -28px -18px 0; padding: 32px 22px 8px; background: var(--card); border-radius: 0 0 32px 32px; }
 
     .list-box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
     .shop-item { display: flex; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--line); cursor: pointer; transition: background .15s; }
@@ -262,6 +262,54 @@
 
     .reset-btn { display: block; width: 100%; margin-top: 18px; padding: 14px; background: rgba(140,55,3,.10); border: none; border-radius: 12px; color: var(--brown); font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
     .reset-btn:active { background: rgba(140,55,3,.18); }
+
+    /* ── COURSES / CONSERVATION HERO ────────────── */
+    #view-courses > .view-head,
+    #view-conservation > .view-head {
+      position: relative; z-index: 20;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      margin: 0 -18px 0; padding: 44px 22px 32px;
+      border-radius: 0 0 32px 32px; border-bottom: none;
+    }
+    #view-courses > .view-head { background: var(--olive); }
+    #view-conservation > .view-head { background: var(--brown); }
+    #view-courses > .view-head h1,
+    #view-conservation > .view-head h1 { font-family: var(--serif); font-size: 54px; font-weight: 600; line-height: .88; letter-spacing: -1.5px; color: #FBF4DC; }
+    #view-courses > .view-head .hero-sub,
+    #view-conservation > .view-head .hero-sub { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(251,244,220,.68); margin-top: 10px; line-height: 1.4; }
+    #view-courses > .view-head .hero-right .eyebrow,
+    #view-conservation > .view-head .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 6px; }
+    #view-courses > .view-head .hero-date,
+    #view-conservation > .view-head .hero-date { font-family: var(--mono); font-size: 13px; font-weight: 700; color: rgba(251,244,220,.9); display: block; }
+
+    /* ── COURSES SUMMARY — budget + progress ─────── */
+    .courses-summary {
+      position: relative; margin: -28px -18px 0; padding: 28px 18px 16px;
+      background: color-mix(in srgb, var(--olive) 18%, var(--paper));
+      border-radius: 0 0 32px 32px;
+    }
+    .courses-summary .budget-banner { margin-left: 0; margin-right: 0; }
+    .courses-summary .progress-wrap { margin: 14px 0 0; }
+
+    /* ── EMBOITEMENT — acc-blocks ─────────────────── */
+    #view-courses .acc-block,
+    #view-conservation .acc-block {
+      position: relative;
+      margin: -28px -18px 0;
+      padding: 28px 18px 10px;
+      background: color-mix(in srgb, var(--sec, var(--brown)) 25%, var(--paper));
+      border-radius: 0 0 32px 32px;
+    }
+    #view-courses .acc-block .acc-head,
+    #view-conservation .acc-block .acc-head {
+      background: transparent; border: none; border-left: none;
+      box-shadow: none; padding: 8px 0 8px 20px; border-radius: 0;
+    }
+    #view-courses .acc-block .accordion-body,
+    #view-conservation .acc-block .accordion-body { padding: 0 0 16px; }
+    #view-courses .acc-block .list-box,
+    #view-conservation .acc-block .list-box { border-radius: 12px; }
+    #view-courses .reset-btn { margin: 28px 0 0; }
   </style>
 </head>
 <body>
@@ -300,19 +348,11 @@
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-lun1">
-      <div class="meal alert-card">
-        <div class="meal-time">Rappel cuisine</div>
-        <div class="meal-body">
-          <strong style="color:var(--brown);">Cuisiner DIMANCHE 31 MAI au soir</strong><br>
-          Lundi = jeûne — impossible de cuisiner la veille habituelle. Le Yakitori de mardi doit être préparé ce dimanche.
-        </div>
-      </div>
       <div class="meal fast-card">
-        <div class="meal-time">Journée complète</div>
+        <div class="meal-time">Jeûne 24h</div>
         <div class="meal-body">
-          <strong>JEÛNE TOTAL 24h</strong><br><br>
-          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
-          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le mardi</span>
+          <strong>Boissons uniquement</strong><br>
+          Eau · thé nature · café noir non sucré
         </div>
       </div>
     </div>
@@ -334,7 +374,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane écrasée</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Yakitori Soja-Miel — Air Fryer + Cuiseur à riz</strong>
           <ul>
@@ -345,9 +385,7 @@
             <li>Dresser : riz + émincés nappés + <strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts identiques</li>
           </ul>
-          <span class="chef-tip">Air à plein volume dans le panier — ne pas superposer les émincés. Si panier petit : 2 fournées de 6 min plutôt qu'une seule de 12 min en couches.</span>
-          <span class="tip">Préparé dimanche 31 mai au soir. Le soja remplace le sel — ne pas re-saler.</span>
-          <span class="prep-alert">Ce soir (mar 2) : cuisiner la Salade Niçoise pour mercredi 3</span>
+          <span class="chef-tip">Air à plein volume dans le panier — ne pas superposer les émincés. Si panier petit : 2 fournées de 6 min plutôt qu'une seule de 12 min. Le soja remplace le sel — ne pas re-saler.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -373,7 +411,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
           <ul>
@@ -384,9 +422,7 @@
             <li><strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Écraser une demi-sardine à la fourchette dans un bol avec le jus de citron et l'huile d'olive avant d'assembler. Tu obtiens une vinaigrette naturellement liée par les graisses de la sardine.</span>
-          <span class="tip">Préparé mardi 2 soir. Huile olive + graines courge non-négociables — seuls leviers lipides sur un jour sardines.</span>
-          <span class="prep-alert">Ce soir (mer 3) : cuisiner le Dhal pour jeudi 4</span>
+          <span class="chef-tip">Écraser une demi-sardine à la fourchette dans l'huile d'olive et le jus de citron avant d'assembler — vinaigrette naturellement liée par les graisses de la sardine. Huile olive + graines courge non-négociables.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -412,7 +448,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
           <ul>
@@ -423,9 +459,7 @@
             <li>Finir : sriracha + <strong>jus citron frais obligatoire</strong> + <strong>20g graines de courge</strong></li>
             <li>Diviser en 2 parts — 3 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Poche les œufs feu éteint — la chaleur résiduelle du dhal suffit. Le jaune reste coulant et se mélange au dhal au moment de manger.</span>
-          <span class="tip">Préparé mercredi 3 soir. Citron final obligatoire — la vitamine C triple l'absorption du fer des lentilles.</span>
-          <span class="prep-alert">Ce soir (jeu 4) : cuisiner la Chakchouka pour vendredi 5</span>
+          <span class="chef-tip">Poche les œufs feu éteint — la chaleur résiduelle du dhal suffit. Le jaune reste coulant et se mélange au dhal au moment de manger. Citron final obligatoire — la vitamine C triple l'absorption du fer des lentilles.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -451,7 +485,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Chakchouka Épinards, Maïs &amp; Œufs — Cocotte</strong>
           <ul>
@@ -462,9 +496,7 @@
             <li><strong>OBLIGATOIRE :</strong> 20g graines de courge + jus citron frais</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Laisser réduire 5 min à découvert avant les œufs — sauce serrée = saveurs concentrées. Le gochujang et le maïs ressortent bien plus nettement.</span>
-          <span class="tip">Préparé jeudi 4 soir. Graines de courge obligatoires pour les lipides.</span>
-          <span class="prep-alert">Ce soir (ven 5) : cuisiner la Shakshuka Corail pour samedi 6</span>
+          <span class="chef-tip">Laisser réduire 5 min à découvert avant les œufs — sauce serrée = saveurs concentrées. Le gochujang et le maïs ressortent bien plus nettement. Graines de courge obligatoires pour les lipides.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -490,7 +522,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong>
           <ul>
@@ -502,9 +534,7 @@
             <li>Finir : sriracha + <strong>jus citron frais</strong> + <strong>20g graines de courge</strong></li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Remuer les lentilles énergiquement 1 min hors du feu — elles libèrent leur amidon et épaississent la tomate naturellement. Graines de courge dans l'assiette au dernier moment — elles perdent leur croquant en 2 min dans la sauce chaude.</span>
-          <span class="tip">Préparé vendredi 5 soir. Citron obligatoire pour l'absorption du fer des lentilles.</span>
-          <span class="prep-alert">Ce soir (sam 6) : cuisiner la Salade Niçoise pour dimanche 7</span>
+          <span class="chef-tip">Remuer les lentilles énergiquement 1 min hors du feu — elles libèrent leur amidon et épaississent la tomate naturellement. Graines de courge dans l'assiette au dernier moment. Citron obligatoire pour l'absorption du fer des lentilles.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -530,7 +560,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
           <ul>
@@ -541,9 +571,7 @@
             <li><strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Même technique que mercredi : écraser une sardine dans l'huile et le citron pour créer une vinaigrette liée.</span>
-          <span class="tip">Préparé samedi 6 soir. Huile d'olive + graines courge obligatoires pour atteindre 90g L/j.</span>
-          <span class="prep-alert">⚠️ Ce soir (dim 7) : cuisiner le Tikka Masala pour MARDI 9 — lundi 8 = jeûne, impossible de cuisiner demain</span>
+          <span class="chef-tip">Même technique que mercredi : écraser une sardine dans l'huile et le citron pour créer une vinaigrette liée. Huile d'olive + graines courge obligatoires pour atteindre 90g de lipides / jour.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -565,11 +593,10 @@
     </div>
     <div class="accordion-body collapsed" id="day-lun8">
       <div class="meal fast-card">
-        <div class="meal-time">Journée complète</div>
+        <div class="meal-time">Jeûne 24h</div>
         <div class="meal-body">
-          <strong>JEÛNE TOTAL 24h</strong><br><br>
-          Aucun repas · aucune collation · aucune préparation culinaire<br><br>
-          <span style="color:var(--muted)">Eau · thé · café noir non sucré uniquement<br>Ne pas compenser le mardi</span>
+          <strong>Boissons uniquement</strong><br>
+          Eau · thé nature · café noir non sucré
         </div>
       </div>
     </div>
@@ -591,7 +618,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Poulet Tikka Masala aux Épinards — Cocotte + Cuiseur à riz</strong>
           <ul>
@@ -604,9 +631,7 @@
             <li>Intégrer <strong>150g épinards surgelés</strong> + <strong>1 c.à.c maïzena</strong> diluée · 5 min</li>
             <li>Diviser en 2 parts · <strong>15g graines de courge</strong>/portion</li>
           </ul>
-          <span class="chef-tip">Émincés max 8 min sinon ils sèchent. La maïzena en fin de cuisson lie la sauce et lui donne ce brillant caractéristique des tikka masala de restaurant.</span>
-          <span class="tip">Préparé dimanche 7 soir. Protéines fraîches achetées samedi 7 juin — à utiliser en priorité cette semaine.</span>
-          <span class="prep-alert">Ce soir (mar 9) : cuisiner le Yakitori pour mercredi 10</span>
+          <span class="chef-tip">Émincés max 8 min sinon ils sèchent. La maïzena en fin de cuisson lie la sauce et lui donne ce brillant caractéristique des tikka masala de restaurant. Protéines fraîches — à utiliser en priorité cette semaine.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -632,7 +657,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Yakitori Soja-Miel — Air Fryer + Cuiseur à riz</strong>
           <ul>
@@ -643,9 +668,7 @@
             <li>Dresser : riz + émincés nappés + <strong>15g graines de courge</strong>/portion</li>
             <li>Diviser en 2 parts identiques</li>
           </ul>
-          <span class="chef-tip">400g = paquet entamé lundi — à utiliser impérativement aujourd'hui (fraîcheur). Portion légèrement plus grande que mardi, ajuster si besoin au dressage.</span>
-          <span class="tip">Préparé mardi 9 soir. Utiliser tout le poulet restant — ne pas laisser au frigo.</span>
-          <span class="prep-alert">Ce soir (mer 10) : cuisiner le Dhal pour jeudi 11</span>
+          <span class="chef-tip">400g = paquet entamé — à utiliser impérativement aujourd'hui. Tout le poulet restant doit être consommé, ne pas laisser au frigo. Ajuster la portion si besoin au dressage.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -671,7 +694,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Dhal de Lentilles Corail au Lait de Coco &amp; Œufs Pochés — Cocotte</strong>
           <ul>
@@ -682,9 +705,7 @@
             <li>Finir : sriracha + <strong>jus citron frais obligatoire</strong> + <strong>20g graines de courge</strong></li>
             <li>Diviser en 2 parts — 3 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Même recette que jeudi 4, mais tu la maîtrises déjà. Feu éteint pour les œufs — jaune coulant garanti.</span>
-          <span class="tip">Préparé mercredi 10 soir. Citron final obligatoire.</span>
-          <span class="prep-alert">Ce soir (jeu 11) : cuisiner la Chakchouka pour vendredi 12</span>
+          <span class="chef-tip">Même recette que jeudi 4, tu la maîtrises déjà. Feu éteint pour les œufs — jaune coulant garanti. Citron final obligatoire.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -710,7 +731,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Chakchouka Épinards, Maïs &amp; Œufs — Cocotte</strong>
           <ul>
@@ -721,9 +742,7 @@
             <li><strong>20g graines de courge</strong> + jus citron</li>
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
-          <span class="chef-tip">Deuxième Chakchouka de la quinzaine — tu connais la technique. Réduire à découvert avant les œufs reste le geste clé.</span>
-          <span class="tip">Préparé jeudi 11 soir. Maïs = reste du stock S1.</span>
-          <span class="prep-alert">Ce soir (ven 12) : cuisiner la Shakshuka Corail pour samedi 13</span>
+          <span class="chef-tip">Deuxième Chakchouka de la quinzaine. Réduire à découvert avant les œufs reste le geste clé. Maïs = reste du stock S1.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -749,7 +768,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Shakshuka Corail — Lentilles Épicées &amp; Œufs Pochés — Cocotte</strong>
           <ul>
@@ -761,8 +780,6 @@
             <li>Diviser en 2 parts — 2 œufs par portion</li>
           </ul>
           <span class="chef-tip">Même recette que samedi 6. Graines de courge dans l'assiette, pas dans la casserole chaude.</span>
-          <span class="tip">Préparé vendredi 12 soir.</span>
-          <span class="prep-alert">Ce soir (sam 13) : cuisiner la Salade Niçoise pour dimanche 14</span>
         </div>
       </div>
       <div class="meal snack">
@@ -788,7 +805,7 @@
         <div class="meal-body"><strong class="dish-name">Collation Avoine</strong>55g flocons d'avoine · 150g skyr nature · 1 banane</div>
       </div>
       <div class="meal main">
-        <div class="meal-time">13h00 &amp; 19h00 — REPAS · session cuisine = 2 portions</div>
+        <div class="meal-time">13h00 &amp; 19h00 — REPAS</div>
         <div class="meal-body">
           <strong class="dish-name">Salade Niçoise Sardines — Cuiseur à riz (vapeur)</strong>
           <ul>
@@ -798,8 +815,7 @@
             <li><strong>15g graines de courge</strong>/portion — 2 œufs par portion</li>
             <li>Diviser en 2 parts</li>
           </ul>
-          <span class="chef-tip">Dernier repas de la quinzaine. Vinaigrette sardine-citron-olive comme les deux Niçoise précédentes.</span>
-          <span class="tip">Préparé samedi 13 soir. Fin du planning — penser à faire le bilan stock pour la prochaine session.</span>
+          <span class="chef-tip">Dernier repas de la quinzaine. Vinaigrette sardine-citron-olive comme les deux Niçoise précédentes. Penser à faire le bilan stock pour la prochaine session.</span>
         </div>
       </div>
       <div class="meal snack">
@@ -828,39 +844,41 @@
 <div id="view-courses" class="view">
 
   <header class="view-head">
-    <span class="eyebrow">Liste de courses · 2 sorties</span>
-    <div class="vh-row">
-      <h1>C'est l'heure<br>des courses</h1>
-      <span class="budget-chip">63,95 € / 100 €</span>
+    <div class="hero-left">
+      <h1>C'est<br>l'heure&nbsp;!</h1>
+      <p class="hero-sub">Allez chef, on attaque les rayons.</p>
     </div>
-    <p class="view-sub">Allez chef, on attaque les rayons.</p>
+    <div class="hero-right">
+      <span class="eyebrow">Liste de courses</span>
+      <span class="hero-date">63,95 € / 100 €</span>
+    </div>
   </header>
 
-  <div class="budget-banner">
-    <div>
-      <div class="bdg-label">Courses Sam 30 Mai · S1</div>
-      <div class="bdg-amount">36,35€</div>
+  <div class="courses-summary">
+    <div class="budget-banner">
+      <div>
+        <div class="bdg-label">Courses Sam 30 Mai · S1</div>
+        <div class="bdg-amount">36,35€</div>
+      </div>
+      <div class="bdg-right">
+        <div class="bdg-max">Budget max · 50,00€</div>
+        <div class="bdg-remain">✓ Reste 13,65€</div>
+      </div>
     </div>
-    <div class="bdg-right">
-      <div class="bdg-max">Budget max · 50,00€</div>
-      <div class="bdg-remain">✓ Reste 13,65€</div>
+    <div class="budget-banner">
+      <div>
+        <div class="bdg-label">Courses Sam 7 Juin · S2</div>
+        <div class="bdg-amount">27,60€</div>
+      </div>
+      <div class="bdg-right">
+        <div class="bdg-max">Budget max · 50,00€</div>
+        <div class="bdg-remain">✓ Reste 22,40€</div>
+      </div>
     </div>
-  </div>
-
-  <div class="budget-banner">
-    <div>
-      <div class="bdg-label">Courses Sam 7 Juin · S2</div>
-      <div class="bdg-amount">27,60€</div>
+    <div class="progress-wrap">
+      <div class="progress-label"><span>Articles cochés</span><span id="prog-text">0 / 0</span></div>
+      <div class="progress-track"><div class="progress-fill" id="fill-prog" style="width:0%"></div></div>
     </div>
-    <div class="bdg-right">
-      <div class="bdg-max">Budget max · 50,00€</div>
-      <div class="bdg-remain">✓ Reste 22,40€</div>
-    </div>
-  </div>
-
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Articles cochés</span><span id="prog-text">0 / 0</span></div>
-    <div class="progress-track"><div class="progress-fill" id="fill-prog" style="width:0%"></div></div>
   </div>
 
   <!-- SEMAINE 1 -->
@@ -1212,9 +1230,14 @@
 <div id="view-conservation" class="view">
 
   <header class="view-head">
-    <span class="eyebrow">Inventaire</span>
-    <h1>Où ça se range</h1>
-    <p class="view-sub">Chaque chose à sa place, chef.</p>
+    <div class="hero-left">
+      <h1>Où ça<br>se range</h1>
+      <p class="hero-sub">Chaque chose à sa place, chef.</p>
+    </div>
+    <div class="hero-right">
+      <span class="eyebrow">Inventaire</span>
+      <span class="hero-date">2 semaines</span>
+    </div>
   </header>
 
   <div class="acc-block">
@@ -1440,12 +1463,25 @@
     });
   }
 
+  function initAccZindex() {
+    ['courses', 'conservation'].forEach(function(viewId) {
+      var view = document.getElementById('view-' + viewId);
+      if (!view) return;
+      var blocks = view.querySelectorAll('.courses-summary, .week-courses-label, .acc-block');
+      var total = blocks.length;
+      blocks.forEach(function(el, i) {
+        el.style.zIndex = String(total - i);
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     load();
     updateProgress();
     initToday();
     moveSlider(0);
     initDayZindex();
+    initAccZindex();
   });
 </script>
 
