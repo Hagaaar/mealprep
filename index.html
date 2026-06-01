@@ -216,10 +216,10 @@
 
     /* ── RAYON GROUPS ────────────────────────── */
     .rayon-group { padding: 0 2px; }
-    /* Rayon label = section header style (comme day-train dans les recettes : mono, uppercase) */
-    .rayon-label { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); padding: 11px 0 5px; display: flex; align-items: center; gap: 8px; border-top: 1.5px solid rgba(0,0,0,.10); }
-    .rayon-group:first-child .rayon-label { border-top: none; padding-top: 4px; }
-    .rayon-label::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--rsec, var(--muted)); flex-shrink: 0; }
+    /* Rayon label : serif, même police/taille que les articles, vert foncé */
+    .rayon-label { font-family: var(--serif); font-size: 15px; font-weight: 600; color: #375200; padding: 12px 0 5px; display: flex; align-items: center; border-top: 1.5px solid rgba(0,0,0,.10); }
+    .rayon-group:first-child .rayon-label { border-top: none; padding-top: 5px; }
+    .rayon-label::before { display: none; }
 
     /* ── SHOPPING LIST ITEMS ────────────────── */
     .sci { padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,.05); cursor: pointer; display: flex; align-items: center; gap: 10px; user-select: none; -webkit-user-select: none; transition: opacity .2s; }
@@ -261,6 +261,8 @@
       margin: -26px -18px 0;
       padding: 40px 18px 10px;
       border-radius: 0 0 24px 24px;
+      /* ombre portée vers le bas : la carte du dessus projette sur celle du dessous */
+      box-shadow: 0 6px 18px rgba(0,0,0,.14);
     }
     .s-freezer { background: #85AABF; z-index: 10; }
     .s-fridge  { background: #9BBCCF; z-index: 9; }
@@ -1413,6 +1415,24 @@
     });
   }
 
+  function initCourses() {
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+    var weekId = null;
+    if      (y === 2026 && m === 5 && d >= 30)              weekId = 'week-s1'; // Sam 30 mai — courses S1
+    else if (y === 2026 && m === 6 && d >= 1 && d <= 7)    weekId = 'week-s1'; // Semaine 1 : 1–7 juin
+    else if (y === 2026 && m === 6 && d >= 7 && d <= 14)   weekId = 'week-s2'; // Semaine 2 : 7–14 juin
+    if (!weekId) return;
+    var body = document.getElementById(weekId);
+    var head = document.getElementById(weekId === 'week-s1' ? 'whead-s1' : 'whead-s2');
+    if (!body || !head) return;
+    body.classList.remove('collapsed');
+    body.style.height = 'auto';
+    body.style.overflow = 'visible';
+    body.style.opacity = '1';
+    head.classList.remove('collapsed');
+  }
+
   function initAccZindex() {
     var view = document.getElementById('view-courses');
     if (view) {
@@ -1424,6 +1444,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     load();
     initToday();
+    initCourses();
     moveSlider(0);
     initDayZindex();
     initAccZindex();
