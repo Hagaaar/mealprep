@@ -12,47 +12,43 @@
   <style>
     :root {
       /* ── PALETTE ──────────────────────────── */
-      --c1: #8EA604;
-      --c2: #F5BB00;
-      --c3: #EC9F05;
-      --c4: #D76A03;
-      --c5: #BF3100;
-      /* Surfaces */
       --paper: #FAF2DF;
       --card:  #FFF9EC;
       --card2: #F5E8C8;
-      /* Ink */
+      
       --ink:      #1E0800;
       --ink-soft: #6B3C10;
       --muted:    #A07040;
       --line:     #E8D09C;
-      /* Palette aliases */
-      --brown:       #D76A03;  --brown-deep:  #BF3100;
-      --orange:      #EC9F05;  --orange-deep: #D76A03;
-      --gold:        #F5BB00;
-      --lightyel:    #F5BB00;
-      --olive:       #8EA604;  --olive-deep:  #5E6E02;
-      --forest:      #8EA604;  --forest-deep: #5E6E02;
-      --red: #BF3100;
+      
+      --brown:       #D76A03;  
+      --brown-deep:  #BF3100;
+      --orange-deep: #D76A03;
+      --olive-deep:  #5E6E02;
+      --forest:      #8EA604;
+      
+      /* Palette Stockage (Bleu Pastel) */
+      --blue-deep:   #6893AB;
+      --blue-ink:    #07263B;
+      --blue-soft:   #154B7F;
+      
       /* Type */
       --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
       --sans:  'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       --mono:  'Space Mono', ui-monospace, 'SF Mono', monospace;
+      
+      /* Sans-serif système ultra-lisible (sans point dans les zéros) pour quantités et horaires */
+      --system-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html {
-      background-color: var(--paper);
+      background-color: color-mix(in srgb, #FF9241 25%, #FAF2DF);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      transition: background-color .3s ease;
     }
-    body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background: transparent; padding: 0 18px 100px; min-height: 100vh; }
-
-    /* ── HEADER ───────────────────────────── */
-    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
-    .eyebrow { display: block; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange-deep); margin-bottom: 7px; }
-    .header h1 { font-family: var(--serif); font-weight: 600; font-size: 42px; line-height: .9; letter-spacing: -.5px; color: var(--ink); }
-    .header .date { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brown); background: var(--gold); border-radius: 8px; padding: 5px 10px; white-space: nowrap; }
+    body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background: transparent; padding: 0 18px 100px; min-height: 100vh; transition: background-color .3s ease; }
 
     /* ── TABS ─────────────────────────────── */
     .tabs {
@@ -76,83 +72,60 @@
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .22s ease; position: relative; z-index: 1; }
     .tab-btn.active { background: transparent; color: rgba(251,244,220,.95); }
 
-    /* ── PER-VIEW HEADER ──────────────────── */
-    .view-head { margin: 16px 0 20px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
-    .view-head .eyebrow { margin-bottom: 9px; }
-    .vh-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
-    .view-head h1 { font-family: var(--serif); font-weight: 600; font-size: 37px; line-height: .92; letter-spacing: -.5px; color: var(--ink); }
-    .view-sub { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink-soft); margin-top: 8px; }
-    .budget-chip { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--forest-deep); background: color-mix(in srgb, var(--olive) 20%, var(--card)); border: 1px solid var(--olive); border-radius: 9px; padding: 7px 11px; white-space: nowrap; flex-shrink: 0; }
-
-    /* ── RECETTES HERO BANNER ─────────────── */
-    #view-recettes > .view-head {
+    /* ── BANNERS (HERO) ───────────────────── */
+    .view-head {
       position: relative; z-index: 20;
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
       margin: 0 -18px 0;
-      padding: 22px 22px 32px;
-      background: var(--brown-deep);
-      border-radius: 0 0 32px 32px;
+      padding: 22px 22px 24px; /* Hauteur drastiquement réduite */
+      border-radius: 0 0 24px 24px;
       border-bottom: none;
     }
-    #view-recettes > .view-head { align-items: flex-start; }
-    .hero-left { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-top: 16px; }
-    #view-recettes > .view-head h1 { font-family: var(--serif); font-size: 54px; font-weight: 600; line-height: .88; letter-spacing: -1.5px; color: #FBF4DC; }
-    .hero-sub { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(251,244,220,.68); margin-top: 10px; line-height: 1.4; }
-    .hero-right { text-align: right; flex-shrink: 0; }
-    .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 6px; }
-    .hero-date { font-family: var(--mono); font-size: 13px; font-weight: 700; color: rgba(251,244,220,.9); display: block; }
-
-    /* ── ACCORDION BARS (courses / stockage) ─ */
-    .acc-block { margin-bottom: 8px; }
-    .acc-head { display: flex; align-items: center; gap: 12px; padding: 15px 16px; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--sec, var(--ink)); border-radius: 13px; cursor: pointer; user-select: none; -webkit-user-select: none; box-shadow: 0 1px 2px rgba(90,50,10,.05); transition: background .15s; }
-    .acc-head:active { background: var(--card2); }
-    .acc-title { flex: 1; font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--ink); min-width: 0; }
-    .acc-meta { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--brown-deep); flex-shrink: 0; }
-    .acc-head .chevron { color: var(--sec, var(--ink-soft)); }
-    .acc-block .accordion-body { padding: 6px 0 4px; }
-    .acc-block .list-box { margin-bottom: 0; }
+    #view-recettes > .view-head { background: var(--brown-deep); }
+    #view-courses > .view-head { background: var(--forest); }
+    #view-conservation > .view-head { background: var(--blue-deep); }
+    
+    .hero-left { flex: 1; display: flex; flex-direction: column; }
+    .view-head h1 { font-family: var(--serif); font-size: 46px; font-weight: 600; line-height: .92; letter-spacing: -1.2px; color: #FBF4DC; margin-top: 0; }
+    .hero-sub { font-family: var(--serif); font-style: italic; font-size: 16.5px; color: rgba(251,244,220,.85); margin-top: 10px; line-height: 1.25; }
+    
+    .hero-right { text-align: right; flex-shrink: 0; padding-top: 2px; }
+    .hero-date { font-family: var(--serif); font-size: 20px; font-weight: 600; color: rgba(251,244,220,.95); display: block; line-height: 1; }
 
     .view { display: none; }
     .view.active { display: block; animation: fadeIn .25s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 
-    /* ── DAY (gradient palette per weekday) ── */
-    .d-lun { --day: #BF3100; --deep: #8A2200; }
-    .d-mar { --day: #D76A03; --deep: #9E4E02; }
-    .d-mer { --day: #EC9F05; --deep: #A86E03; }
-    .d-jeu { --day: #F5BB00; --deep: #B08800; }
-    .d-ven { --day: #8EA604; --deep: #5E6E02; }
-    .d-sam { --day: #D76A03; --deep: #9E4E02; }
-    .d-dim { --day: #BF3100; --deep: #8A2200; }
-
+    /* ── DAY BLOCKS (RECETTES) ────────────── */
     .day-block {
       position: relative;
-      margin: -28px -18px 0;
-      padding: 28px 18px 10px;
-      background: color-mix(in srgb, var(--day) 38%, var(--paper));
-      border-radius: 0 0 32px 32px;
+      /* La marge de -26px scelle parfaitement l'arrondi de 24px sans fuite de sub-pixels */
+      margin: -26px -18px 0; 
+      padding: 36px 18px 10px;
+      background: color-mix(in srgb, var(--day) 45%, var(--paper));
+      border-radius: 0 0 24px 24px;
     }
     .day-head { display: flex; align-items: center; gap: 12px; padding: 10px 0 4px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
     .day-head:active { opacity: .7; }
     .day-num { display: none; }
     .day-info { flex: 1; display: flex; flex-direction: row; align-items: baseline; gap: 10px; min-width: 0; }
+    
     .day-label { font-family: var(--serif); font-size: 19px; font-weight: 600; line-height: 1.05; color: var(--ink); }
-    .day-label.fast { color: var(--deep); }
+    .day-head.is-today .day-label { color: var(--brown-deep) !important; }
+    
     .day-train { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); }
-    .t-force  { color: var(--orange-deep); }
-    .t-cardio { color: var(--olive-deep); }
+    .t-force  { color: #A82E00; }
+    .t-cardio { color: #526B1E; }
     .t-jeune  { color: var(--brown); }
+    
     .chevron { font-size: 13px; color: var(--deep); transition: transform .25s ease; line-height: 1; flex-shrink: 0; opacity: .7; }
-    .day-head:not(.collapsed) .chevron, .acc-head:not(.collapsed) .chevron { transform: rotate(180deg); }
+    .day-head:not(.collapsed) .chevron { transform: rotate(180deg); }
     .day-head.is-today { background: transparent; }
+    .today-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown-deep); flex-shrink: 0; }
 
-    .today-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); flex-shrink: 0; }
-
-    /* base accordion (courses / stockage) */
+    /* Accordions */
     .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding: 6px 0 16px; }
     .accordion-body.collapsed { max-height: 0 !important; opacity: 0; padding-top: 0; padding-bottom: 0; }
-
-    /* day-block accordion — JS-driven height, overflow:visible when open */
     .day-block .accordion-body { overflow: visible; max-height: none !important; height: auto; padding: 0 0 10px; transition: height .35s ease, opacity .25s ease; }
     .day-block .accordion-body.collapsed { overflow: hidden; height: 0; max-height: none !important; opacity: 0; padding: 0; pointer-events: none; }
 
@@ -160,10 +133,8 @@
     .meal { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--day); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
     .meal.main { border-left-width: 5px; box-shadow: 0 2px 12px rgba(90,50,10,.07); }
     .meal.snack { background: var(--card2); }
-    .meal.alert-card { border-color: rgba(140,55,3,.35); border-left-color: var(--brown); background: #FAEADB; }
     .meal.fast-card { border: 1.5px dashed var(--brown); border-left: 1.5px dashed var(--brown); background: #F8E9D8; text-align: center; padding: 24px 20px; }
 
-    /* ── MEAL NESTING — full-bleed edge-to-edge inside day accordions ─ */
     .day-block .accordion-body .meal {
       position: relative; background: transparent;
       border: none; border-left: none; border-radius: 0 0 28px 28px;
@@ -176,35 +147,32 @@
     .day-block .accordion-body .meal:nth-child(1) { z-index: 7; }
     .day-block .accordion-body .meal:nth-child(2) { z-index: 6; }
     .day-block .accordion-body .meal:nth-child(3) { z-index: 5; }
-    .day-block .accordion-body .meal:nth-child(4) { z-index: 4; }
-    .day-block .accordion-body .meal:nth-child(5) { z-index: 3; }
-    .day-block .accordion-body .meal:nth-child(6) { z-index: 2; }
-    .meal-time { font-family: var(--mono); font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--deep); margin-bottom: 6px; }
-    .alert-card .meal-time, .fast-card .meal-time { color: var(--brown); }
+    
+    .meal-time { font-family: var(--system-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--deep); margin-bottom: 6px; }
     .meal-body { font-size: 13px; line-height: 1.42; color: var(--ink); }
     .meal-body ul { padding-left: 16px; margin-top: 6px; }
     .meal-body li { margin-bottom: 2px; }
     .meal-body strong { font-weight: 700; }
     .dish-name { display: block; font-family: var(--serif); font-weight: 600; font-size: 16px; letter-spacing: -.2px; color: var(--ink); margin-bottom: 3px; }
-
     .chef-tip { display: block; font-size: 12px; color: var(--ink); margin-top: 8px; padding: 9px 13px; background: color-mix(in srgb, var(--day) 12%, transparent); border-left: 3px solid var(--day); border-radius: 8px; line-height: 1.45; }
     .chef-tip::before { content: 'Astuce chef'; display: block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--deep); margin-bottom: 4px; }
     .day-block .accordion-body .meal .chef-tip {
       margin: 8px -18px -12px; padding: 10px 22px 14px;
       background: color-mix(in srgb, var(--day) 52%, var(--paper));
       border-left: none; border-radius: 16px;
-      font-size: 12px; line-height: 1.45;
     }
-    .tip { display: block; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; line-height: 1.5; }
-    .prep-alert { display: block; font-size: 12.5px; font-weight: 600; color: var(--brown-deep); margin-top: 11px; padding: 10px 12px; background: #F6E7D6; border: 1px solid rgba(140,55,3,.25); border-radius: 8px; line-height: 1.5; }
-    .prep-alert::before { content: 'À préparer ce soir'; display: block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brown); margin-bottom: 4px; }
-
 
     /* ── MACROS ───────────────────────────── */
-    .macro-ref { position: relative; margin: -28px -18px 0; padding: 36px 18px 18px; background: var(--card2); border-radius: 0 0 32px 32px; }
-    .macro-ref h3 { font-family: var(--mono); font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
-    .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .macro-cell { text-align: center; background: var(--card2); border: 1px solid var(--line); border-radius: 10px; padding: 13px 4px; }
+    .macro-ref {
+      position: relative; margin: -26px -18px 0; padding: 40px 18px 24px;
+      background: color-mix(in srgb, #FF9241 25%, var(--paper));
+      border-radius: 0 0 24px 24px;
+      z-index: 1;
+    }
+    .macro-ref h3 { font-family: var(--mono); font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; text-align: center; }
+    .macro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .macro-cell { text-align: center; background: transparent; border-right: 1px solid rgba(0,0,0,.06); padding: 4px; }
+    .macro-cell:last-child { border-right: none; }
     .macro-cell .val { font-family: var(--serif); font-size: 23px; font-weight: 600; line-height: 1; }
     .macro-cell .lbl { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-soft); margin-top: 5px; }
     .macro-cell.kcal .val { color: var(--orange-deep); }
@@ -212,146 +180,28 @@
     .macro-cell.gluc .val { color: var(--forest); }
     .macro-cell.lip  .val { color: var(--olive-deep); }
 
-    /* ── COURSES ──────────────────────────── */
-    .section-label { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink); margin: 20px 0 8px; display: flex; align-items: center; gap: 8px; }
-    .section-label::before { content: ''; width: 9px; height: 9px; border-radius: 2px; background: var(--sec, var(--ink)); flex-shrink: 0; }
-    .s-meat { --sec: #E85D04; } .s-fish { --sec: #8C3703; } .s-dairy { --sec: #FFBA08; }
-    .s-veg { --sec: #899536; } .s-grocery { --sec: #355A35; }
-    .stock-label { --sec: #355A35; }
-
-    .week-courses-label { position: relative; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); margin: -28px -18px 0; padding: 32px 22px 8px; background: var(--card); border-radius: 0 0 32px 32px; }
-
-    .list-box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 12px; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
-    .shop-item { display: flex; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--line); cursor: pointer; transition: background .15s; }
-    .shop-item:last-child { border-bottom: none; }
-    .shop-item:active { background: var(--card2); }
-    .shop-item.stock { opacity: .55; cursor: default; }
-    .check-ring { min-width: 24px; height: 24px; border: 2px solid var(--line); border-radius: 7px; margin-right: 14px; display: flex; align-items: center; justify-content: center; transition: all .2s; flex-shrink: 0; margin-top: 1px; }
-    .check-icon { display: none; font-size: 13px; font-weight: 700; color: #FBF4DC; }
-    .shop-item.checked .check-ring { background: var(--olive); border-color: var(--olive); }
-    .shop-item.checked .check-icon { display: block; }
-    .shop-item.checked .item-name { text-decoration: line-through; color: var(--muted); }
-    .item-info { flex: 1; }
-    .item-name { font-family: var(--serif); font-size: 16px; font-weight: 500; line-height: 1.25; color: var(--ink); }
-    .item-price { font-family: var(--mono); font-size: 14px; color: var(--brown-deep); margin-left: 12px; white-space: nowrap; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
-    .item-dishes { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
-    .dish-tag { font-family: var(--mono); font-size: 9.5px; font-weight: 700; padding: 3px 7px; border-radius: 5px; background: rgba(58,42,20,.07); color: var(--ink-soft); letter-spacing: .3px; }
-    .dish-tag.poulet { background: rgba(232,93,4,.14); color: #B5450A; }
-    .dish-tag.poisson { background: rgba(140,55,3,.14); color: #7A3206; }
-    .dish-tag.oeufs { background: rgba(255,186,8,.22); color: #8A6404; }
-    .dish-tag.quotidien { background: rgba(137,149,54,.2); color: #5E6B26; }
-    .dish-tag.warn { background: rgba(140,55,3,.16); color: #8C3703; }
-    .item-sub { font-family: var(--serif); font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; line-height: 1.45; }
-    .item-sub.warn-sub { font-family: var(--sans); color: var(--orange-deep); font-style: normal; font-weight: 500; }
-
-    .progress-wrap { margin: 14px 0 8px; }
-    .progress-label { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); margin-bottom: 6px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: .5px; }
-    .progress-track { height: 6px; background: var(--card2); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--olive); border-radius: 4px; transition: width .3s ease; }
-
-    .budget-banner { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--olive); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
-    .bdg-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); margin-bottom: 5px; }
-    .bdg-amount { font-family: var(--serif); font-size: 30px; font-weight: 600; color: var(--forest); line-height: 1; }
-    .bdg-right { text-align: right; }
-    .bdg-max { font-family: var(--mono); font-size: 10px; color: var(--muted); }
-    .bdg-remain { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--olive-deep); margin-top: 3px; }
-
-    /* ── STOCKAGE ─────────────────────────── */
-    .storage-group { margin-top: 18px; }
-    .storage-group-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink); padding: 0 2px 9px; display: flex; align-items: center; gap: 8px; }
-    .storage-group-title::before { content: ''; width: 9px; height: 9px; border-radius: 2px; background: var(--sec, var(--ink)); flex-shrink: 0; }
-    .g-fridge { --sec: #E85D04; } .g-freezer { --sec: #355A35; } .g-pantry { --sec: #8C3703; } .g-cooked { --sec: #899536; }
-    .s-row { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--line); font-size: 14px; }
-    .s-row:last-child { border-bottom: none; }
-    .s-item { flex: 1; font-weight: 500; color: var(--ink); }
-
-    .reset-btn { display: block; width: 100%; margin-top: 18px; padding: 14px; background: rgba(140,55,3,.10); border: none; border-radius: 12px; color: var(--brown); font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
-    .reset-btn:active { background: rgba(140,55,3,.18); }
-
-    /* ── COURSES / CONSERVATION HERO ────────────── */
-    #view-courses > .view-head,
-    #view-conservation > .view-head {
-      position: relative; z-index: 20;
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-      margin: 0 -18px 0; padding: 22px 22px 32px;
-      border-radius: 0 0 32px 32px; border-bottom: none;
-    }
-    #view-courses > .view-head { background: var(--olive); }
-    #view-conservation > .view-head { background: var(--brown); }
-    #view-courses > .view-head h1,
-    #view-conservation > .view-head h1 { font-family: var(--serif); font-size: 54px; font-weight: 600; line-height: .88; letter-spacing: -1.5px; color: #FBF4DC; }
-    #view-courses > .view-head .hero-sub,
-    #view-conservation > .view-head .hero-sub { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(251,244,220,.68); margin-top: 10px; line-height: 1.4; }
-    #view-courses > .view-head .hero-right .eyebrow,
-    #view-conservation > .view-head .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 6px; }
-    #view-courses > .view-head .hero-date,
-    #view-conservation > .view-head .hero-date { font-family: var(--mono); font-size: 13px; font-weight: 700; color: rgba(251,244,220,.9); display: block; }
-
-    /* ── COURSES SUMMARY — budget + progress ─────── */
-    .courses-summary {
-      position: relative; margin: -28px -18px 0; padding: 28px 18px 16px;
-      background: color-mix(in srgb, var(--olive) 18%, var(--paper));
-      border-radius: 0 0 32px 32px;
-    }
-    .courses-summary .budget-banner { margin-left: 0; margin-right: 0; }
-    .courses-summary .progress-wrap { margin: 14px 0 0; }
-
-    /* ── EMBOITEMENT — acc-blocks ─────────────────── */
-    #view-courses .acc-block,
-    #view-conservation .acc-block {
-      position: relative;
-      margin: -28px -18px 0;
-      padding: 28px 18px 10px;
-      background: color-mix(in srgb, var(--sec, var(--brown)) 25%, var(--paper));
-      border-radius: 0 0 32px 32px;
-    }
-    #view-courses .acc-block .acc-head,
-    #view-conservation .acc-block .acc-head {
-      background: transparent; border: none; border-left: none;
-      box-shadow: none; padding: 8px 0 8px 20px; border-radius: 0;
-    }
-    #view-courses .acc-block .accordion-body,
-    #view-conservation .acc-block .accordion-body { padding: 0 0 16px; }
-    #view-courses .acc-block .list-box,
-    #view-conservation .acc-block .list-box { border-radius: 12px; }
-    #view-courses .reset-btn { margin: 28px 0 0; }
-
-    /* ── JEÛNE simplified ────────────────────── */
-    .meal.fast-card.fast-jeune { text-align: right; }
-
-    /* ── HTML BG extends hero color upward ───── */
-    html { transition: background-color .22s ease; }
-    body { transition: background-color .22s ease; }
-    html[data-tab="recettes"]     { background-color: #BF3100; }
-    html[data-tab="courses"]      { background-color: #8EA604; }
-    html[data-tab="conservation"] { background-color: #D76A03; }
-
-    /* ── Tab active color + shadow per tab ─────── */
-
-    html[data-tab="recettes"]     .tab-slider { background-color: #BF3100; }
-    html[data-tab="courses"]      .tab-slider { background-color: #8EA604; }
-    html[data-tab="conservation"] .tab-slider { background-color: #D76A03; }
-
-    /* ── WEEK-BLOCK (courses emboitement) ────── */
+    /* ── WEEK-BLOCK (Courses) ────────────────── */
     .week-block {
-      position: relative; margin: -28px -18px 0; padding: 28px 18px 0;
-      border-radius: 0 0 32px 32px;
+      position: relative; margin: -26px -18px 0; padding: 40px 18px 0;
+      border-radius: 0 0 24px 24px;
     }
     .week-block.w1 { background: color-mix(in srgb, #8EA604 32%, var(--paper)); }
     .week-block.w2 { background: color-mix(in srgb, #8EA604 16%, var(--paper)); }
+    
     .week-head {
-      display: flex; align-items: center; gap: 12px; width: 100%;
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
       padding: 14px 0 8px 20px; background: transparent; border: none;
       cursor: pointer; user-select: none; -webkit-user-select: none;
       transition: opacity .15s; text-align: left;
     }
     .week-head:active { opacity: .7; }
     .week-head:not(.collapsed) .chevron { transform: rotate(180deg); }
-    .week-info { flex: 0 0 auto; display: flex; flex-direction: column; gap: 2px; }
-    .week-date-txt { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); }
-    .week-budget-txt { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); }
-    .week-name-txt { flex: 1; font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--ink); text-align: right; padding-right: 4px; }
+    
+    .week-info { display: flex; align-items: center; flex: 1; }
+    .week-name-txt { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); display: flex; align-items: baseline; gap: 8px; }
+    .week-date-txt { font-family: var(--serif); font-size: 15px; font-weight: 500; font-style: italic; color: var(--ink-soft); }
+    .week-budget-txt { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); padding-right: 12px; }
+    
     .week-body { overflow: visible; max-height: none !important; height: auto; padding: 0 0 20px; transition: height .35s ease, opacity .25s ease; }
     .week-body.collapsed { overflow: hidden; height: 0 !important; max-height: none !important; opacity: 0; padding: 0; pointer-events: none; }
 
@@ -361,37 +211,60 @@
     .rayon-group:first-child .rayon-label { border-top: none; padding-top: 6px; }
     .rayon-label::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--rsec, var(--muted)); flex-shrink: 0; }
 
-    /* ── COMPACT SHOP ITEM (sci) ─────────────── */
-    .sci { padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,.05); cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    /* TODO LIST ITEMS */
+    .sci { padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,.05); cursor: pointer; display: flex; align-items: flex-start; gap: 10px; user-select: none; -webkit-user-select: none; transition: opacity .2s; }
     .sci:last-child { border-bottom: none; }
     .sci:active { opacity: .6; }
     .sci.checked { opacity: .45; }
     .sci.checked .sci-name { text-decoration: line-through; color: var(--muted); }
-    .sci-main { display: flex; align-items: baseline; gap: 6px; }
-    .sci-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
-    .sci-qty { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); white-space: nowrap; flex-shrink: 0; }
-    .sci-price { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brown-deep); white-space: nowrap; flex-shrink: 0; }
-    .sci-use { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+    
+    .check-box { width: 16px; height: 16px; border: 2px solid var(--ink-soft); border-radius: 4px; flex-shrink: 0; margin-top: 1px; transition: all .15s; }
+    .sci.checked .check-box { background: var(--ink-soft); border-color: var(--ink-soft); }
+    
+    .sci-content { flex: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .sci-info { flex: 1; display: flex; flex-direction: column; }
+    .sci-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; text-align: right; flex-shrink: 0; }
+    
+    .sci-name { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.15; }
+    .sci-use { font-family: var(--sans); font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+    .sci-price { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--brown-deep); white-space: nowrap; line-height: 1.1; }
+    
+    /* System Sans-Serif pour les quantités (sans point central dans les zéros) */
+    .sci-qty { font-family: var(--system-sans); font-size: 12px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; margin-top: 2px; }
 
-    /* ── COURSES hero info lines ─────────────── */
-    .hero-week-line { font-family: var(--mono); font-size: 11px; font-weight: 700; color: rgba(251,244,220,.78); display: block; margin-bottom: 3px; letter-spacing: .3px; }
-    #view-courses .hero-date { font-size: 17px !important; margin-top: 8px; }
+    .courses-footer { padding: 32px 18px 24px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .courses-footer-week { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--ink); }
+    .courses-footer-total { font-family: var(--serif); font-size: 32px; font-weight: 600; color: var(--ink); margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,.15); }
 
-    /* ── STORAGE FLAT ────────────────────────── */
-    .storage-flat { padding-top: 12px; }
-    .storage-section { margin-bottom: 2px; }
-    .storage-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); padding: 14px 2px 7px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--line); }
-    .storage-section:first-child .storage-title { border-top: none; padding-top: 2px; }
-    .storage-title::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--sec, var(--ink)); flex-shrink: 0; }
-    .storage-title.g-fridge   { --sec: #E85D04; }
-    .storage-title.g-freezer  { --sec: #355A35; }
-    .storage-title.g-pantry   { --sec: #8C3703; }
-    .storage-title.g-cooked   { --sec: #899536; }
+    /* ── STORAGE CASCADE (Couleurs fixes & Marges augmentées) ────────── */
+    .storage-block {
+      position: relative;
+      margin: -26px -18px 0;
+      padding: 56px 18px 16px; /* Gap visuel doublé ! */
+      border-radius: 0 0 24px 24px;
+    }
+    .s-freezer { background: #85AABF; z-index: 10; }
+    .s-fridge  { background: #9BBCCF; z-index: 9; }
+    .s-pantry  { background: #B1CDDD; z-index: 8; }
+    .s-cooked  { background: #C8DFEB; z-index: 7; }
 
-    .courses-footer { padding: 24px 4px 16px; text-align: right; }
-    .courses-footer-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
-    .courses-footer-week { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink-soft); display: block; margin-bottom: 3px; }
-    .courses-footer-total { font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--ink); display: block; margin-top: 6px; }
+    .storage-title {
+      font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--blue-ink);
+      padding: 0 0 8px 6px; margin: 0;
+      display: flex; align-items: center; gap: 8px; border: none; text-transform: none; letter-spacing: normal;
+    }
+
+    .s-row {
+      padding: 4px 6px; font-size: 13.5px; border-bottom: none;
+      display: flex; align-items: flex-start;
+    }
+    .s-row::before { content: '·'; margin-right: 8px; color: var(--blue-soft); font-weight: 700; font-size: 20px; line-height: 0.8; }
+    .s-item { font-weight: 500; color: var(--blue-ink); line-height: 1.35; flex: 1; }
+
+    /* ── TABS (Couleurs actives) ────────── */
+    html[data-tab="recettes"]     .tab-slider { background-color: var(--brown-deep); }
+    html[data-tab="courses"]      .tab-slider { background-color: var(--forest); }
+    html[data-tab="conservation"] .tab-slider { background-color: var(--blue-deep); }
   </style>
 </head>
 <body>
@@ -403,9 +276,6 @@
   <button class="tab-btn" onclick="showTab('conservation')">Stockage</button>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     TAB RECETTES
-════════════════════════════════════════════════ -->
 <div id="view-recettes" class="view active">
 
   <header class="view-head">
@@ -414,17 +284,15 @@
       <p class="hero-sub">Alors qu'est-ce qu'on mange aujourd'hui&nbsp;?</p>
     </div>
     <div class="hero-right">
-      <span class="eyebrow">Planning Repas</span>
       <span class="hero-date">1–14 Juin</span>
     </div>
   </header>
 
-  <!-- LUNDI 1 JUIN -->
-  <div class="day-block" style="--day:#BF3100;--deep:#8A2200">
+  <div class="day-block" style="--day:#BF3100;--deep:#6B1A00">
     <div class="day-head collapsed" id="head-day-lun1" onclick="toggleDay('day-lun1', this)">
       <span class="day-num">01</span>
       <span class="day-info">
-        <span class="day-label fast">Lundi 1er Juin</span>
+        <span class="day-label">Lundi 1er Juin</span>
         <span class="day-train t-jeune">Jeûne</span>
       </span>
       <span class="chevron">▾</span>
@@ -439,8 +307,7 @@
     </div>
   </div>
 
-  <!-- MARDI 2 JUIN -->
-  <div class="day-block" style="--day:#CC4510;--deep:#963308">
+  <div class="day-block" style="--day:#C43805;--deep:#6E1E00">
     <div class="day-head collapsed" id="head-day-mar2" onclick="toggleDay('day-mar2', this)">
       <span class="day-num">02</span>
       <span class="day-info">
@@ -476,8 +343,7 @@
     </div>
   </div>
 
-  <!-- MERCREDI 3 JUIN -->
-  <div class="day-block" style="--day:#D85A20;--deep:#A24515">
+  <div class="day-block" style="--day:#C9400A;--deep:#712200">
     <div class="day-head collapsed" id="head-day-mer3" onclick="toggleDay('day-mer3', this)">
       <span class="day-num">03</span>
       <span class="day-info">
@@ -513,8 +379,7 @@
     </div>
   </div>
 
-  <!-- JEUDI 4 JUIN -->
-  <div class="day-block" style="--day:#E37035;--deep:#AD5820">
+  <div class="day-block" style="--day:#CE470F;--deep:#742600">
     <div class="day-head collapsed" id="head-day-jeu4" onclick="toggleDay('day-jeu4', this)">
       <span class="day-num">04</span>
       <span class="day-info">
@@ -550,8 +415,7 @@
     </div>
   </div>
 
-  <!-- VENDREDI 5 JUIN -->
-  <div class="day-block" style="--day:#EB8850;--deep:#B86C30">
+  <div class="day-block" style="--day:#D34F14;--deep:#772B00">
     <div class="day-head collapsed" id="head-day-ven5" onclick="toggleDay('day-ven5', this)">
       <span class="day-num">05</span>
       <span class="day-info">
@@ -587,8 +451,7 @@
     </div>
   </div>
 
-  <!-- SAMEDI 6 JUIN -->
-  <div class="day-block" style="--day:#F2A06A;--deep:#C3803E">
+  <div class="day-block" style="--day:#D85619;--deep:#7A2F00">
     <div class="day-head collapsed" id="head-day-sam6" onclick="toggleDay('day-sam6', this)">
       <span class="day-num">06</span>
       <span class="day-info">
@@ -625,8 +488,7 @@
     </div>
   </div>
 
-  <!-- DIMANCHE 7 JUIN -->
-  <div class="day-block" style="--day:#F8B884;--deep:#CE944C">
+  <div class="day-block" style="--day:#DD5E1E;--deep:#7E3300">
     <div class="day-head collapsed" id="head-day-dim7" onclick="toggleDay('day-dim7', this)">
       <span class="day-num">07</span>
       <span class="day-info">
@@ -662,12 +524,11 @@
     </div>
   </div>
 
-  <!-- LUNDI 8 JUIN -->
-  <div class="day-block" style="--day:#8EA604;--deep:#5E6E02">
+  <div class="day-block" style="--day:#E26523;--deep:#813800">
     <div class="day-head collapsed" id="head-day-lun8" onclick="toggleDay('day-lun8', this)">
       <span class="day-num">08</span>
       <span class="day-info">
-        <span class="day-label fast">Lundi 8 Juin</span>
+        <span class="day-label">Lundi 8 Juin</span>
         <span class="day-train t-jeune">Jeûne</span>
       </span>
       <span class="chevron">▾</span>
@@ -682,8 +543,7 @@
     </div>
   </div>
 
-  <!-- MARDI 9 JUIN -->
-  <div class="day-block" style="--day:#9BB214;--deep:#6A7A0C">
+  <div class="day-block" style="--day:#E76D28;--deep:#853D00">
     <div class="day-head collapsed" id="head-day-mar9" onclick="toggleDay('day-mar9', this)">
       <span class="day-num">09</span>
       <span class="day-info">
@@ -721,8 +581,7 @@
     </div>
   </div>
 
-  <!-- MERCREDI 10 JUIN -->
-  <div class="day-block" style="--day:#A8BD24;--deep:#768616">
+  <div class="day-block" style="--day:#EC742D;--deep:#894200">
     <div class="day-head collapsed" id="head-day-mer10" onclick="toggleDay('day-mer10', this)">
       <span class="day-num">10</span>
       <span class="day-info">
@@ -758,8 +617,7 @@
     </div>
   </div>
 
-  <!-- JEUDI 11 JUIN -->
-  <div class="day-block" style="--day:#B5C934;--deep:#829220">
+  <div class="day-block" style="--day:#F17C32;--deep:#8D4700">
     <div class="day-head collapsed" id="head-day-jeu11" onclick="toggleDay('day-jeu11', this)">
       <span class="day-num">11</span>
       <span class="day-info">
@@ -795,8 +653,7 @@
     </div>
   </div>
 
-  <!-- VENDREDI 12 JUIN -->
-  <div class="day-block" style="--day:#C2D444;--deep:#8E9E2A">
+  <div class="day-block" style="--day:#F68337;--deep:#914D00">
     <div class="day-head collapsed" id="head-day-ven12" onclick="toggleDay('day-ven12', this)">
       <span class="day-num">12</span>
       <span class="day-info">
@@ -832,8 +689,7 @@
     </div>
   </div>
 
-  <!-- SAMEDI 13 JUIN -->
-  <div class="day-block" style="--day:#CEDF54;--deep:#9AAA34">
+  <div class="day-block" style="--day:#FB8B3C;--deep:#955200">
     <div class="day-head collapsed" id="head-day-sam13" onclick="toggleDay('day-sam13', this)">
       <span class="day-num">13</span>
       <span class="day-info">
@@ -869,8 +725,7 @@
     </div>
   </div>
 
-  <!-- DIMANCHE 14 JUIN -->
-  <div class="day-block" style="--day:#DAEB64;--deep:#A6B63E">
+  <div class="day-block" style="--day:#FF9241;--deep:#995800">
     <div class="day-head collapsed" id="head-day-dim14" onclick="toggleDay('day-dim14', this)">
       <span class="day-num">14</span>
       <span class="day-info">
@@ -915,176 +770,459 @@
     </div>
   </div>
 
-</div><!-- /view-recettes -->
-
-
-<!-- ═══════════════════════════════════════════════
-     TAB COURSES
-════════════════════════════════════════════════ -->
-<div id="view-courses" class="view">
+</div><div id="view-courses" class="view">
 
   <header class="view-head">
     <div class="hero-left">
-      <h1>C'est<br>l'heure&nbsp;!</h1>
-      <p class="hero-sub">Allez chef, on attaque les rayons.</p>
+      <h1>C'est l'heure<br>des courses&nbsp;!</h1>
+      <p class="hero-sub">On reste fort devant le rayon gâteaux et friandises.</p>
     </div>
     <div class="hero-right">
-      <span class="eyebrow">Juin 2026</span>
       <span class="hero-date">1–14 Juin</span>
     </div>
   </header>
 
-  <!-- SEMAINE 1 -->
   <div class="week-block w1">
     <button class="week-head collapsed" id="whead-s1" onclick="toggleWeek('week-s1', this)">
       <div class="week-info">
-        <span class="week-date-txt">Sam 30 Mai</span>
-        <span class="week-budget-txt">36,35 € / 50 €</span>
+        <span class="week-name-txt">Semaine 1 <span class="week-date-txt">— Sam 30 Mai</span></span>
       </div>
-      <span class="week-name-txt">Semaine 1</span>
+      <span class="week-budget-txt">36,35 €</span>
       <span class="chevron">▾</span>
     </button>
     <div class="week-body collapsed" id="week-s1">
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#E85D04">Viandes &amp; Volailles</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Émincés de volaille 100% filet</span><span class="sci-qty">750g</span><span class="sci-price">~5,00€</span></div><div class="sci-use">Yakitori · Mar 2 (350g)</div></div>
+        
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Émincés de volaille 100% filet</div>
+              <div class="sci-use">Yakitori · Mar 2 (350g)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~5,00€</div>
+              <div class="sci-qty">750g</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#8C3703">Poissonnerie / Conserves</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Sardines citron-basilic</span><span class="sci-qty">×4 boîtes</span><span class="sci-price">~3,20€</span></div><div class="sci-use">Niçoise · Mer 3 (×2) + Dim 7 (×2)</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Sardines citron-basilic</div>
+              <div class="sci-use">Niçoise · Mer 3 (×2) + Dim 7 (×2)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~3,20€</div>
+              <div class="sci-qty">×4 boîtes</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#FFBA08">Crémerie</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Skyr nature Délisse</span><span class="sci-qty">850g ×2</span><span class="sci-price">~6,50€</span></div><div class="sci-use">PRE-training + POST-training · quotidien (150g × 2)</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Œufs plein air</span><span class="sci-qty">×18</span><span class="sci-price">~4,20€</span></div><div class="sci-use">Niçoise Mer 3 · Dhal Jeu 4 · Chakchouka Ven 5 · Shakshuka Sam 6</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Skyr nature Délisse</div>
+              <div class="sci-use">PRE-training + POST-training · quotidien</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~6,50€</div>
+              <div class="sci-qty">850g ×2</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Œufs plein air</div>
+              <div class="sci-use">Niçoise Mer 3 · Dhal Jeu 4 · Chakchouka Ven 5</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~4,20€</div>
+              <div class="sci-qty">×18</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#899536">Fruits &amp; Légumes</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Bananes</span><span class="sci-qty">régime ×6</span><span class="sci-price">~2,95€</span></div><div class="sci-use">PRE-training 10h · tous les jours actifs</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Citrons jaunes</span><span class="sci-qty">filet ×6</span><span class="sci-price">~1,00€</span></div><div class="sci-use">Marinades · absorption fer lentilles + épinards</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Épinards surgelés</span><span class="sci-qty">600g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 4 (200g) · Chakchouka Ven 5 (200g) · reste → S2</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Pommes de terre</span><span class="sci-qty">1kg</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Niçoise Mer 3 + Dim 7 (200g chacune) · reste → Dim 14</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Bananes</div>
+              <div class="sci-use">PRE-training 10h · tous les jours actifs</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~2,95€</div>
+              <div class="sci-qty">régime ×6</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Citrons jaunes</div>
+              <div class="sci-use">Marinades · absorption fer lentilles</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,00€</div>
+              <div class="sci-qty">filet ×6</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Épinards surgelés</div>
+              <div class="sci-use">Dhal Jeu 4 (200g) · Chakchouka Ven 5 (200g)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">600g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Pommes de terre</div>
+              <div class="sci-use">Niçoise Mer 3 + Dim 7 (200g chacune)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">1kg</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#355A35">Épicerie</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Flocons d'avoine</span><span class="sci-qty">500g</span><span class="sci-price">~0,85€</span></div><div class="sci-use">PRE-training 10h · 55g / jour actif</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Riz blanc</span><span class="sci-qty">1kg</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Yakitori Mar 2 (120g) · reports S2 Tikka + Yakitori</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lentilles corail</span><span class="sci-qty">500g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 4 (160g) · Shakshuka Sam 6 (120g) · reste → S2</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Tomates pelées au jus</span><span class="sci-qty">800g ×2</span><span class="sci-price">~2,40€</span></div><div class="sci-use">Chakchouka Ven 5 · Shakshuka Sam 6 · reports S2 ×3</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Maïs doux</span><span class="sci-qty">300g</span><span class="sci-price">~0,80€</span></div><div class="sci-use">Chakchouka Ven 5 (150g) · Chakchouka Ven 12 → S2</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lait de coco</span><span class="sci-qty">200ml</span><span class="sci-price">~0,95€</span></div><div class="sci-use">Dhal Jeu 4 (100ml) · Dhal Jeu 11 (100ml) → S2</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Graines de courge</span><span class="sci-qty">250g</span><span class="sci-price">~2,50€</span></div><div class="sci-use">⚠ Obligatoire lipides · 15–20g par portion chaque jour</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Flocons d'avoine</div>
+              <div class="sci-use">PRE-training 10h · 55g / jour actif</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~0,85€</div>
+              <div class="sci-qty">500g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Riz blanc</div>
+              <div class="sci-use">Yakitori Mar 2 (120g) · reports S2</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">1kg</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Lentilles corail</div>
+              <div class="sci-use">Dhal Jeu 4 (160g) · Shakshuka Sam 6 (120g)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">500g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Tomates pelées au jus</div>
+              <div class="sci-use">Chakchouka Ven 5 · Shakshuka Sam 6</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~2,40€</div>
+              <div class="sci-qty">800g ×2</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Maïs doux</div>
+              <div class="sci-use">Chakchouka Ven 5 (150g) · reste → S2</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~0,80€</div>
+              <div class="sci-qty">300g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Lait de coco</div>
+              <div class="sci-use">Dhal Jeu 4 (100ml) · reste → S2</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~0,95€</div>
+              <div class="sci-qty">200ml</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Graines de courge</div>
+              <div class="sci-use">Obligatoire lipides · 15–20g / jour</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~2,50€</div>
+              <div class="sci-qty">250g</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SEMAINE 2 -->
   <div class="week-block w2">
     <button class="week-head collapsed" id="whead-s2" onclick="toggleWeek('week-s2', this)">
       <div class="week-info">
-        <span class="week-date-txt">Sam 7 Juin</span>
-        <span class="week-budget-txt">27,60 € / 50 €</span>
+        <span class="week-name-txt">Semaine 2 <span class="week-date-txt">— Sam 7 Juin</span></span>
       </div>
-      <span class="week-name-txt">Semaine 2</span>
+      <span class="week-budget-txt">27,60 €</span>
       <span class="chevron">▾</span>
     </button>
     <div class="week-body collapsed" id="week-s2">
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#E85D04">Viandes &amp; Volailles</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Émincés de volaille 100% filet</span><span class="sci-qty">750g</span><span class="sci-price">~5,00€</span></div><div class="sci-use">Tikka Masala Mar 9 (350g) · Yakitori Mer 10 (400g)</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Émincés de volaille 100% filet</div>
+              <div class="sci-use">Tikka Masala Mar 9 (350g) · Yakitori Mer 10</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~5,00€</div>
+              <div class="sci-qty">750g</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#8C3703">Poissonnerie / Conserves</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Sardines citron-basilic</span><span class="sci-qty">×2 boîtes</span><span class="sci-price">~1,60€</span></div><div class="sci-use">Niçoise · Dim 14 (×2)</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Sardines citron-basilic</div>
+              <div class="sci-use">Niçoise · Dim 14 (×2)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,60€</div>
+              <div class="sci-qty">×2 boîtes</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#FFBA08">Crémerie</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Skyr nature Délisse</span><span class="sci-qty">850g ×2</span><span class="sci-price">~6,50€</span></div><div class="sci-use">PRE-training + POST-training · 6 jours actifs</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Œufs plein air</span><span class="sci-qty">×18</span><span class="sci-price">~4,20€</span></div><div class="sci-use">Dhal Jeu 11 (×6) · Chakchouka Ven 12 (×4) · Shakshuka Sam 13 (×4) · Niçoise Dim 14 (×4)</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Skyr nature Délisse</div>
+              <div class="sci-use">PRE-training + POST-training · quotidien</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~6,50€</div>
+              <div class="sci-qty">850g ×2</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Œufs plein air</div>
+              <div class="sci-use">Dhal Jeu 11 · Chakchouka Ven 12 · Niçoise Dim 14</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~4,20€</div>
+              <div class="sci-qty">×18</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#899536">Fruits &amp; Légumes</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Bananes</span><span class="sci-qty">régime ×6</span><span class="sci-price">~2,95€</span></div><div class="sci-use">PRE-training 10h · tous les jours actifs</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Citrons jaunes</span><span class="sci-qty">filet ×6</span><span class="sci-price">~1,00€</span></div><div class="sci-use">Marinades + absorption fer · toute la semaine</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Épinards surgelés</span><span class="sci-qty">600g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Tikka Mar 9 (150g) · Dhal Jeu 11 (200g) · Chakchouka Ven 12 (200g)</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Bananes</div>
+              <div class="sci-use">PRE-training 10h · tous les jours actifs</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~2,95€</div>
+              <div class="sci-qty">régime ×6</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Citrons jaunes</div>
+              <div class="sci-use">Marinades + absorption fer · toute la semaine</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,00€</div>
+              <div class="sci-qty">filet ×6</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Épinards surgelés</div>
+              <div class="sci-use">Tikka Mar 9 (150g) · Dhal Jeu 11 (200g)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">600g</div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <div class="rayon-group">
         <div class="rayon-label" style="--rsec:#355A35">Épicerie</div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Flocons d'avoine</span><span class="sci-qty">500g</span><span class="sci-price">~0,85€</span></div><div class="sci-use">PRE-training 10h · 6 jours actifs (55g/j)</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lentilles corail</span><span class="sci-qty">500g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 11 (160g) · Shakshuka Sam 13 (120g) · complète stock S1</div></div>
-        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Graines de courge</span><span class="sci-qty">250g</span><span class="sci-price">~2,50€</span></div><div class="sci-use">⚠ Obligatoire lipides · 15–20g par portion chaque jour</div></div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Flocons d'avoine</div>
+              <div class="sci-use">PRE-training 10h · 6 jours actifs (55g/j)</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~0,85€</div>
+              <div class="sci-qty">500g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Lentilles corail</div>
+              <div class="sci-use">Dhal Jeu 11 (160g) · complète stock S1</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~1,50€</div>
+              <div class="sci-qty">500g</div>
+            </div>
+          </div>
+        </div>
+        <div class="sci" onclick="check(this)">
+          <div class="check-box"></div>
+          <div class="sci-content">
+            <div class="sci-info">
+              <div class="sci-name">Graines de courge</div>
+              <div class="sci-use">Obligatoire lipides · 15–20g par portion</div>
+            </div>
+            <div class="sci-right">
+              <div class="sci-price">~2,50€</div>
+              <div class="sci-qty">250g</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="courses-footer">
-    <span class="courses-footer-eyebrow">Courses · 2 sorties</span>
     <span class="courses-footer-week">Sem. 01 — 36,35 €</span>
     <span class="courses-footer-week">Sem. 02 — 27,60 €</span>
-    <span class="courses-footer-total">63,95 € total</span>
+    <span class="courses-footer-total">63,95 €</span>
   </div>
 
-</div><!-- /view-courses -->
-
-
-<!-- ═══════════════════════════════════════════════
-     TAB CONSERVATION
-════════════════════════════════════════════════ -->
-<div id="view-conservation" class="view">
+</div><div id="view-conservation" class="view">
 
   <header class="view-head">
     <div class="hero-left">
-      <h1>Où ça<br>se range</h1>
-      <p class="hero-sub">Chaque chose à sa place, chef.</p>
+      <h1>Chaque chose<br>à sa place.</h1>
+      <p class="hero-sub">Allez ! C'est parti pour une bonne partie de Tetris.</p>
     </div>
     <div class="hero-right">
-      <span class="eyebrow">Garde-manger</span>
       <span class="hero-date">1–14 Juin</span>
     </div>
   </header>
 
-  <div class="storage-flat">
-
-    <div class="storage-section">
-      <div class="storage-title g-fridge">Frigo</div>
-      <div class="s-row"><span class="s-item" style="color:var(--brown);">⚠️ 750g Émincés volaille — cuisiner dim 31 mai en priorité</span></div>
-      <div class="s-row"><span class="s-item">Skyr nature ×2 pots 850g (en haut)</span></div>
-      <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
-    </div>
-
-    <div class="storage-section">
-      <div class="storage-title g-freezer">Congélateur</div>
-      <div class="s-row"><span class="s-item">600g Épinards surgelés</span></div>
-    </div>
-
-    <div class="storage-section">
-      <div class="storage-title g-pantry">Placard sec</div>
-      <div class="s-row"><span class="s-item">×4 Sardines citron-basilic</span></div>
-      <div class="s-row"><span class="s-item">500g Lentilles corail (bocal hermétique)</span></div>
-      <div class="s-row"><span class="s-item">1kg Riz blanc</span></div>
-      <div class="s-row"><span class="s-item">500g Flocons d'avoine</span></div>
-      <div class="s-row"><span class="s-item">800g Tomates pelées ×2 boîtes (→ frigo dès ouverture)</span></div>
-      <div class="s-row"><span class="s-item">300g Maïs doux (→ frigo dès ouverture)</span></div>
-      <div class="s-row"><span class="s-item">200ml Lait de coco (→ frigo dès ouverture)</span></div>
-      <div class="s-row"><span class="s-item">250g Graines de courge (bocal hermétique)</span></div>
-      <div class="s-row"><span class="s-item">1kg Pommes de terre (sec, sombre, ventilé)</span></div>
-      <div class="s-row"><span class="s-item">×6 Bananes (comptoir — jamais au frigo)</span></div>
-      <div class="s-row"><span class="s-item">×6 Citrons (comptoir)</span></div>
-    </div>
-
-    <div class="storage-section">
-      <div class="storage-title g-cooked">Plats cuisinés · durée au frigo</div>
-      <div class="s-row"><span class="s-item">Yakitori / Tikka Masala poulet → 3 jours max</span></div>
-      <div class="s-row"><span class="s-item">Salade Niçoise sardines → 24h max</span></div>
-      <div class="s-row"><span class="s-item">Dhal lentilles / Chakchouka / Shakshuka → 3–4 jours</span></div>
-    </div>
-
+  <div class="storage-block s-freezer">
+    <h2 class="storage-title">Congélateur</h2>
+    <div class="s-row"><span class="s-item">600g Épinards surgelés</span></div>
   </div>
 
-</div><!-- /view-conservation -->
+  <div class="storage-block s-fridge">
+    <h2 class="storage-title">Frigo</h2>
+    <div class="s-row"><span class="s-item">750g Émincés volaille — cuisiner dim 31 mai en priorité</span></div>
+    <div class="s-row"><span class="s-item">Skyr nature ×2 pots 850g (en haut)</span></div>
+    <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
+  </div>
 
+  <div class="storage-block s-pantry">
+    <h2 class="storage-title">Placard sec</h2>
+    <div class="s-row"><span class="s-item">×4 Sardines citron-basilic</span></div>
+    <div class="s-row"><span class="s-item">500g Lentilles corail (bocal hermétique)</span></div>
+    <div class="s-row"><span class="s-item">1kg Riz blanc</span></div>
+    <div class="s-row"><span class="s-item">500g Flocons d'avoine</span></div>
+    <div class="s-row"><span class="s-item">800g Tomates pelées ×2 boîtes (→ frigo dès ouverture)</span></div>
+    <div class="s-row"><span class="s-item">300g Maïs doux (→ frigo dès ouverture)</span></div>
+    <div class="s-row"><span class="s-item">200ml Lait de coco (→ frigo dès ouverture)</span></div>
+    <div class="s-row"><span class="s-item">250g Graines de courge (bocal hermétique)</span></div>
+    <div class="s-row"><span class="s-item">1kg Pommes de terre (sec, sombre, ventilé)</span></div>
+    <div class="s-row"><span class="s-item">×6 Bananes (comptoir — jamais au frigo)</span></div>
+    <div class="s-row"><span class="s-item">×6 Citrons (comptoir)</span></div>
+  </div>
 
-<script>
+  <div class="storage-block s-cooked">
+    <h2 class="storage-title">Plats cuisinés</h2>
+    <div class="s-row"><span class="s-item">Yakitori / Tikka Masala poulet → 3 jours max</span></div>
+    <div class="s-row"><span class="s-item">Salade Niçoise sardines → 24h max</span></div>
+    <div class="s-row"><span class="s-item">Dhal lentilles / Chakchouka / Shakshuka → 3–4 jours</span></div>
+  </div>
+
+</div><script>
   const TODAY_MAP = {
     '2026-06-01': 'day-lun1',
     '2026-06-02': 'day-mar2',
@@ -1124,8 +1262,13 @@
     document.getElementById('view-' + name).classList.add('active');
     moveSlider(tabs.indexOf(name));
     document.documentElement.setAttribute('data-tab', name);
-    var bodyBg = { recettes: '#F5E4D0', courses: '#EDF2D2', conservation: '#FAF2DF' };
-    document.body.style.backgroundColor = bodyBg[name] || '';
+    
+    var bodyBg = { 
+      recettes: 'color-mix(in srgb, #FF9241 25%, #FAF2DF)', 
+      courses: 'color-mix(in srgb, #8EA604 16%, #FAF2DF)',
+      conservation: '#DCEAF2' 
+    };
+    document.documentElement.style.backgroundColor = bodyBg[name] || '';
   }
 
   function toggleDay(id, header) {
@@ -1134,15 +1277,13 @@
     header.classList.toggle('collapsed', !isCollapsed);
 
     if (isCollapsed) {
-      // Remove collapsed so CSS padding applies, then measure
       body.classList.remove('collapsed');
       var targetH = body.scrollHeight;
-      // Freeze at 0 before animating
       body.style.height = '0';
       body.style.overflow = 'hidden';
       body.style.opacity = '0';
       body.style.transition = 'none';
-      body.offsetHeight; // reflow
+      body.offsetHeight;
       body.style.transition = 'height .35s ease, opacity .25s ease';
       body.style.height = targetH + 'px';
       body.style.opacity = '1';
@@ -1156,7 +1297,7 @@
     } else {
       body.style.height = body.offsetHeight + 'px';
       body.style.overflow = 'hidden';
-      body.offsetHeight; // reflow
+      body.offsetHeight; 
       body.style.transition = 'height .35s ease, opacity .25s ease';
       body.style.height = '0';
       body.style.opacity = '0';
@@ -1167,14 +1308,6 @@
         body.removeEventListener('transitionend', onCollapse);
       });
     }
-  }
-
-  function toggleAcc(head) {
-    var body = head.nextElementSibling;
-    if (!body) return;
-    var collapsed = body.classList.contains('collapsed');
-    body.classList.toggle('collapsed', !collapsed);
-    head.classList.toggle('collapsed', !collapsed);
   }
 
   function toggleWeek(id, header) {
@@ -1225,7 +1358,7 @@
 
   function load() {
     var saved;
-    try { saved = localStorage.getItem(STORE_KEY); } catch(e) {}
+    try { localStorage.getItem(STORE_KEY); } catch(e) {}
     if (!saved) return;
     var state = JSON.parse(saved);
     document.querySelectorAll('#view-courses .sci').forEach(function(item) {
@@ -1233,15 +1366,6 @@
       if (nameEl && state[nameEl.textContent.trim()]) item.classList.add('checked');
     });
   }
-
-  function resetAll() {
-    document.querySelectorAll('#view-courses .sci.checked').forEach(function(el) {
-      el.classList.remove('checked');
-    });
-    try { localStorage.removeItem(STORE_KEY); } catch(e) {}
-  }
-
-  function updateProgress() { /* no-op — progress bar removed */ }
 
   function initToday() {
     var now = new Date();
@@ -1287,13 +1411,12 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     load();
-    updateProgress();
     initToday();
     moveSlider(0);
     initDayZindex();
     initAccZindex();
     document.documentElement.setAttribute('data-tab', 'recettes');
-    document.body.style.backgroundColor = '#F5E4D0';
+    document.documentElement.style.backgroundColor = 'color-mix(in srgb, #FF9241 25%, #FAF2DF)';
   });
 </script>
 
