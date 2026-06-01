@@ -80,12 +80,13 @@
 
     /* ── BANNERS (HERO) ───────────────────── */
     .view-head {
-      position: relative; z-index: 20;
+      position: sticky; top: 0; z-index: 20;
       display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
       margin: 0 -18px 0;
       padding: 12px 20px 14px;
       border-radius: 0 0 24px 24px;
       border-bottom: none;
+      box-shadow: 0 3px 16px rgba(0,0,0,.18);
     }
     #view-recettes > .view-head { background: var(--brown-deep); }
     #view-courses > .view-head { background: var(--forest); }
@@ -100,7 +101,7 @@
 
     .view { display: none; }
     .view.active { display: block; animation: fadeIn .25s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* ── DAY BLOCKS (RECETTES) ────────────── */
     .day-block {
@@ -110,6 +111,7 @@
       padding: 36px 18px 10px;
       background: color-mix(in srgb, var(--day) 52%, var(--paper));
       border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
     }
     /* Dégradé lundi 1 (foncé) → dimanche 14 (clair) : la progression de --day (#BF3100→#FF9241) à 52% crée un gradient naturel */
     .day-head { display: flex; align-items: center; gap: 12px; padding: 10px 0 4px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
@@ -297,7 +299,7 @@
 
   <header class="view-head">
     <div class="hero-left">
-      <h1>Salut<br>chef&nbsp;!</h1>
+      <h1>Salut chef&nbsp;!</h1>
       <p class="hero-sub">Alors qu'est-ce qu'on mange aujourd'hui&nbsp;?</p>
     </div>
     <div class="hero-right">
