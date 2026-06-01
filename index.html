@@ -69,12 +69,12 @@
       background: var(--card);
       border-radius: 40px;
       box-shadow: 0 1px 4px rgba(90,40,5,.12);
-      transition: left .3s cubic-bezier(0.4, 0, 0.2, 1), width .3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: left .3s cubic-bezier(0.4, 0, 0.2, 1), width .3s cubic-bezier(0.4, 0, 0.2, 1), background-color .4s ease;
       pointer-events: none;
       z-index: 0;
     }
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .2s ease; position: relative; z-index: 1; }
-    .tab-btn.active { background: transparent; color: var(--brown); }
+    .tab-btn.active { background: transparent; }
 
     /* ── PER-VIEW HEADER ──────────────────── */
     .view-head { margin: 16px 0 20px; padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
@@ -89,7 +89,7 @@
       position: relative; z-index: 20;
       display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
       margin: 0 -18px 0;
-      padding: 44px 22px 32px;
+      padding: 22px 22px 32px;
       background: var(--brown-deep);
       border-radius: 0 0 32px 32px;
       border-bottom: none;
@@ -268,7 +268,7 @@
     #view-conservation > .view-head {
       position: relative; z-index: 20;
       display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-      margin: 0 -18px 0; padding: 44px 22px 32px;
+      margin: 0 -18px 0; padding: 22px 22px 32px;
       border-radius: 0 0 32px 32px; border-bottom: none;
     }
     #view-courses > .view-head { background: var(--olive); }
@@ -310,6 +310,79 @@
     #view-courses .acc-block .list-box,
     #view-conservation .acc-block .list-box { border-radius: 12px; }
     #view-courses .reset-btn { margin: 28px 0 0; }
+
+    /* ── JEÛNE simplified ────────────────────── */
+    .meal.fast-card.fast-jeune { text-align: right; }
+
+    /* ── HTML BG extends hero color upward ───── */
+    html { transition: background-color .35s ease; }
+    html[data-tab="recettes"]     { background-color: #BF3100; }
+    html[data-tab="courses"]      { background-color: #8EA604; }
+    html[data-tab="conservation"] { background-color: #D76A03; }
+
+    /* ── Tab active color + shadow per tab ─────── */
+    html[data-tab="recettes"]     .tab-btn.active { color: var(--brown-deep); }
+    html[data-tab="courses"]      .tab-btn.active { color: var(--olive-deep); }
+    html[data-tab="conservation"] .tab-btn.active { color: var(--brown); }
+    html[data-tab="courses"]      .tabs { box-shadow: 0 4px 24px rgba(142,166,4,.20), 0 1px 6px rgba(142,166,4,.12); }
+    html[data-tab="conservation"] .tabs { box-shadow: 0 4px 24px rgba(215,106,3,.20), 0 1px 6px rgba(215,106,3,.12); }
+
+    /* ── WEEK-BLOCK (courses emboitement) ────── */
+    .week-block {
+      position: relative; margin: -28px -18px 0; padding: 28px 18px 0;
+      border-radius: 0 0 32px 32px;
+    }
+    .week-block.w1 { background: color-mix(in srgb, #BF3100 25%, var(--paper)); }
+    .week-block.w2 { background: color-mix(in srgb, #8EA604 25%, var(--paper)); }
+    .week-head {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      padding: 14px 0 8px 20px; background: transparent; border: none;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      transition: opacity .15s; text-align: left;
+    }
+    .week-head:active { opacity: .7; }
+    .week-head:not(.collapsed) .chevron { transform: rotate(180deg); }
+    .week-info { flex: 0 0 auto; display: flex; flex-direction: column; gap: 2px; }
+    .week-date-txt { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); }
+    .week-budget-txt { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); }
+    .week-name-txt { flex: 1; font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--ink); text-align: right; padding-right: 4px; }
+    .week-body { overflow: visible; max-height: none !important; height: auto; padding: 0 0 20px; transition: height .35s ease, opacity .25s ease; }
+    .week-body.collapsed { overflow: hidden; height: 0 !important; max-height: none !important; opacity: 0; padding: 0; pointer-events: none; }
+
+    /* ── RAYON GROUPS ────────────────────────── */
+    .rayon-group { padding: 0 6px; }
+    .rayon-label { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); padding: 10px 0 4px; display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(0,0,0,.07); }
+    .rayon-group:first-child .rayon-label { border-top: none; padding-top: 6px; }
+    .rayon-label::before { content: ''; width: 7px; height: 7px; border-radius: 2px; background: var(--rsec, var(--muted)); flex-shrink: 0; }
+
+    /* ── COMPACT SHOP ITEM (sci) ─────────────── */
+    .sci { padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,.05); cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .sci:last-child { border-bottom: none; }
+    .sci:active { opacity: .6; }
+    .sci.checked { opacity: .45; }
+    .sci.checked .sci-name { text-decoration: line-through; color: var(--muted); }
+    .sci-main { display: flex; align-items: baseline; gap: 6px; }
+    .sci-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+    .sci-qty { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); white-space: nowrap; flex-shrink: 0; }
+    .sci-price { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brown-deep); white-space: nowrap; flex-shrink: 0; }
+    .sci-use { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+    /* ── COURSES hero info lines ─────────────── */
+    .hero-week-line { font-family: var(--mono); font-size: 11px; font-weight: 700; color: rgba(251,244,220,.78); display: block; margin-bottom: 3px; letter-spacing: .3px; }
+    #view-courses .hero-date { font-size: 17px !important; margin-top: 8px; }
+
+    /* ── STORAGE FLAT ────────────────────────── */
+    .storage-flat { padding-top: 12px; }
+    .storage-section { margin-bottom: 2px; }
+    .storage-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-soft); padding: 14px 2px 7px; display: flex; align-items: center; gap: 8px; border-top: 1px solid var(--line); }
+    .storage-section:first-child .storage-title { border-top: none; padding-top: 2px; }
+    .storage-title::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--sec, var(--ink)); flex-shrink: 0; }
+    .storage-title.g-fridge   { --sec: #E85D04; }
+    .storage-title.g-freezer  { --sec: #355A35; }
+    .storage-title.g-pantry   { --sec: #8C3703; }
+    .storage-title.g-cooked   { --sec: #899536; }
+    #view-conservation .hero-left { padding-top: 0; }
+    #view-conservation .view-head { justify-content: flex-start; }
   </style>
 </head>
 <body>
@@ -348,8 +421,7 @@
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-lun1">
-      <div class="meal fast-card">
-        <div class="meal-time">Jeûne 24h</div>
+      <div class="meal fast-card fast-jeune">
         <div class="meal-body">
           <strong>Boissons uniquement</strong><br>
           Eau · thé nature · café noir non sucré
@@ -592,8 +664,7 @@
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-lun8">
-      <div class="meal fast-card">
-        <div class="meal-time">Jeûne 24h</div>
+      <div class="meal fast-card fast-jeune">
         <div class="meal-body">
           <strong>Boissons uniquement</strong><br>
           Eau · thé nature · café noir non sucré
@@ -849,374 +920,94 @@
       <p class="hero-sub">Allez chef, on attaque les rayons.</p>
     </div>
     <div class="hero-right">
-      <span class="eyebrow">Liste de courses</span>
-      <span class="hero-date">63,95 € / 100 €</span>
+      <span class="eyebrow">Courses · 2 sorties</span>
+      <span class="hero-week-line">Sem. 01 — 36,35 €</span>
+      <span class="hero-week-line">Sem. 02 — 27,60 €</span>
+      <span class="hero-date">63,95 € total</span>
     </div>
   </header>
 
-  <div class="courses-summary">
-    <div class="budget-banner">
-      <div>
-        <div class="bdg-label">Courses Sam 30 Mai · S1</div>
-        <div class="bdg-amount">36,35€</div>
-      </div>
-      <div class="bdg-right">
-        <div class="bdg-max">Budget max · 50,00€</div>
-        <div class="bdg-remain">✓ Reste 13,65€</div>
-      </div>
-    </div>
-    <div class="budget-banner">
-      <div>
-        <div class="bdg-label">Courses Sam 7 Juin · S2</div>
-        <div class="bdg-amount">27,60€</div>
-      </div>
-      <div class="bdg-right">
-        <div class="bdg-max">Budget max · 50,00€</div>
-        <div class="bdg-remain">✓ Reste 22,40€</div>
-      </div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-label"><span>Articles cochés</span><span id="prog-text">0 / 0</span></div>
-      <div class="progress-track"><div class="progress-fill" id="fill-prog" style="width:0%"></div></div>
-    </div>
-  </div>
-
   <!-- SEMAINE 1 -->
-  <div class="week-courses-label">Semaine 1 — Samedi 30 Mai</div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-meat" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Viandes &amp; Volailles</span><span class="acc-meta">~5,00€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Émincés de volaille 100% filet — 750g</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Yakitori · Mar 2 (350g)</span></div>
-        <div class="item-sub">✦ Cuisiner DIMANCHE 31 MAI au soir — lundi = jeûne</div>
+  <div class="week-block w1">
+    <button class="week-head collapsed" id="whead-s1" onclick="toggleWeek('week-s1', this)">
+      <div class="week-info">
+        <span class="week-date-txt">Sam 30 Mai</span>
+        <span class="week-budget-txt">36,35 € / 50 €</span>
       </div>
-      <div class="item-price">~5,00€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-fish" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Poissonnerie / Conserves</span><span class="acc-meta">~3,20€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Sardines citron-basilic — ×4 boîtes</div>
-        <div class="item-dishes"><span class="dish-tag poisson">Niçoise · Mer 3 (×2)</span><span class="dish-tag poisson">Niçoise · Dim 7 (×2)</span></div>
-        <div class="item-sub">✦ Substituable par maquereaux fumés ou thon au naturel + 20ml huile olive</div>
+      <span class="week-name-txt">Semaine 1</span>
+      <span class="chevron">▾</span>
+    </button>
+    <div class="week-body collapsed" id="week-s1">
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#E85D04">Viandes &amp; Volailles</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Émincés de volaille 100% filet</span><span class="sci-qty">750g</span><span class="sci-price">~5,00€</span></div><div class="sci-use">Yakitori · Mar 2 (350g)</div></div>
       </div>
-      <div class="item-price">~3,20€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-dairy" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Crémerie</span><span class="acc-meta">~10,70€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Skyr nature Délisse — 850g ×2 pots</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · quotidien (150g)</span><span class="dish-tag quotidien">POST-training 16h · quotidien (150g)</span></div>
-        <div class="item-sub">✦ Substituable par yaourt grec 0% ou fromage blanc 0%</div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#8C3703">Poissonnerie / Conserves</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Sardines citron-basilic</span><span class="sci-qty">×4 boîtes</span><span class="sci-price">~3,20€</span></div><div class="sci-use">Niçoise · Mer 3 (×2) + Dim 7 (×2)</div></div>
       </div>
-      <div class="item-price">~6,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Œufs plein air — ×18</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Niçoise · Mer 3 (×4)</span><span class="dish-tag oeufs">Dhal · Jeu 4 (×6)</span><span class="dish-tag oeufs">Chakchouka · Ven 5 (×4)</span><span class="dish-tag oeufs">Shakshuka · Sam 6 (×4)</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#FFBA08">Crémerie</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Skyr nature Délisse</span><span class="sci-qty">850g ×2</span><span class="sci-price">~6,50€</span></div><div class="sci-use">PRE-training + POST-training · quotidien (150g × 2)</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Œufs plein air</span><span class="sci-qty">×18</span><span class="sci-price">~4,20€</span></div><div class="sci-use">Niçoise Mer 3 · Dhal Jeu 4 · Chakchouka Ven 5 · Shakshuka Sam 6</div></div>
       </div>
-      <div class="item-price">~4,20€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-veg" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Fruits &amp; Légumes</span><span class="acc-meta">~6,95€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Bananes — régime de 6</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#899536">Fruits &amp; Légumes</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Bananes</span><span class="sci-qty">régime ×6</span><span class="sci-price">~2,95€</span></div><div class="sci-use">PRE-training 10h · tous les jours actifs</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Citrons jaunes</span><span class="sci-qty">filet ×6</span><span class="sci-price">~1,00€</span></div><div class="sci-use">Marinades · absorption fer lentilles + épinards</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Épinards surgelés</span><span class="sci-qty">600g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 4 (200g) · Chakchouka Ven 5 (200g) · reste → S2</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Pommes de terre</span><span class="sci-qty">1kg</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Niçoise Mer 3 + Dim 7 (200g chacune) · reste → Dim 14</div></div>
       </div>
-      <div class="item-price">~2,95€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Citrons jaunes — filet de 6</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">Marinades · tous les soirs de cuisine</span><span class="dish-tag quotidien">Absorption fer · lentilles + épinards</span></div>
-        <div class="item-sub">✦ Non substituable — rôle biochimique (vit. C × absorption fer)</div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#355A35">Épicerie</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Flocons d'avoine</span><span class="sci-qty">500g</span><span class="sci-price">~0,85€</span></div><div class="sci-use">PRE-training 10h · 55g / jour actif</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Riz blanc</span><span class="sci-qty">1kg</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Yakitori Mar 2 (120g) · reports S2 Tikka + Yakitori</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lentilles corail</span><span class="sci-qty">500g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 4 (160g) · Shakshuka Sam 6 (120g) · reste → S2</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Tomates pelées au jus</span><span class="sci-qty">800g ×2</span><span class="sci-price">~2,40€</span></div><div class="sci-use">Chakchouka Ven 5 · Shakshuka Sam 6 · reports S2 ×3</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Maïs doux</span><span class="sci-qty">300g</span><span class="sci-price">~0,80€</span></div><div class="sci-use">Chakchouka Ven 5 (150g) · Chakchouka Ven 12 → S2</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lait de coco</span><span class="sci-qty">200ml</span><span class="sci-price">~0,95€</span></div><div class="sci-use">Dhal Jeu 4 (100ml) · Dhal Jeu 11 (100ml) → S2</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Graines de courge</span><span class="sci-qty">250g</span><span class="sci-price">~2,50€</span></div><div class="sci-use">⚠ Obligatoire lipides · 15–20g par portion chaque jour</div></div>
       </div>
-      <div class="item-price">~1,00€</div>
     </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Épinards surgelés — 600g</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 4 (200g)</span><span class="dish-tag oeufs">Chakchouka · Ven 5 (200g)</span></div>
-        <div class="item-sub">✦ Reste ~200g reporté en S2 pour Tikka Mar 9</div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Pommes de terre — 1kg</div>
-        <div class="item-dishes"><span class="dish-tag poisson">Niçoise · Mer 3 (200g)</span><span class="dish-tag poisson">Niçoise · Dim 7 (200g)</span><span class="dish-tag poisson">Niçoise · Dim 14 (200g) — report S2</span></div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-grocery" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Épicerie</span><span class="acc-meta">~10,50€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Flocons d'avoine — 500g</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs (55g/j)</span></div>
-      </div>
-      <div class="item-price">~0,85€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Riz blanc — 1kg</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Yakitori · Mar 2 (120g)</span><span class="dish-tag poulet">Tikka · Mar 9 (120g) — report S2</span><span class="dish-tag poulet">Yakitori · Mer 10 (120g) — report S2</span></div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Lentilles corail — 500g</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 4 (160g)</span><span class="dish-tag oeufs">Shakshuka · Sam 6 (120g)</span><span class="dish-tag warn">⚠️ Reste ~220g — insuffisant S2, racheter sam 7</span></div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Tomates pelées au jus — 800g ×2 boîtes</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Chakchouka · Ven 5 (300g)</span><span class="dish-tag oeufs">Shakshuka · Sam 6 (200g)</span><span class="dish-tag poulet">Tikka · Mar 9 (300g) — report S2</span><span class="dish-tag oeufs">Chakchouka · Ven 12 (300g) — report S2</span><span class="dish-tag oeufs">Shakshuka · Sam 13 (200g) — report S2</span></div>
-      </div>
-      <div class="item-price">~2,40€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Maïs doux — 300g</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Chakchouka · Ven 5 (150g)</span><span class="dish-tag oeufs">Chakchouka · Ven 12 (150g) — report S2</span></div>
-      </div>
-      <div class="item-price">~0,80€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Lait de coco — 200ml</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 4 (100ml)</span><span class="dish-tag oeufs">Dhal · Jeu 11 (100ml) — report S2</span></div>
-      </div>
-      <div class="item-price">~0,95€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Graines de courge — 250g</div>
-        <div class="item-dishes"><span class="dish-tag warn">⚠️ OBLIGATOIRE lipides · 15–20g par portion chaque jour</span></div>
-        <div class="item-sub warn-sub"><span class="item-sub warn-sub" style="display:block">⚠️ Stock S1 couvre 6 jours (~180g). Racheter sam 7 pour S2.</span></div>
-      </div>
-      <div class="item-price">~2,50€</div>
-    </div>
-  </div></div>
   </div>
 
   <!-- SEMAINE 2 -->
-  <div class="week-courses-label">Semaine 2 — Samedi 7 Juin</div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-meat" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Viandes &amp; Volailles</span><span class="acc-meta">~5,00€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Émincés de volaille 100% filet — 750g</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Tikka Masala · Mar 9 (350g)</span><span class="dish-tag poulet">Yakitori · Mer 10 (400g)</span></div>
-        <div class="item-sub">✦ Cuisiner dimanche 7 soir (Tikka Mar 9) et mardi 9 soir (Yakitori Mer 10)</div>
+  <div class="week-block w2">
+    <button class="week-head collapsed" id="whead-s2" onclick="toggleWeek('week-s2', this)">
+      <div class="week-info">
+        <span class="week-date-txt">Sam 7 Juin</span>
+        <span class="week-budget-txt">27,60 € / 50 €</span>
       </div>
-      <div class="item-price">~5,00€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-fish" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Poissonnerie / Conserves</span><span class="acc-meta">~1,60€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Sardines citron-basilic — ×2 boîtes</div>
-        <div class="item-dishes"><span class="dish-tag poisson">Niçoise · Dim 14 (×2)</span></div>
+      <span class="week-name-txt">Semaine 2</span>
+      <span class="chevron">▾</span>
+    </button>
+    <div class="week-body collapsed" id="week-s2">
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#E85D04">Viandes &amp; Volailles</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Émincés de volaille 100% filet</span><span class="sci-qty">750g</span><span class="sci-price">~5,00€</span></div><div class="sci-use">Tikka Masala Mar 9 (350g) · Yakitori Mer 10 (400g)</div></div>
       </div>
-      <div class="item-price">~1,60€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-dairy" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Crémerie</span><span class="acc-meta">~10,70€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Skyr nature Délisse — 850g ×2 pots</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training + POST-training · 6 jours actifs</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#8C3703">Poissonnerie / Conserves</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Sardines citron-basilic</span><span class="sci-qty">×2 boîtes</span><span class="sci-price">~1,60€</span></div><div class="sci-use">Niçoise · Dim 14 (×2)</div></div>
       </div>
-      <div class="item-price">~6,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Œufs plein air — ×18</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 11 (×6)</span><span class="dish-tag oeufs">Chakchouka · Ven 12 (×4)</span><span class="dish-tag oeufs">Shakshuka · Sam 13 (×4)</span><span class="dish-tag oeufs">Niçoise · Dim 14 (×4)</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#FFBA08">Crémerie</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Skyr nature Délisse</span><span class="sci-qty">850g ×2</span><span class="sci-price">~6,50€</span></div><div class="sci-use">PRE-training + POST-training · 6 jours actifs</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Œufs plein air</span><span class="sci-qty">×18</span><span class="sci-price">~4,20€</span></div><div class="sci-use">Dhal Jeu 11 (×6) · Chakchouka Ven 12 (×4) · Shakshuka Sam 13 (×4) · Niçoise Dim 14 (×4)</div></div>
       </div>
-      <div class="item-price">~4,20€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-veg" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Fruits &amp; Légumes</span><span class="acc-meta">~5,45€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Bananes — régime de 6</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · tous les jours actifs</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#899536">Fruits &amp; Légumes</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Bananes</span><span class="sci-qty">régime ×6</span><span class="sci-price">~2,95€</span></div><div class="sci-use">PRE-training 10h · tous les jours actifs</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Citrons jaunes</span><span class="sci-qty">filet ×6</span><span class="sci-price">~1,00€</span></div><div class="sci-use">Marinades + absorption fer · toute la semaine</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Épinards surgelés</span><span class="sci-qty">600g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Tikka Mar 9 (150g) · Dhal Jeu 11 (200g) · Chakchouka Ven 12 (200g)</div></div>
       </div>
-      <div class="item-price">~2,95€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Citrons jaunes — filet de 6</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">Marinades + absorption fer · toute la semaine</span></div>
-      </div>
-      <div class="item-price">~1,00€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Épinards surgelés — 600g</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Tikka · Mar 9 (150g)</span><span class="dish-tag oeufs">Dhal · Jeu 11 (200g)</span><span class="dish-tag oeufs">Chakchouka · Ven 12 (200g)</span></div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed s-grocery" onclick="toggleAcc(this)">
-      <span class="acc-title">Rayon Épicerie</span><span class="acc-meta">~4,85€</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Flocons d'avoine — 500g</div>
-        <div class="item-dishes"><span class="dish-tag quotidien">PRE-training 10h · 6 jours actifs (55g/j)</span></div>
-      </div>
-      <div class="item-price">~0,85€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Lentilles corail — 500g</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal · Jeu 11 (160g)</span><span class="dish-tag oeufs">Shakshuka · Sam 13 (120g)</span></div>
-        <div class="item-sub">✦ Complète le reste de S1 (~220g) — total ~720g disponible, besoin 280g</div>
-      </div>
-      <div class="item-price">~1,50€</div>
-    </div>
-    <div class="shop-item" onclick="check(this)">
-      <div class="check-ring"><span class="check-icon">✓</span></div>
-      <div class="item-info">
-        <div class="item-name">Graines de courge — 250g</div>
-        <div class="item-dishes"><span class="dish-tag warn">⚠️ OBLIGATOIRE lipides · 15–20g par portion chaque jour</span></div>
-      </div>
-      <div class="item-price">~2,50€</div>
-    </div>
-  </div></div>
-  </div>
-
-  <!-- REPORTS S1 → S2 -->
-  <div class="acc-block">
-    <div class="acc-head collapsed stock-label" onclick="toggleAcc(this)">
-      <span class="acc-title">Garde-manger · reports S1 → S2</span><span class="acc-meta">5 dispo</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body collapsed"><div class="list-box">
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Riz blanc — ~640g restant</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Tikka Mar 9 + Yakitori Mer 10 (240g total)</span></div>
+      <div class="rayon-group">
+        <div class="rayon-label" style="--rsec:#355A35">Épicerie</div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Flocons d'avoine</span><span class="sci-qty">500g</span><span class="sci-price">~0,85€</span></div><div class="sci-use">PRE-training 10h · 6 jours actifs (55g/j)</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Lentilles corail</span><span class="sci-qty">500g</span><span class="sci-price">~1,50€</span></div><div class="sci-use">Dhal Jeu 11 (160g) · Shakshuka Sam 13 (120g) · complète stock S1</div></div>
+        <div class="sci" onclick="check(this)"><div class="sci-main"><span class="sci-name">Graines de courge</span><span class="sci-qty">250g</span><span class="sci-price">~2,50€</span></div><div class="sci-use">⚠ Obligatoire lipides · 15–20g par portion chaque jour</div></div>
       </div>
     </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Tomates pelées — ~1 100g restant</div>
-        <div class="item-dishes"><span class="dish-tag poulet">Tikka Mar 9 (300g)</span><span class="dish-tag oeufs">Chakchouka Ven 12 (300g)</span><span class="dish-tag oeufs">Shakshuka Sam 13 (200g)</span></div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Maïs doux — ~150g restant</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Chakchouka Ven 12 (150g)</span></div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Pommes de terre — ~600g restant</div>
-        <div class="item-dishes"><span class="dish-tag poisson">Niçoise Dim 14 (200g)</span></div>
-      </div>
-    </div>
-    <div class="shop-item stock">
-      <div class="check-ring"></div>
-      <div class="item-info">
-        <div class="item-name">Lait de coco — ~100ml restant</div>
-        <div class="item-dishes"><span class="dish-tag oeufs">Dhal Jeu 11 (100ml)</span></div>
-      </div>
-    </div>
-  </div></div>
   </div>
 
   <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser les listes</button>
@@ -1234,37 +1025,24 @@
       <h1>Où ça<br>se range</h1>
       <p class="hero-sub">Chaque chose à sa place, chef.</p>
     </div>
-    <div class="hero-right">
-      <span class="eyebrow">Inventaire</span>
-      <span class="hero-date">2 semaines</span>
-    </div>
   </header>
 
-  <div class="acc-block">
-    <div class="acc-head g-fridge" onclick="toggleAcc(this)">
-      <span class="acc-title">Frigo</span><span class="acc-meta">3</span><span class="chevron">▾</span>
-    </div>
-    <div class="accordion-body"><div class="list-box">
-      <div class="s-row"><span class="s-item" style="color:var(--brown);">⚠️ 750g Émincés volaille — cuisiner DIM 31 MAI au soir en priorité</span></div>
+  <div class="storage-flat">
+
+    <div class="storage-section">
+      <div class="storage-title g-fridge">Frigo</div>
+      <div class="s-row"><span class="s-item" style="color:var(--brown);">⚠️ 750g Émincés volaille — cuisiner dim 31 mai en priorité</span></div>
       <div class="s-row"><span class="s-item">Skyr nature ×2 pots 850g (en haut)</span></div>
       <div class="s-row"><span class="s-item">×18 Œufs (en bas, pointe vers le bas)</span></div>
-    </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed g-freezer" onclick="toggleAcc(this)">
-      <span class="acc-title">Congélateur</span><span class="acc-meta">1</span><span class="chevron">▾</span>
     </div>
-    <div class="accordion-body collapsed"><div class="list-box">
+
+    <div class="storage-section">
+      <div class="storage-title g-freezer">Congélateur</div>
       <div class="s-row"><span class="s-item">600g Épinards surgelés</span></div>
-    </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed g-pantry" onclick="toggleAcc(this)">
-      <span class="acc-title">Placard sec</span><span class="acc-meta">11</span><span class="chevron">▾</span>
     </div>
-    <div class="accordion-body collapsed"><div class="list-box">
+
+    <div class="storage-section">
+      <div class="storage-title g-pantry">Placard sec</div>
       <div class="s-row"><span class="s-item">×4 Sardines citron-basilic</span></div>
       <div class="s-row"><span class="s-item">500g Lentilles corail (bocal hermétique)</span></div>
       <div class="s-row"><span class="s-item">1kg Riz blanc</span></div>
@@ -1273,21 +1051,18 @@
       <div class="s-row"><span class="s-item">300g Maïs doux (→ frigo dès ouverture)</span></div>
       <div class="s-row"><span class="s-item">200ml Lait de coco (→ frigo dès ouverture)</span></div>
       <div class="s-row"><span class="s-item">250g Graines de courge (bocal hermétique)</span></div>
-      <div class="s-row"><span class="s-item">1kg Pommes de terre (endroit sec, sombre, ventilé)</span></div>
+      <div class="s-row"><span class="s-item">1kg Pommes de terre (sec, sombre, ventilé)</span></div>
       <div class="s-row"><span class="s-item">×6 Bananes (comptoir — jamais au frigo)</span></div>
       <div class="s-row"><span class="s-item">×6 Citrons (comptoir)</span></div>
-    </div></div>
-  </div>
-
-  <div class="acc-block">
-    <div class="acc-head collapsed g-cooked" onclick="toggleAcc(this)">
-      <span class="acc-title">Plats cuisinés · durées au frigo</span><span class="acc-meta">3</span><span class="chevron">▾</span>
     </div>
-    <div class="accordion-body collapsed"><div class="list-box">
+
+    <div class="storage-section">
+      <div class="storage-title g-cooked">Plats cuisinés · durée au frigo</div>
       <div class="s-row"><span class="s-item">Yakitori / Tikka Masala poulet → 3 jours max</span></div>
       <div class="s-row"><span class="s-item">Salade Niçoise sardines → 24h max</span></div>
       <div class="s-row"><span class="s-item">Dhal lentilles / Chakchouka / Shakshuka → 3–4 jours</span></div>
-    </div></div>
+    </div>
+
   </div>
 
 </div><!-- /view-conservation -->
@@ -1332,6 +1107,10 @@
     });
     document.getElementById('view-' + name).classList.add('active');
     moveSlider(tabs.indexOf(name));
+    document.documentElement.setAttribute('data-tab', name);
+    var sliderBg = { recettes: '#F8E2D4', courses: '#E6EEC4', conservation: '#F5E0C2' };
+    var slider = document.getElementById('tab-slider');
+    if (slider && sliderBg[name]) slider.style.backgroundColor = sliderBg[name];
   }
 
   function toggleDay(id, header) {
@@ -1383,20 +1162,48 @@
     head.classList.toggle('collapsed', !collapsed);
   }
 
+  function toggleWeek(id, header) {
+    var body = document.getElementById(id);
+    var isCollapsed = body.classList.contains('collapsed');
+    header.classList.toggle('collapsed', !isCollapsed);
+    if (isCollapsed) {
+      body.classList.remove('collapsed');
+      var targetH = body.scrollHeight;
+      body.style.height = '0'; body.style.overflow = 'hidden';
+      body.style.opacity = '0'; body.style.transition = 'none';
+      body.offsetHeight;
+      body.style.transition = 'height .3s ease, opacity .22s ease';
+      body.style.height = targetH + 'px'; body.style.opacity = '1';
+      body.addEventListener('transitionend', function onE(e) {
+        if (e.propertyName !== 'height') return;
+        body.style.height = 'auto'; body.style.overflow = 'visible';
+        body.style.transition = ''; body.removeEventListener('transitionend', onE);
+      });
+    } else {
+      body.style.height = body.offsetHeight + 'px'; body.style.overflow = 'hidden';
+      body.offsetHeight;
+      body.style.transition = 'height .3s ease, opacity .22s ease';
+      body.style.height = '0'; body.style.opacity = '0';
+      body.classList.add('collapsed');
+      body.addEventListener('transitionend', function onC(e) {
+        if (e.propertyName !== 'height') return;
+        body.style.transition = ''; body.removeEventListener('transitionend', onC);
+      });
+    }
+  }
+
   var STORE_KEY = 'mp-1juin-2026';
 
   function check(el) {
-    if (el.classList.contains('stock')) return;
     el.classList.toggle('checked');
     save();
-    updateProgress();
   }
 
   function save() {
     var state = {};
-    document.querySelectorAll('#view-courses .shop-item:not(.stock)').forEach(function(item) {
-      var key = item.querySelector('.item-name').textContent.trim();
-      state[key] = item.classList.contains('checked');
+    document.querySelectorAll('#view-courses .sci').forEach(function(item) {
+      var nameEl = item.querySelector('.sci-name');
+      if (nameEl) state[nameEl.textContent.trim()] = item.classList.contains('checked');
     });
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {}
   }
@@ -1406,28 +1213,20 @@
     try { saved = localStorage.getItem(STORE_KEY); } catch(e) {}
     if (!saved) return;
     var state = JSON.parse(saved);
-    document.querySelectorAll('#view-courses .shop-item:not(.stock)').forEach(function(item) {
-      var key = item.querySelector('.item-name').textContent.trim();
-      if (state[key]) item.classList.add('checked');
+    document.querySelectorAll('#view-courses .sci').forEach(function(item) {
+      var nameEl = item.querySelector('.sci-name');
+      if (nameEl && state[nameEl.textContent.trim()]) item.classList.add('checked');
     });
-    updateProgress();
   }
 
   function resetAll() {
-    document.querySelectorAll('#view-courses .shop-item.checked').forEach(function(el) {
+    document.querySelectorAll('#view-courses .sci.checked').forEach(function(el) {
       el.classList.remove('checked');
     });
     try { localStorage.removeItem(STORE_KEY); } catch(e) {}
-    updateProgress();
   }
 
-  function updateProgress() {
-    var all  = document.querySelectorAll('#view-courses .shop-item:not(.stock)');
-    var done = document.querySelectorAll('#view-courses .shop-item:not(.stock).checked');
-    var pct = all.length ? Math.round(done.length / all.length * 100) : 0;
-    document.getElementById('prog-text').textContent = done.length + ' / ' + all.length;
-    document.getElementById('fill-prog').style.width = pct + '%';
-  }
+  function updateProgress() { /* no-op — progress bar removed */ }
 
   function initToday() {
     var now = new Date();
@@ -1464,15 +1263,11 @@
   }
 
   function initAccZindex() {
-    ['courses', 'conservation'].forEach(function(viewId) {
-      var view = document.getElementById('view-' + viewId);
-      if (!view) return;
-      var blocks = view.querySelectorAll('.courses-summary, .week-courses-label, .acc-block');
-      var total = blocks.length;
-      blocks.forEach(function(el, i) {
-        el.style.zIndex = String(total - i);
-      });
-    });
+    var view = document.getElementById('view-courses');
+    if (view) {
+      var blocks = view.querySelectorAll('.week-block');
+      blocks.forEach(function(el, i) { el.style.zIndex = String(blocks.length - i); });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -1482,6 +1277,8 @@
     moveSlider(0);
     initDayZindex();
     initAccZindex();
+    document.documentElement.setAttribute('data-tab', 'recettes');
+    document.getElementById('tab-slider').style.backgroundColor = '#F8E2D4';
   });
 </script>
 
