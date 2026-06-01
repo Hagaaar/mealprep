@@ -81,17 +81,19 @@
 
     /* ── RECETTES HERO BANNER ─────────────── */
     #view-recettes > .view-head {
-      position: relative;
-      z-index: 20;
+      position: relative; z-index: 20;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
       margin: 0 -18px 0;
-      padding: 48px 22px 36px;
+      padding: 44px 22px 32px;
       background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
       border-radius: 0 0 32px 32px;
       border-bottom: none;
     }
-    #view-recettes > .view-head .eyebrow { color: rgba(251,244,220,.65); }
-    #view-recettes > .view-head h1 { color: #FBF4DC; font-size: 42px; }
-    #view-recettes > .view-head .view-sub { color: rgba(251,244,220,.72); }
+    .hero-left { flex: 1; }
+    #view-recettes > .view-head h1 { font-family: var(--serif); font-size: 54px; font-weight: 600; line-height: .88; letter-spacing: -1.5px; color: #FBF4DC; }
+    .hero-right { text-align: right; flex-shrink: 0; }
+    .hero-right .eyebrow { display: block; color: rgba(251,244,220,.60); margin-bottom: 8px; }
+    .hero-date { font-family: var(--mono); font-size: 13px; font-weight: 700; color: rgba(251,244,220,.9); display: block; }
 
     /* ── ACCORDION BARS (courses / stockage) ─ */
     .acc-block { margin-bottom: 8px; }
@@ -119,11 +121,11 @@
     .day-block {
       position: relative;
       margin: -28px -18px 0;
-      padding: 28px 18px 20px;
-      background: color-mix(in srgb, var(--day) 22%, var(--paper));
+      padding: 28px 18px 10px;
+      background: color-mix(in srgb, var(--day) 38%, var(--paper));
       border-radius: 0 0 32px 32px;
     }
-    .day-head { display: flex; align-items: center; gap: 13px; padding: 12px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .day-head { display: flex; align-items: center; gap: 12px; padding: 6px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
     .day-head:active { opacity: .7; }
     .day-num { font-family: var(--serif); font-size: 17px; font-weight: 600; line-height: 1; color: var(--deep); min-width: 36px; height: 36px; background: rgba(255,255,255,.45); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .day-info { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -140,8 +142,13 @@
 
     .today-badge { font-family: var(--mono); display: inline-flex; align-items: center; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 9px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
 
+    /* base accordion (courses / stockage) */
     .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding: 6px 0 16px; }
     .accordion-body.collapsed { max-height: 0 !important; opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+    /* day-block accordion — JS-driven height, overflow:visible when open */
+    .day-block .accordion-body { overflow: visible; max-height: none !important; height: auto; padding: 0 0 16px; transition: height .35s ease, opacity .25s ease; }
+    .day-block .accordion-body.collapsed { overflow: hidden; height: 0; max-height: none !important; opacity: 0; padding: 0; pointer-events: none; }
 
     /* ── MEAL CARDS ───────────────────────── */
     .meal { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--day); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
@@ -150,17 +157,16 @@
     .meal.alert-card { border-color: rgba(140,55,3,.35); border-left-color: var(--brown); background: #FAEADB; }
     .meal.fast-card { border: 1.5px dashed var(--brown); border-left: 1.5px dashed var(--brown); background: #F8E9D8; text-align: center; padding: 24px 20px; }
 
-    /* ── MEAL NESTING inside day accordions ─ */
-    .day-block .accordion-body { padding: 0 0 24px; }
+    /* ── MEAL NESTING — full-bleed edge-to-edge inside day accordions ─ */
     .day-block .accordion-body .meal {
       position: relative;
       border: none; border-left: none; border-radius: 0 0 28px 28px;
-      box-shadow: none; margin: -20px 0 0; padding: 34px 16px 16px;
+      box-shadow: none; margin: -22px -18px 0; padding: 36px 18px 16px;
     }
-    .day-block .accordion-body .meal:first-child { margin-top: 4px; padding-top: 16px; }
+    .day-block .accordion-body .meal:first-child { margin: 0 -18px; padding: 14px 18px 16px; }
     .day-block .accordion-body .meal.main { border-left: none; box-shadow: none; }
-    .day-block .accordion-body .meal.fast-card { border: none; padding: 34px 20px 24px; }
-    .day-block .accordion-body .meal.fast-card:first-child { padding-top: 24px; }
+    .day-block .accordion-body .meal.fast-card { border: none; padding: 36px 20px 24px; }
+    .day-block .accordion-body .meal.fast-card:first-child { margin: 0 -18px; padding: 24px 20px; }
     .day-block .accordion-body .meal:nth-child(1) { z-index: 7; }
     .day-block .accordion-body .meal:nth-child(2) { z-index: 6; }
     .day-block .accordion-body .meal:nth-child(3) { z-index: 5; }
@@ -267,9 +273,13 @@
 <div id="view-recettes" class="view active">
 
   <header class="view-head">
-    <span class="eyebrow">Meal Prep · 1–14 Juin</span>
-    <h1>Salut chef&nbsp;!</h1>
-    <p class="view-sub">Qu'est-ce qu'on mange aujourd'hui&nbsp;?</p>
+    <div class="hero-left">
+      <h1>Salut<br>chef&nbsp;!</h1>
+    </div>
+    <div class="hero-right">
+      <span class="eyebrow">Meal Prep</span>
+      <span class="hero-date">1–14 Juin</span>
+    </div>
   </header>
 
   <!-- LUNDI 1 JUIN -->
@@ -1296,9 +1306,43 @@
 
   function toggleDay(id, header) {
     var body = document.getElementById(id);
-    var collapsed = body.classList.contains('collapsed');
-    body.classList.toggle('collapsed', !collapsed);
-    header.classList.toggle('collapsed', !collapsed);
+    var isCollapsed = body.classList.contains('collapsed');
+    header.classList.toggle('collapsed', !isCollapsed);
+
+    if (isCollapsed) {
+      // Remove collapsed so CSS padding applies, then measure
+      body.classList.remove('collapsed');
+      var targetH = body.scrollHeight;
+      // Freeze at 0 before animating
+      body.style.height = '0';
+      body.style.overflow = 'hidden';
+      body.style.opacity = '0';
+      body.style.transition = 'none';
+      body.offsetHeight; // reflow
+      body.style.transition = 'height .35s ease, opacity .25s ease';
+      body.style.height = targetH + 'px';
+      body.style.opacity = '1';
+      body.addEventListener('transitionend', function onExpand(e) {
+        if (e.propertyName !== 'height') return;
+        body.style.height = 'auto';
+        body.style.overflow = 'visible';
+        body.style.transition = '';
+        body.removeEventListener('transitionend', onExpand);
+      });
+    } else {
+      body.style.height = body.offsetHeight + 'px';
+      body.style.overflow = 'hidden';
+      body.offsetHeight; // reflow
+      body.style.transition = 'height .35s ease, opacity .25s ease';
+      body.style.height = '0';
+      body.style.opacity = '0';
+      body.classList.add('collapsed');
+      body.addEventListener('transitionend', function onCollapse(e) {
+        if (e.propertyName !== 'height') return;
+        body.style.transition = '';
+        body.removeEventListener('transitionend', onCollapse);
+      });
+    }
   }
 
   function toggleAcc(head) {
@@ -1371,6 +1415,9 @@
     headEl.classList.add('is-today');
     headEl.classList.remove('collapsed');
     bodyEl.classList.remove('collapsed');
+    bodyEl.style.height = 'auto';
+    bodyEl.style.overflow = 'visible';
+    bodyEl.style.opacity = '1';
     setTimeout(function() {
       headEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 120);
