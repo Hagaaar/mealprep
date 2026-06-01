@@ -12,32 +12,28 @@
   <style>
     :root {
       /* ── PALETTE ──────────────────────────── */
-      --color-daze:      #7BAFC4;
-      --color-dusk:      #5B8FA0;
-      --color-2am:       #2A5464;
-      --color-spring:    #E8908A;
-      --color-champagne: #F2D8B9;
-      --color-sunshine:  #E8A020;
-      --color-toasted:   #C45830;
-      --color-mint:      #6B6012;
-      --color-basil:     #9A8830;
+      --c1: #8EA604;
+      --c2: #F5BB00;
+      --c3: #EC9F05;
+      --c4: #D76A03;
+      --c5: #BF3100;
       /* Surfaces */
-      --paper: #EDE0C8;
-      --card:  #F7EDDA;
-      --card2: #F2D8B9;
+      --paper: #FAF2DF;
+      --card:  #FFF9EC;
+      --card2: #F5E8C8;
       /* Ink */
-      --ink:      #2A5464;
-      --ink-soft: #5B8FA0;
-      --muted:    #7BAFC4;
-      --line:     #D4C4A0;
-      /* Palette aliases (keep variable names so inline styles still work) */
-      --brown:       #C45830;  --brown-deep:  #2A5464;
-      --orange:      #E8A020;  --orange-deep: #C45830;
-      --gold:        #E8A020;
-      --lightyel:    #F2D8B9;
-      --olive:       #9A8830;  --olive-deep:  #6B6012;
-      --forest:      #2A5464;  --forest-deep: #1E3F4D;
-      --red: #C45830;
+      --ink:      #1E0800;
+      --ink-soft: #6B3C10;
+      --muted:    #A07040;
+      --line:     #E8D09C;
+      /* Palette aliases */
+      --brown:       #D76A03;  --brown-deep:  #BF3100;
+      --orange:      #EC9F05;  --orange-deep: #D76A03;
+      --gold:        #F5BB00;
+      --lightyel:    #F5BB00;
+      --olive:       #8EA604;  --olive-deep:  #5E6E02;
+      --forest:      #8EA604;  --forest-deep: #5E6E02;
+      --red: #BF3100;
       /* Type */
       --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
       --sans:  'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -61,23 +57,23 @@
     /* ── TABS ─────────────────────────────── */
     .tabs {
       display: flex; gap: 0; background: var(--card2);
-      border-radius: 18px; padding: 4px;
+      border-radius: 44px; padding: 4px;
       position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
       width: calc(100% - 36px); max-width: 464px; z-index: 100;
-      box-shadow: 0 4px 24px rgba(42,84,100,.20), 0 1px 6px rgba(42,84,100,.12);
+      box-shadow: 0 4px 24px rgba(191,49,0,.18), 0 1px 6px rgba(191,49,0,.10);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
     .tab-slider {
       position: absolute; top: 4px; left: 4px;
       height: calc(100% - 8px);
       background: var(--card);
-      border-radius: 14px;
+      border-radius: 40px;
       box-shadow: 0 1px 4px rgba(90,40,5,.12);
       transition: left .3s cubic-bezier(0.4, 0, 0.2, 1), width .3s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
       z-index: 0;
     }
-    .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 14px; cursor: pointer; transition: color .2s ease; position: relative; z-index: 1; }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .2s ease; position: relative; z-index: 1; }
     .tab-btn.active { background: transparent; color: var(--brown); }
 
     /* ── PER-VIEW HEADER ──────────────────── */
@@ -94,7 +90,7 @@
       display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
       margin: 0 -18px 0;
       padding: 44px 22px 32px;
-      background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
+      background: var(--brown-deep);
       border-radius: 0 0 32px 32px;
       border-bottom: none;
     }
@@ -121,13 +117,13 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 
     /* ── DAY (gradient palette per weekday) ── */
-    .d-lun { --day: #C45830; --deep: #8A3820; }
-    .d-mar { --day: #E8908A; --deep: #C45830; }
-    .d-mer { --day: #E8A020; --deep: #9A6010; }
-    .d-jeu { --day: #7BAFC4; --deep: #2A5464; }
-    .d-ven { --day: #9A8830; --deep: #6B6012; }
-    .d-sam { --day: #5B8FA0; --deep: #2A5464; }
-    .d-dim { --day: #2A5464; --deep: #1A3B4A; }
+    .d-lun { --day: #BF3100; --deep: #8A2200; }
+    .d-mar { --day: #D76A03; --deep: #9E4E02; }
+    .d-mer { --day: #EC9F05; --deep: #A86E03; }
+    .d-jeu { --day: #F5BB00; --deep: #B08800; }
+    .d-ven { --day: #8EA604; --deep: #5E6E02; }
+    .d-sam { --day: #D76A03; --deep: #9E4E02; }
+    .d-dim { --day: #BF3100; --deep: #8A2200; }
 
     .day-block {
       position: relative;
@@ -246,7 +242,7 @@
     .progress-wrap { margin: 14px 0 8px; }
     .progress-label { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); margin-bottom: 6px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: .5px; }
     .progress-track { height: 6px; background: var(--card2); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--olive), var(--forest)); border-radius: 4px; transition: width .3s ease; }
+    .progress-fill { height: 100%; background: var(--olive); border-radius: 4px; transition: width .3s ease; }
 
     .budget-banner { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--olive); border-radius: 14px; padding: 16px 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(90,50,10,.05); }
     .bdg-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); margin-bottom: 5px; }
