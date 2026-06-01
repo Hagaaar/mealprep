@@ -11,24 +11,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* ── PALETTE ──────────────────────────── */
+      --color-daze:      #7BAFC4;
+      --color-dusk:      #5B8FA0;
+      --color-2am:       #2A5464;
+      --color-spring:    #E8908A;
+      --color-champagne: #F2D8B9;
+      --color-sunshine:  #E8A020;
+      --color-toasted:   #C45830;
+      --color-mint:      #6B6012;
+      --color-basil:     #9A8830;
       /* Surfaces */
-      --paper: #F7EFCA;
-      --card:  #FFFCEF;
-      --card2: #FBF4DC;
+      --paper: #EDE0C8;
+      --card:  #F7EDDA;
+      --card2: #F2D8B9;
       /* Ink */
-      --ink:      #3A2A14;
-      --ink-soft: #7A6738;
-      --muted:    #9A8758;
-      --line:     #E6D6A6;
-      /* Palette */
-      --brown:  #8C3703; --brown-deep:  #5E2502;
-      --orange: #E85D04; --orange-deep: #B5450A;
-      --gold:   #FFBA08;
-      --lightyel:#FBD569;
-      --olive:  #899536; --olive-deep:  #5E6B26;
-      --forest: #355A35; --forest-deep: #244023;
-      /* Legacy aliases used by inline styles in content */
-      --red: #8C3703;
+      --ink:      #2A5464;
+      --ink-soft: #5B8FA0;
+      --muted:    #7BAFC4;
+      --line:     #D4C4A0;
+      /* Palette aliases (keep variable names so inline styles still work) */
+      --brown:       #C45830;  --brown-deep:  #2A5464;
+      --orange:      #E8A020;  --orange-deep: #C45830;
+      --gold:        #E8A020;
+      --lightyel:    #F2D8B9;
+      --olive:       #9A8830;  --olive-deep:  #6B6012;
+      --forest:      #2A5464;  --forest-deep: #1E3F4D;
+      --red: #C45830;
       /* Type */
       --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
       --sans:  'Hanken Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -55,7 +64,7 @@
       border-radius: 18px; padding: 4px;
       position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
       width: calc(100% - 36px); max-width: 464px; z-index: 100;
-      box-shadow: 0 4px 24px rgba(90,50,10,.18), 0 1px 6px rgba(90,50,10,.10);
+      box-shadow: 0 4px 24px rgba(42,84,100,.20), 0 1px 6px rgba(42,84,100,.12);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
     .tab-slider {
@@ -112,13 +121,13 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 
     /* ── DAY (gradient palette per weekday) ── */
-    .d-lun { --day: #8C3703; --deep: #5E2502; }
-    .d-mar { --day: #C0470A; --deep: #8F340A; }
-    .d-mer { --day: #E85D04; --deep: #B5450A; }
-    .d-jeu { --day: #FFBA08; --deep: #9A7204; }
-    .d-ven { --day: #FBD569; --deep: #8C7016; }
-    .d-sam { --day: #899536; --deep: #5E6B26; }
-    .d-dim { --day: #355A35; --deep: #244023; }
+    .d-lun { --day: #C45830; --deep: #8A3820; }
+    .d-mar { --day: #E8908A; --deep: #C45830; }
+    .d-mer { --day: #E8A020; --deep: #9A6010; }
+    .d-jeu { --day: #7BAFC4; --deep: #2A5464; }
+    .d-ven { --day: #9A8830; --deep: #6B6012; }
+    .d-sam { --day: #5B8FA0; --deep: #2A5464; }
+    .d-dim { --day: #2A5464; --deep: #1A3B4A; }
 
     .day-block {
       position: relative;
@@ -127,7 +136,7 @@
       background: color-mix(in srgb, var(--day) 38%, var(--paper));
       border-radius: 0 0 32px 32px;
     }
-    .day-head { display: flex; align-items: center; gap: 12px; padding: 6px 0; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
+    .day-head { display: flex; align-items: center; gap: 12px; padding: 16px 0 6px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; }
     .day-head:active { opacity: .7; }
     .day-num { display: none; }
     .day-info { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -139,16 +148,9 @@
     .t-jeune  { color: var(--brown); }
     .chevron { font-size: 13px; color: var(--deep); transition: transform .25s ease; line-height: 1; flex-shrink: 0; opacity: .7; }
     .day-head:not(.collapsed) .chevron, .acc-head:not(.collapsed) .chevron { transform: rotate(180deg); }
-    .day-head.is-today {
-      background: linear-gradient(160deg, var(--brown-deep) 0%, var(--brown) 100%);
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin: 2px -14px;
-    }
-    .day-head.is-today .day-label, .day-head.is-today .day-train, .day-head.is-today .chevron { color: #FBF4DC; opacity: 1; }
-    .day-head.is-today .today-badge { background: rgba(251,244,220,.22); color: #FBF4DC; }
+    .day-head.is-today { background: transparent; }
 
-    .today-badge { font-family: var(--mono); display: inline-flex; align-items: center; background: var(--deep); color: #FBF4DC; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 9px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
+    .today-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-soft); flex-shrink: 0; }
 
     /* base accordion (courses / stockage) */
     .accordion-body { overflow: hidden; transition: max-height .35s ease, opacity .25s ease; max-height: 9999px; opacity: 1; padding: 6px 0 16px; }
@@ -1427,9 +1429,11 @@
     bodyEl.style.height = 'auto';
     bodyEl.style.overflow = 'visible';
     bodyEl.style.opacity = '1';
-    setTimeout(function() {
-      headEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        headEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
   }
 
   function initDayZindex() {
