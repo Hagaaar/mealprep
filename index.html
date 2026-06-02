@@ -268,7 +268,16 @@
       position: absolute;
       inset: 0;
       border-radius: 0 0 24px 24px;
-      border-bottom: 1px solid rgba(255,255,255,.50);
+      border-bottom: 1px solid rgba(255,255,255,.25);
+      pointer-events: none;
+    }
+    /* Même traitement sur la bannière fixe */
+    .view-head::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 0 0 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.25);
       pointer-events: none;
     }
 
@@ -1299,6 +1308,7 @@
     moveSlider(tabs.indexOf(name));
     document.documentElement.setAttribute('data-tab', name);
     /* La couleur html est gérée par CSS html[data-tab="X"] — pas d'inline style ici */
+    window.scrollTo(0, 0);
   }
 
   function toggleDay(id, header) {
@@ -1418,7 +1428,10 @@
     bodyEl.style.opacity = '1';
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
-        headEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var banner = document.querySelector('#view-recettes > .view-head');
+        var bannerH = banner ? banner.offsetHeight : 0;
+        var elTop = headEl.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: Math.max(0, elTop - bannerH), behavior: 'smooth' });
       });
     });
   }
