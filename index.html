@@ -257,6 +257,26 @@
     .courses-total-lbl { font-family: var(--mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
     .courses-total-amt { font-family: var(--serif); font-size: 32px; font-weight: 600; color: var(--ink); line-height: 1; }
 
+    /* ── TRAIT DE RELIEF BAS DE CARTE ───────────── */
+    /* Filet blanc 3px, 30% opacité, fondu sur les arrondis gauche et droit */
+    .day-block::after,
+    .week-block::after,
+    .storage-block::after,
+    .macro-ref::after,
+    .courses-total-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right,
+        transparent 0,
+        rgba(255,255,255,.30) 26px,
+        rgba(255,255,255,.30) calc(100% - 26px),
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+
     /* ── STORAGE CASCADE ────────────────────── */
     .storage-block {
       position: relative;
