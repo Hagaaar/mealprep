@@ -1617,7 +1617,7 @@
 
   function shouldShowPlanner() {
     var day = new Date().getDay();
-    if (day !== 5 && day !== 6 && day !== 1) return false;
+    if (day !== 5 && day !== 6 && day !== 1 && day !== 3) return false;
     return !localStorage.getItem(MP_PLAN_PFX + isoKey(nextMonday()));
   }
 
