@@ -1326,9 +1326,9 @@
 <div id="mp-apikey-modal" class="mp-overlay">
   <div class="mp-modal">
     <div class="mp-drag-bar"></div>
-    <p class="mp-title">Clé API Anthropic</p>
-    <p class="mp-sub">Saisie une seule fois — stockée sur ton appareil uniquement, jamais envoyée ailleurs.</p>
-    <input id="mp-apikey-input" class="mp-input" type="password" placeholder="sk-ant-api03-…" autocomplete="off" spellcheck="false">
+    <p class="mp-title">Clé API Google (Gemini)</p>
+    <p class="mp-sub">Saisie une seule fois — stockée sur ton appareil uniquement. Obtiens-la gratuitement sur aistudio.google.com → "Get API key".</p>
+    <input id="mp-apikey-input" class="mp-input" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false">
     <div class="mp-actions">
       <button id="mp-apikey-cancel" class="mp-btn mp-btn-sec">Annuler</button>
       <button id="mp-apikey-btn" class="mp-btn mp-btn-pri">Enregistrer</button>
@@ -1593,7 +1593,7 @@
 
   // ── PLANNER ───────────────────────────────────────────────────────────
 
-  var MP_API_KEY    = 'mp-anthropic-key';
+  var MP_API_KEY    = 'mp-gemini-key';
   var MP_PLAN_PFX   = 'mp-plan-';
 
   function isoWeekNum(d) {
@@ -1732,23 +1732,26 @@
   async function callClaude(messages, system) {
     var key = localStorage.getItem(MP_API_KEY);
     if (!key) { key = await mpPromptApiKey(); if (!key) throw new Error('Clé API requise'); }
-    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key;
+    var body = {
+      system_instruction: { parts: [{ text: system }] },
+      contents: messages.map(function(m) {
+        return { role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] };
+      }),
+      generationConfig: { maxOutputTokens: 4096, temperature: 0.7 }
+    };
+    var resp = await fetch(url, {
       method: 'POST',
-      headers: {
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 4096, system: system, messages: messages })
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body)
     });
     if (!resp.ok) {
-      if (resp.status === 401) { localStorage.removeItem(MP_API_KEY); throw new Error('Clé API invalide — réessaie'); }
+      if (resp.status === 400 || resp.status === 403) { localStorage.removeItem(MP_API_KEY); throw new Error('Clé API invalide — réessaie'); }
       var e = await resp.json().catch(function(){return {};});
       throw new Error((e.error && e.error.message) || ('Erreur API ' + resp.status));
     }
     var data = await resp.json();
-    return data.content[0].text;
+    return data.candidates[0].content.parts[0].text;
   }
 
   // ── PLANNER FLOW ────────────────────────────────────────────────────────
