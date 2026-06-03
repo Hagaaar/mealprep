@@ -1378,7 +1378,8 @@
       <p class="mp-title" style="color:var(--brown-deep)">⚠️ Erreur</p>
       <p id="mp-error-msg" class="mp-sub"></p>
       <div class="mp-actions">
-        <button class="mp-btn mp-btn-sec" onclick="mpShowStep('mp-step-stock')">← Réessayer</button>
+        <button class="mp-btn mp-btn-sec" onclick="mpResetKey()">🔑 Changer la clé</button>
+        <button class="mp-btn mp-btn-pri" onclick="mpShowStep('mp-step-stock')">Réessayer</button>
       </div>
     </div>
 
@@ -1724,7 +1725,7 @@
       body: JSON.stringify(body)
     });
     if (!resp.ok) {
-      if (resp.status === 400 || resp.status === 403) { localStorage.removeItem(MP_API_KEY); throw new Error('Clé API invalide — réessaie'); }
+      if (resp.status === 400 || resp.status === 401 || resp.status === 403) { localStorage.removeItem(MP_API_KEY); throw new Error('Clé API invalide — utilise le bouton "Changer la clé"'); }
       var e = await resp.json().catch(function(){return {};});
       throw new Error((e.error && e.error.message) || ('Erreur API ' + resp.status));
     }
@@ -1749,6 +1750,12 @@
     } else {
       mpShowStep('mp-step-apikey');
     }
+  }
+
+  function mpResetKey() {
+    localStorage.removeItem(MP_API_KEY);
+    document.getElementById('mp-apikey-input').value = '';
+    mpShowStep('mp-step-apikey');
   }
 
   function mpSaveApiKey() {
