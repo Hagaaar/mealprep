@@ -1273,15 +1273,14 @@
 <!-- ── PLANNER MODALS ─────────────────────────────────────────────── -->
 <style>
 .mp-overlay {
-  display: none; position: fixed; inset: 0; z-index: 1000;
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;
+  background: rgba(30,8,0,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  -webkit-align-items: flex-end; align-items: flex-end;
+  -webkit-justify-content: center; justify-content: center;
+  padding: 0 0 16px;
 }
-#mp-apikey-modal {
-  z-index: 1010;
-  background: rgba(30,8,0,.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  align-items: flex-end; justify-content: center;
-  padding: 0 0 max(env(safe-area-inset-bottom), 16px);
-}
-.mp-overlay.active { display: flex; }
+.mp-overlay.active { display: -webkit-flex; display: flex; }
+#mp-apikey-modal { z-index: 1010; }
 .mp-modal {
   background: var(--card); border: 1px solid var(--line);
   border-radius: 24px 24px 20px 20px; padding: 24px 20px 20px;
