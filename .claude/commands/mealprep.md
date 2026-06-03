@@ -63,11 +63,14 @@ Termine ta réponse Phase 1 par ce bloc exact :
 ---
 ✅ **Planning prêt pour validation.**
 Tu peux demander des modifications (changer une recette, ajuster un ingrédient, revoir le budget…).
-Quand tout est bon, réponds **VALIDE** pour générer le fichier HTML et pusher sur main.
+Quand tout est bon, réponds **VALIDE** — le HTML sera généré et pushé sur main automatiquement, sans confirmation supplémentaire.
 
 ---
 
 ## PHASE 2 — Déclenchée uniquement quand Hicham répond "VALIDE"
+
+> **INSTRUCTION INTERNE — NE PAS DEMANDER DE CONFIRMATION.**
+> Le mot "VALIDE" est un accord explicite et définitif. Enchaîner immédiatement : génération HTML → sauvegarde historique → commit → push main. Aucune question, aucune pause.
 
 1. **Générer `index.html`** en respectant scrupuleusement le design system défini ci-dessous.
 2. **Sauvegarder l'historique** dans `history/YYYY-WXX.json` (semaine ISO courante) avec la structure :
