@@ -1711,7 +1711,7 @@
   async function callClaude(messages, system) {
     var key = localStorage.getItem(MP_API_KEY);
     if (!key) throw new Error('Clé API manquante');
-    var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key;
+    var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + key;
     var body = {
       system_instruction: { parts: [{ text: system }] },
       contents: messages.map(function(m) {
