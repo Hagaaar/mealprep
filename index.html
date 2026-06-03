@@ -1280,7 +1280,6 @@
   padding: 0 0 16px;
 }
 .mp-overlay.active { display: -webkit-flex; display: flex; }
-#mp-apikey-modal { z-index: 1010; }
 .mp-modal {
   background: var(--card); border: 1px solid var(--line);
   border-radius: 24px 24px 20px 20px; padding: 24px 20px 20px;
@@ -1324,21 +1323,7 @@
 .mp-loading-wrap { text-align: center; padding: 28px 0; }
 </style>
 
-<!-- API KEY MODAL -->
-<div id="mp-apikey-modal" class="mp-overlay">
-  <div class="mp-modal">
-    <div class="mp-drag-bar"></div>
-    <p class="mp-title">Clé API Google (Gemini)</p>
-    <p class="mp-sub">Saisie une seule fois — stockée sur ton appareil uniquement. Obtiens-la gratuitement sur aistudio.google.com → "Get API key".</p>
-    <input id="mp-apikey-input" class="mp-input" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false">
-    <div class="mp-actions">
-      <button id="mp-apikey-cancel" class="mp-btn mp-btn-sec">Annuler</button>
-      <button id="mp-apikey-btn" class="mp-btn mp-btn-pri">Enregistrer</button>
-    </div>
-  </div>
-</div>
-
-<!-- PLANNER MODAL -->
+<!-- PLANNER MODAL (clé API intégrée comme étape) -->
 <div id="mp-planner-modal" class="mp-overlay">
   <div class="mp-modal mp-modal-tall">
     <div class="mp-drag-bar"></div>
@@ -1348,7 +1333,17 @@
       <p class="mp-sub">La semaine prochaine n'est pas encore planifiée. Tu veux générer le menu maintenant ?</p>
       <div class="mp-actions">
         <button class="mp-btn mp-btn-sec" onclick="closePlannerModal()">Plus tard</button>
-        <button class="mp-btn mp-btn-pri" onclick="mpShowStep('mp-step-stock')">C'est parti →</button>
+        <button class="mp-btn mp-btn-pri" onclick="mpCheckApiKey()">C'est parti →</button>
+      </div>
+    </div>
+
+    <div id="mp-step-apikey" style="display:none">
+      <p class="mp-title">🔑 Clé API Gemini</p>
+      <p class="mp-sub">Saisie une seule fois — stockée sur ton iPhone uniquement.<br>Obtiens-la gratuitement : <strong>aistudio.google.com</strong> → "Get API key".</p>
+      <input id="mp-apikey-input" class="mp-input" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false">
+      <div class="mp-actions">
+        <button class="mp-btn mp-btn-sec" onclick="mpShowStep('mp-step-confirm')">← Retour</button>
+        <button class="mp-btn mp-btn-pri" onclick="mpSaveApiKey()">Enregistrer →</button>
       </div>
     </div>
 
@@ -1712,28 +1707,9 @@
 
   // ── API ────────────────────────────────────────────────────────────────
 
-  function mpPromptApiKey() {
-    return new Promise(function(resolve) {
-      var modal = document.getElementById('mp-apikey-modal');
-      var input = document.getElementById('mp-apikey-input');
-      var btn   = document.getElementById('mp-apikey-btn');
-      var cancel= document.getElementById('mp-apikey-cancel');
-      modal.classList.add('active'); input.value = ''; setTimeout(function(){input.focus();},100);
-      function done() {
-        var k = input.value.trim(); if (!k) return;
-        localStorage.setItem(MP_API_KEY, k); modal.classList.remove('active');
-        resolve(k); cleanup();
-      }
-      function abort() { modal.classList.remove('active'); resolve(null); cleanup(); }
-      function onKey(e) { if (e.key === 'Enter') done(); }
-      function cleanup() { btn.removeEventListener('click',done); cancel.removeEventListener('click',abort); input.removeEventListener('keydown',onKey); }
-      btn.addEventListener('click',done); cancel.addEventListener('click',abort); input.addEventListener('keydown',onKey);
-    });
-  }
-
   async function callClaude(messages, system) {
     var key = localStorage.getItem(MP_API_KEY);
-    if (!key) { key = await mpPromptApiKey(); if (!key) throw new Error('Clé API requise'); }
+    if (!key) throw new Error('Clé API manquante');
     var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key;
     var body = {
       system_instruction: { parts: [{ text: system }] },
@@ -1761,10 +1737,25 @@
   function closePlannerModal() { document.getElementById('mp-planner-modal').classList.remove('active'); }
 
   function mpShowStep(id) {
-    ['mp-step-confirm','mp-step-stock','mp-step-loading','mp-step-proposals','mp-step-error'].forEach(function(s){
+    ['mp-step-confirm','mp-step-apikey','mp-step-stock','mp-step-loading','mp-step-proposals','mp-step-error'].forEach(function(s){
       document.getElementById(s).style.display = 'none';
     });
     document.getElementById(id).style.display = 'block';
+  }
+
+  function mpCheckApiKey() {
+    if (localStorage.getItem(MP_API_KEY)) {
+      mpShowStep('mp-step-stock');
+    } else {
+      mpShowStep('mp-step-apikey');
+    }
+  }
+
+  function mpSaveApiKey() {
+    var k = document.getElementById('mp-apikey-input').value.trim();
+    if (!k) return;
+    localStorage.setItem(MP_API_KEY, k);
+    mpShowStep('mp-step-stock');
   }
 
   async function mpSubmitStock() {
