@@ -3,136 +3,146 @@
 Tu es en train de générer le planning repas hebdomadaire de Hicham.
 
 ## Ce que tu reçois via $ARGUMENTS
-Le stock actuel saisi par Hicham (ingrédients disponibles avec quantités).
+Le stock actuel saisi par Hicham (ingrédients disponibles).
 
-## Fichiers à lire impérativement avant de commencer
-1. `directives.md` — toutes les règles nutritionnelles, ustensiles, contraintes
-2. `history/` — tous les fichiers JSON présents pour identifier les recettes utilisées récemment (éviter toute répétition sur 8 semaines)
-
----
-
-## PHASE 1 — PROPOSITION (répondre dans le chat, ne rien pusher)
-
-Génère et affiche dans le chat :
-
-### 1. Récapitulatif semaine
-- Numéro de semaine ISO (ex: Semaine 24 — 9 au 15 juin 2026)
-- Lundi = JEÛNE (rappel)
-
-### 2. Les 6 recettes (Mardi → Dimanche)
-Pour chaque jour, afficher :
-```
-MARDI — 💪 Force
-Recette : [Nom de la recette]
-Ustensile : [Air Fryer / Cocotte / Tajine / Cuiseur à riz]
-
-Ingrédients (2 portions) :
-- [ingrédient] : [grammage]g  [EN STOCK ✅ / À ACHETER 🛒]
-- ...
-
-Macros plat principal : ~XXX kcal · XXg P · XXg G · XXg L
-Chef tip : [astuce marinade ou cuisson]
-```
-
-### 3. Vérification variété
-Liste les recettes proposées et confirme qu'aucune n'a été utilisée dans les 8 dernières semaines. Si l'historique est vide, l'indiquer.
-
-### 4. Liste de courses consolidée
-Uniquement les articles À ACHETER (pas ceux en stock).
-Format :
-```
-RAYON BOUCHERIE / POISSONNERIE
-- [article] [quantité] ~X.XX€
-
-RAYON ÉPICERIE
-- ...
-
-TOTAL ESTIMÉ : XX.XX€ / 50.00€ budget
-```
-Si le total dépasse 50€ → proposer automatiquement une substitution (viande fraîche → légumineuses) et recalculer.
-
-### 5. Macros journée complète
-Tableau récapitulatif confirmant que les totaux respectent les cibles.
+## Fichiers à lire avant de commencer
+1. `directives.md` — règles nutritionnelles, ustensiles, contraintes
+2. `history/` — tous les fichiers JSON pour éviter les répétitions sur 8 semaines
 
 ---
 
-## ATTENTE DE VALIDATION
+## PHASE 1 — PROPOSITION (répondre dans le chat, NE RIEN PUSHER)
 
-Termine ta réponse Phase 1 par ce bloc exact :
+Affiche dans le chat un bloc **compact** (pas de grammage, pas de macros détaillées, pas de tableau de courses) :
+
+```
+Semaine XX — [lundi D au dimanche D mois YYYY]
+Lundi : 🚫 JEÛNE
+
+Collations fixes (Mar→Dim) :
+• PRE ~10h : [ex: 80g flocons d'avoine + 1 banane + 15g beurre cacahuète] ✅/🛒
+• POST ~16h : Skyr 125g nature 🛒
+
+6 recettes proposées :
+1. **[Titre recette]** (Mardi 💪) — [ingrédient principal, légumes, épices ✅]
+2. **[Titre recette]** (Mercredi 🏃) — ...
+3. **[Titre recette]** (Jeudi 💪) — ...
+4. **[Titre recette]** (Vendredi 💪) — ...
+5. **[Titre recette]** (Samedi 🏃) — ...
+6. **[Titre recette]** (Dimanche 🏃) — ...
+
+Budget estimé : XX.XX€ / 50€ ✅
+Macros journée : ~2 017 kcal · ~170g P · ~132g G · ~90g L ✅
+```
+
+Règles de vérification silencieuses (ne pas afficher dans le chat) :
+- Aucune recette des 8 dernières semaines (history/)
+- Protéines fraîches Mar/Mer/Jeu, conserves/sec Ven/Sam/Dim
+- Budget ≤ 50€ (si dépassement → substituer viande fraîche par légumineuses)
+- Pas de porc, pas de low-carb < 100g glucides
+
+Termine par :
 
 ---
 ✅ **Planning prêt pour validation.**
-Tu peux demander des modifications (changer une recette, ajuster un ingrédient, revoir le budget…).
-Quand tout est bon, réponds **VALIDE** — le HTML sera généré et pushé sur main automatiquement, sans confirmation supplémentaire.
+Tu peux demander des modifications. Quand tout est bon, réponds **VALIDE**.
 
 ---
 
 ## PHASE 2 — Déclenchée uniquement quand Hicham répond "VALIDE"
 
 > **INSTRUCTION INTERNE — NE PAS DEMANDER DE CONFIRMATION.**
-> Le mot "VALIDE" est un accord explicite et définitif. Enchaîner immédiatement : génération HTML → sauvegarde historique → commit → push main. Aucune question, aucune pause.
+> Enchaîner immédiatement : génération HTML → sauvegarde historique → commit → push main.
 
-1. **Générer `index.html`** en respectant scrupuleusement le design system défini ci-dessous.
-2. **Sauvegarder l'historique** dans `history/YYYY-WXX.json` (semaine ISO courante) avec la structure :
+### 1. Générer `index.html`
+
+Fichier HTML autonome (CSS et JS inline, Google Fonts autorisées).
+
+**PALETTE & TYPOGRAPHIE**
+```css
+--paper: #FAF2DF;        /* fond global */
+--card: #FFF9EC;         /* fond cartes */
+--card-border: #E8D9B5;  /* bordures */
+--ink: #2C1810;          /* texte principal */
+--ink-muted: #7A6652;    /* texte secondaire */
+--brown-deep: #BF3100;   /* accent fort, Lundi */
+--forest: #8EA604;       /* vert */
+--blue-deep: #6893AB;    /* bleu */
+--sun: #E8A000;          /* orange/jaune */
+```
+Google Fonts : Newsreader (serif, titres), Hanken Grotesk (sans, corps), Space Mono (mono, macros/chiffres).
+
+**Couleurs des jours (gradient Lundi → Dimanche)**
+Lundi #BF3100 → Mardi #D44C00 → Mercredi #E06420 → Jeudi #E87830 → Vendredi #F08C38 → Samedi #F8A040 → Dimanche #FF9241
+
+**STRUCTURE**
+- `<html>` avec classe `tab-recettes` / `tab-courses` / `tab-stockage` selon l'onglet actif (chaque onglet a son fond de page).
+- Header fixe : badge "Semaine XX" à gauche, badge "date range" à droite. Fond `--card`, bordure bas `--card-border`.
+- Barre d'onglets en bas fixe (3 onglets : Recettes | Courses | Stockage), indicateur pill animé qui glisse.
+- Padding body : 16px latéral, 80px en haut (header), 72px en bas (tab bar).
+
+**ONGLET RECETTES**
+Hero :
+```html
+<p class="hero-label">Salut chef !</p>
+<p class="hero-sub">Alors qu'est-ce qu'on mange aujourd'hui ?</p>
+```
+7 blocs journaliers en accordéon (Lundi → Dimanche), chaque jour a sa couleur (cf. gradient ci-dessus).
+- En-tête : nom du jour + emoji entraînement à gauche, chevron › à droite (tourne à l'ouverture).
+- Badge "Aujourd'hui" : pill orange, injecté dynamiquement sur le jour courant (scrollIntoView + ouverture auto).
+- Lundi jeûne : accordéon normal, une seule fast-card "Jeûne 24h 🚫" (label rouge).
+- Jours normaux : 3 cards — PRE-training (bordure gauche couleur du jour), Repas midi+soir (même bordure, chef-tip en italique), POST-training (Skyr, même bordure).
+
+**ONGLET COURSES**
+Hero :
+```html
+<p class="hero-label">C'est l'heure des courses !</p>
+<p class="hero-sub">On reste fort devant le rayon gâteaux et friandises.</p>
+```
+- Banner budget : montant total (vert gras) / 50€ + reste.
+- Barre progression : articles cochés X/Y, fill animé.
+- Articles : small square `.check-box` (→ vert + ✓ au clic), nom + tags, prix à droite.
+- Articles en stock : opacité 40%, non cliquables.
+- Coches persistées en localStorage, clé `mp-sXX-YYYY` (semaine + année).
+- Bouton reset en bas.
+
+**ONGLET STOCKAGE**
+Hero :
+```html
+<p class="hero-label">Chaque chose à sa place.</p>
+<p class="hero-sub">Allez ! C'est parti pour une bonne partie de Tetris.</p>
+```
+3 sections : Frigo / Placard / Plats cuisinés (tons bleus, list-box arrondie).
+
+**JS**
+```js
+// DOMContentLoaded :
+// 1. Restaurer coches localStorage
+// 2. TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... } pour les 7 jours de la semaine
+// 3. Détecter date du jour → injecter badge + ouvrir accordéon + scrollIntoView (setTimeout 120ms)
+// 4. showTab(name), toggleDay(id, header)
+```
+
+**MOBILE-FIRST** : conçu pour iPhone 375px. `user-select:none`, `-webkit-tap-highlight-color:transparent`, transitions accordéon 0.35s ease, chevron 0.25s.
+
+**IMPORTANT** : aucune balise de citation, aucun commentaire superflu. Code 100% pur navigateur.
+
+---
+
+### 2. Sauvegarder l'historique `history/YYYY-WXX.json`
 ```json
 {
-  "week": "2026-W24",
-  "dates": "9-15 juin 2026",
+  "week": "YYYY-WXX",
+  "dates": "D-D mois YYYY",
   "recipes": [
     { "day": "Mardi", "name": "Nom recette", "protein": "poulet" },
-    { "day": "Mercredi", "name": "Nom recette", "protein": "thon" },
     ...
   ]
 }
 ```
-3. **Committer et pusher sur `main`** avec le message : `meal plan semaine XX — [liste des recettes]`
 
----
-
-## Design system index.html
-
-Génère un fichier HTML autonome (CSS et JS inclus, aucune dépendance externe).
-
-**DESIGN**
-- Thème sombre iOS natif. Fond #000, cartes #1c1c1e, bordures #38383a, actif #3a3a3c.
-- Couleurs : vert #34c759, orange #ff9f0a, bleu #0a84ff, rouge #ff3b30, violet #bf5af2, muted #8e8e93.
-- Police : -apple-system, BlinkMacSystemFont, "Segoe UI" — pas de Google Fonts.
-- Toutes les couleurs en variables CSS :root.
-
-**STRUCTURE**
-- Header fixe : titre à gauche, badge date à droite (fond orange translucide, bordure orange).
-- Barre d'onglets sticky sous le header (4 onglets) : Recettes | Courses | Stockage | Règles. Style pill iOS, backdrop-filter: blur, onglet actif sur #3a3a3c.
-- Padding body : 16px latéral, 72px en bas.
-
-**ONGLET RECETTES**
-- Blocs journaliers en accordéon (Lundi → Dimanche).
-- En-tête : texte du jour + emoji entraînement à gauche, chevron › à droite (tourne 90° à l'ouverture).
-- Badge "Aujourd'hui" : pill orange, texte noir, injecté dynamiquement sur le jour actif.
-- Jours de jeûne : label rouge #ff3b30, une seule fast-card.
-- Chaque jour ouvert : 3 cards — PRE-training (bordure gauche orange), Repas principal midi+soir (bordure gauche bleue, avec chef-tip et tip italique), POST-training (bordure gauche orange).
-
-**ONGLET COURSES**
-- Banner budget : montant dépensé (vert, 26px gras) vs budget max + reste.
-- Barre progression : articles cochés X/Y, track 4px, fill vert animé.
-- Sections par rayon, list-box arrondie 12px.
-- Chaque article : ring de coche 22px (→ vert + ✓ au clic), nom + tags pill 10px par catégorie, prix à droite.
-- Coche persistée en localStorage. Articles en stock : opacité 40%, non cliquables.
-- Bouton reset en bas.
-
-**ONGLET STOCKAGE**
-- Groupes : Frigo / Congélateur / Placard / Durées. List-box lignes simples.
-
-**ONGLET RÈGLES**
-- Grille macros 4 colonnes (orange=kcal, bleu=P, vert=G, violet=L). Blocs règles critiques avec fond coloré translucide.
-
-**JS**
-- DOMContentLoaded : restaurer coches localStorage, calculer progression, détecter date du jour → injecter badge + ouvrir accordéon + scrollIntoView (setTimeout 120ms).
-- showTab(name), toggleDay(id, header).
-- Jours jeûne : accordéon normal, fast-card unique.
-
-**MOBILE-FIRST** : conçu pour iPhone (375px). user-select:none, -webkit-tap-highlight-color:transparent, transitions accordéon 0.35s ease, chevron 0.25s.
-
-**IMPORTANT** : aucune balise de citation ou référence dans le code HTML/CSS/JS. Code 100% pur, directement utilisable par le navigateur.
+### 3. Commit et push sur `main`
+Message : `meal plan semaine XX — [liste des recettes]`
 
 ---
 
