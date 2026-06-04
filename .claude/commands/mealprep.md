@@ -8,42 +8,34 @@ Tu es en train de générer le planning repas hebdomadaire de Hicham.
 
 ---
 
-## PHASE 1 — PROPOSITION COMPACTE (chat uniquement, ne rien pusher)
+## PHASE 1 — LISTE COMPACTE (chat uniquement, ne rien pusher)
 
-### Format de réponse Phase 1 — STRICT
+Format de réponse **strict et minimal** :
 
-**Ligne d'entête :** `SEMAINE XX — [dates] | Lundi JEÛNE 🚫`
+```
+**Semaine XX — [dates]** | Lundi jeûne 🚫
 
-**Tableau des 6 recettes :**
-```
-| Jour     | Recette              | Ustensile  | Ingrédients clés à acheter        |
-|----------|----------------------|------------|------------------------------------|
-| Mar 💪   | [Nom recette]        | Air Fryer  | [protéine Xg 🛒], [féculents 🛒]  |
-| Mer 🏃   | [Nom recette]        | Cocotte    | ...                                |
-| Jeu 💪   | [Nom recette]        | Tajine     | ...                                |
-| Ven 💪   | [Nom recette]        | Cocotte    | ...                                |
-| Sam 🏃   | [Nom recette]        | Cocotte    | ...                                |
-| Dim 🏃   | [Nom recette]        | Cocotte    | ...                                |
+Collations (Mar→Dim) :
+• PRE ~10h : [description courte ex: porridge avoine + banane] ✅/🛒
+• POST ~16h : Skyr 125g nature 🛒
+
+6 recettes proposées :
+1. **[Titre]** — [ingrédients principaux sans grammage, épices ✅]
+2. **[Titre]** — ...
+3. **[Titre]** — ...
+4. **[Titre]** — ...
+5. **[Titre]** — ...
+6. **[Titre]** — ...
+
+Budget estimé : XX.XX€ / 50€ ✅
+Macros : ~2 017 kcal · ~170g P · ~132g G · ~90g L ✅
 ```
 
-**Variété :** `✅ Aucune répétition` OU liste des conflits.
-
-**Liste de courses (format compact) :**
-```
-BOUCHERIE : [article Xg ~X.XX€] · [article ~X.XX€]
-CONSERVES  : [article ~X.XX€] · ...
-SEC/ÉPICERIE : ...
-F&L : ...
-FRAIS : ...
-TOTAL : XX.XX€ / 50.00€ ✅
-```
-Si total > 50€ → substituer automatiquement (viande fraîche → légumineuses) et recalculer.
-
-**Macros globales (1 ligne par jour) :**
-```
-Mar ~XXXX kcal · XXXg P · XXXg G · XXg L ✅/⚠️
-Mer ...
-```
+Règles de construction (internes, ne pas afficher) :
+- Respecter la règle fraîcheur : recettes 1-3 = protéines fraîches, recettes 4-6 = conserves/sec
+- Macros et budget vérifiés silencieusement avant affichage
+- Si budget > 50€ : substituer automatiquement sans mentionner le dépassement
+- Variété : aucune recette des 8 dernières semaines
 
 ---
 
@@ -60,9 +52,10 @@ Terminer par :
 
 > **NE PAS DEMANDER DE CONFIRMATION.** Enchaîner immédiatement.
 
-1. Lire `.claude/design-system.md` pour les specs HTML.
-2. Générer `index.html` complet avec tous les détails (ingrédients précis, macros, chef tips, liste de courses interactive).
-3. Sauvegarder `history/YYYY-WXX.json` :
+1. Assigner les 6 recettes aux jours Mardi→Dimanche (fraîches en début, conserves en fin).
+2. Lire `.claude/design-system.md` pour les specs HTML.
+3. Générer `index.html` complet avec tous les détails (grammages précis, macros, chef tips, courses interactives).
+4. Sauvegarder `history/YYYY-WXX.json` :
 ```json
 {
   "week": "2026-W24",
@@ -73,7 +66,7 @@ Terminer par :
   ]
 }
 ```
-4. Committer et pusher sur `main` : `meal plan semaine XX — [liste recettes]`
+5. Committer et pusher sur `main` : `meal plan semaine XX — [liste recettes]`
 
 ---
 
