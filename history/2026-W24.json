@@ -1,0 +1,12 @@
+{
+  "week": "2026-W24",
+  "dates": "8-14 juin 2026",
+  "recipes": [
+    { "day": "Mardi", "name": "Poulet Tikka Masala", "protein": "poulet" },
+    { "day": "Mercredi", "name": "Curry Thon Carottes", "protein": "thon" },
+    { "day": "Jeudi", "name": "Tajine Boulettes Tomate-Olive", "protein": "boeuf" },
+    { "day": "Vendredi", "name": "Dhal Lentilles-Thon Coco", "protein": "thon" },
+    { "day": "Samedi", "name": "Loubia au Thon Épicée", "protein": "thon" },
+    { "day": "Dimanche", "name": "Chakchouka au Thon", "protein": "thon" }
+  ]
+}
