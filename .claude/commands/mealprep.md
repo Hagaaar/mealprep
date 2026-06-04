@@ -1,151 +1,109 @@
-# Commande /mealprep
+# /mealprep
 
-Tu es en train de générer le planning repas hebdomadaire de Hicham.
+Lire `directives.md` + tous `history/*.json` avant de commencer.
 
-## Ce que tu reçois via $ARGUMENTS
-Le stock actuel saisi par Hicham (ingrédients disponibles).
-
-## Fichiers à lire avant de commencer
-1. `directives.md` — règles nutritionnelles, ustensiles, contraintes
-2. `history/` — tous les fichiers JSON pour éviter les répétitions sur 8 semaines
-
----
-
-## PHASE 1 — PROPOSITION (répondre dans le chat, NE RIEN PUSHER)
-
-Affiche dans le chat un bloc **compact** (pas de grammage, pas de macros détaillées, pas de tableau de courses) :
+## PHASE 1 — dans le chat uniquement, ne rien écrire sur disque
 
 ```
-Semaine XX — [lundi D au dimanche D mois YYYY]
-Lundi : 🚫 JEÛNE
+Semaine XX — lun D au dim D mois YYYY | Lundi 🚫 JEÛNE
 
-Collations fixes (Mar→Dim) :
-• PRE ~10h : [ex: 80g flocons d'avoine + 1 banane + 15g beurre cacahuète] ✅/🛒
+Collations fixes :
+• PRE ~10h : [description] ✅/🛒
 • POST ~16h : Skyr 125g nature 🛒
 
-6 recettes proposées :
-1. **[Titre recette]** (Mardi 💪) — [ingrédient principal, légumes, épices ✅]
-2. **[Titre recette]** (Mercredi 🏃) — ...
-3. **[Titre recette]** (Jeudi 💪) — ...
-4. **[Titre recette]** (Vendredi 💪) — ...
-5. **[Titre recette]** (Samedi 🏃) — ...
-6. **[Titre recette]** (Dimanche 🏃) — ...
+1. **[Titre]** (Mar 💪) — [protéine, légumes, épices ✅]
+2. **[Titre]** (Mer 🏃) — ...
+3. **[Titre]** (Jeu 💪) — ...
+4. **[Titre]** (Ven 💪) — ...
+5. **[Titre]** (Sam 🏃) — ...
+6. **[Titre]** (Dim 🏃) — ...
 
-Budget estimé : XX.XX€ / 50€ ✅
-Macros journée : ~2 017 kcal · ~170g P · ~132g G · ~90g L ✅
+Budget : XX,XX€ / 50€ | Macros : ~2017kcal · ~170gP · ~132gG · ~90gL
 ```
 
-Règles de vérification silencieuses (ne pas afficher dans le chat) :
-- Aucune recette des 8 dernières semaines (history/)
-- Protéines fraîches Mar/Mer/Jeu, conserves/sec Ven/Sam/Dim
-- Budget ≤ 50€ (si dépassement → substituer viande fraîche par légumineuses)
-- Pas de porc, pas de low-carb < 100g glucides
+Vérifications silencieuses : aucune recette des 8 dernières semaines · fraîcheur (fraîche Mar-Jeu, conserves Ven-Dim) · budget ≤ 50€ · pas porc · glucides ≥ 100g.
 
-Termine par :
-
----
-✅ **Planning prêt pour validation.**
-Tu peux demander des modifications. Quand tout est bon, réponds **VALIDE**.
+Terminer par :
+> ✅ Planning prêt. Réponds **VALIDE** pour générer.
 
 ---
 
-## PHASE 2 — Déclenchée uniquement quand Hicham répond "VALIDE"
+## PHASE 2 — uniquement sur "VALIDE", enchaîner sans confirmation
 
-> **INSTRUCTION INTERNE — NE PAS DEMANDER DE CONFIRMATION.**
-> Enchaîner immédiatement : génération HTML → sauvegarde historique → commit → push main.
+### Étape 1 — Modifier `index.html`
 
-### 1. Générer `index.html`
+Lire le fichier actuel. C'est le template : **ne pas toucher au CSS ni au JS** sauf les 9 zones ci-dessous.
 
-Fichier HTML autonome (CSS et JS inline, Google Fonts autorisées).
+| Zone | Ce qu'il faut remplacer |
+|------|------------------------|
+| `<title>` | `Semaine XX` |
+| `.week-name-txt` | `Semaine XX` + `— Jour DD Mois` (dernier jour de la semaine) |
+| `.week-budget-txt` | `XX,XX €` |
+| IDs des blocs jours | `day-lunD`, `day-marD`, … `day-dimD` (D = numéro du jour du mois) |
+| Contenu de chaque jour | PRE-card · Repas-card (recette, ingrédients, macros, chef-tip) · POST-card |
+| Section Courses `.sci` | Articles à acheter (nom, usage, prix) |
+| `.courses-total-amt` | total `XX,XX €` |
+| `TODAY_MAP` | 7 entrées `'YYYY-MM-DD': 'day-xxxD'` |
+| `STORE_KEY` | `'mp-sXX-YYYY'` |
 
-**PALETTE & TYPOGRAPHIE**
-```css
---paper: #FAF2DF;        /* fond global */
---card: #FFF9EC;         /* fond cartes */
---card-border: #E8D9B5;  /* bordures */
---ink: #2C1810;          /* texte principal */
---ink-muted: #7A6652;    /* texte secondaire */
---brown-deep: #BF3100;   /* accent fort, Lundi */
---forest: #8EA604;       /* vert */
---blue-deep: #6893AB;    /* bleu */
---sun: #E8A000;          /* orange/jaune */
-```
-Google Fonts : Newsreader (serif, titres), Hanken Grotesk (sans, corps), Space Mono (mono, macros/chiffres).
-
-**Couleurs des jours (gradient Lundi → Dimanche)**
-Lundi #BF3100 → Mardi #D44C00 → Mercredi #E06420 → Jeudi #E87830 → Vendredi #F08C38 → Samedi #F8A040 → Dimanche #FF9241
-
-**STRUCTURE**
-- `<html>` avec classe `tab-recettes` / `tab-courses` / `tab-stockage` selon l'onglet actif (chaque onglet a son fond de page).
-- Header fixe : badge "Semaine XX" à gauche, badge "date range" à droite. Fond `--card`, bordure bas `--card-border`.
-- Barre d'onglets en bas fixe (3 onglets : Recettes | Courses | Stockage), indicateur pill animé qui glisse.
-- Padding body : 16px latéral, 80px en haut (header), 72px en bas (tab bar).
-
-**ONGLET RECETTES**
-Hero :
+Structure d'un jour ouvert (3 cards, à répliquer exactement) :
 ```html
-<p class="hero-label">Salut chef !</p>
-<p class="hero-sub">Alors qu'est-ce qu'on mange aujourd'hui ?</p>
+<!-- PRE ~10h -->
+<div class="recipe-card" style="border-left-color:[couleur-jour]">
+  <div class="rc-label">PRE ~10h</div>
+  <div class="rc-title">[description]</div>
+  <div class="rc-macros">[XXXkcal · XXgP · XXgG · XXgL]</div>
+</div>
+<!-- Repas midi + soir -->
+<div class="recipe-card" style="border-left-color:[couleur-jour]">
+  <div class="rc-label">Repas midi + soir · [Ustensile]</div>
+  <div class="rc-title">[Nom recette]</div>
+  <ul class="rc-ingredients">[liste ingrédients avec grammage]</ul>
+  <div class="rc-macros">[XXXkcal · XXgP · XXgG · XXgL]</div>
+  <div class="rc-tip"><em>[Chef tip]</em></div>
+</div>
+<!-- POST ~16h -->
+<div class="recipe-card" style="border-left-color:[couleur-jour]">
+  <div class="rc-label">POST ~16h</div>
+  <div class="rc-title">Skyr 125g nature</div>
+  <div class="rc-macros">115kcal · 24gP · 3gG · 2gL</div>
+</div>
 ```
-7 blocs journaliers en accordéon (Lundi → Dimanche), chaque jour a sa couleur (cf. gradient ci-dessus).
-- En-tête : nom du jour + emoji entraînement à gauche, chevron › à droite (tourne à l'ouverture).
-- Badge "Aujourd'hui" : pill orange, injecté dynamiquement sur le jour courant (scrollIntoView + ouverture auto).
-- Lundi jeûne : accordéon normal, une seule fast-card "Jeûne 24h 🚫" (label rouge).
-- Jours normaux : 3 cards — PRE-training (bordure gauche couleur du jour), Repas midi+soir (même bordure, chef-tip en italique), POST-training (Skyr, même bordure).
 
-**ONGLET COURSES**
-Hero :
+Couleurs des jours : Lun `#BF3100` · Mar `#D44C00` · Mer `#E06420` · Jeu `#E87830` · Ven `#F08C38` · Sam `#F8A040` · Dim `#FF9241`
+
+Structure d'un article courses :
 ```html
-<p class="hero-label">C'est l'heure des courses !</p>
-<p class="hero-sub">On reste fort devant le rayon gâteaux et friandises.</p>
-```
-- Banner budget : montant total (vert gras) / 50€ + reste.
-- Barre progression : articles cochés X/Y, fill animé.
-- Articles : small square `.check-box` (→ vert + ✓ au clic), nom + tags, prix à droite.
-- Articles en stock : opacité 40%, non cliquables.
-- Coches persistées en localStorage, clé `mp-sXX-YYYY` (semaine + année).
-- Bouton reset en bas.
-
-**ONGLET STOCKAGE**
-Hero :
-```html
-<p class="hero-label">Chaque chose à sa place.</p>
-<p class="hero-sub">Allez ! C'est parti pour une bonne partie de Tetris.</p>
-```
-3 sections : Frigo / Placard / Plats cuisinés (tons bleus, list-box arrondie).
-
-**JS**
-```js
-// DOMContentLoaded :
-// 1. Restaurer coches localStorage
-// 2. TODAY_MAP = { 'YYYY-MM-DD': 'day-id', ... } pour les 7 jours de la semaine
-// 3. Détecter date du jour → injecter badge + ouvrir accordéon + scrollIntoView (setTimeout 120ms)
-// 4. showTab(name), toggleDay(id, header)
+<li class="sci" data-id="[id-unique]" onclick="toggle(this)">
+  <div class="check-box"></div>
+  <div class="sci-content">
+    <div class="sci-info">
+      <div class="sci-name">[Nom produit]</div>
+      <div class="sci-use">[Jours d'utilisation]</div>
+    </div>
+    <div class="sci-right">
+      <div class="sci-price">~X,XX€</div>
+      <div class="sci-qty">[quantité]</div>
+    </div>
+  </div>
+</li>
 ```
 
-**MOBILE-FIRST** : conçu pour iPhone 375px. `user-select:none`, `-webkit-tap-highlight-color:transparent`, transitions accordéon 0.35s ease, chevron 0.25s.
-
-**IMPORTANT** : aucune balise de citation, aucun commentaire superflu. Code 100% pur navigateur.
-
----
-
-### 2. Sauvegarder l'historique `history/YYYY-WXX.json`
+### Étape 2 — Sauvegarder `history/YYYY-WXX.json`
 ```json
-{
-  "week": "YYYY-WXX",
-  "dates": "D-D mois YYYY",
-  "recipes": [
-    { "day": "Mardi", "name": "Nom recette", "protein": "poulet" },
-    ...
-  ]
-}
+{"week":"YYYY-WXX","dates":"D-D mois YYYY","recipes":[
+  {"day":"Mardi","name":"...","protein":"..."},
+  ...
+]}
 ```
 
-### 3. Commit et push sur `main`
-Message : `meal plan semaine XX — [liste des recettes]`
+### Étape 3 — Commit + push sur `main`
+```
+meal plan semaine XX — Recette1, Recette2, Recette3, Recette4, Recette5, Recette6
+```
 
 ---
 
-## Stock fourni par Hicham
+## Stock
 
 $ARGUMENTS
