@@ -27,9 +27,9 @@
     html[data-tab="courses"] { background-color: var(--forest); }
     html[data-tab="conservation"] { background-color: var(--blue-deep); }
     body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background-color: var(--brown-deep); padding: 0 18px 100px; min-height: 100vh; transition: background-color .3s ease; }
-    html[data-tab="recettes"] body { background-color: var(--brown-deep); }
-    html[data-tab="courses"] body { background-color: var(--forest); }
-    html[data-tab="conservation"] body { background-color: var(--blue-deep); }
+    html[data-tab="recettes"] body { background-color: #FAF2DF; }
+    html[data-tab="courses"] body { background-color: #F2F7C8; }
+    html[data-tab="conservation"] body { background-color: #C8D9E2; }
     .tabs { display: flex; gap: 0; background: var(--card2); border-radius: 44px; padding: 4px; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 36px); max-width: 464px; z-index: 100; box-shadow: 0 4px 24px rgba(191,49,0,.18), 0 1px 6px rgba(191,49,0,.10); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .tab-slider { position: absolute; top: 4px; left: 4px; height: calc(100% - 8px); background: var(--brown-deep); border-radius: 40px; transition: left .3s cubic-bezier(0.4,0,0.2,1), width .3s cubic-bezier(0.4,0,0.2,1), background-color .22s ease; pointer-events: none; z-index: 0; }
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .22s ease; position: relative; z-index: 1; }
@@ -95,7 +95,7 @@
     .macro-cell.gluc .val { color: var(--forest); }
     .macro-cell.lip .val { color: var(--olive-deep); }
     .week-block { position: relative; margin: -26px -18px 0; padding: 40px 18px 0; border-radius: 0 0 24px 24px; box-shadow: 0 4px 12px rgba(0,0,0,.08); background: #DCE896; }
-    .week-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 0 8px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; text-align: left; }
+    .week-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 0 8px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; text-align: left; position: relative; z-index: 5; }
     .week-head:active { opacity: .7; }
     .week-head:not(.collapsed) .chevron { transform: rotate(180deg); }
     .week-info { display: flex; align-items: center; flex: 1; }
@@ -135,6 +135,12 @@
     html[data-tab="recettes"] .tab-slider { background-color: var(--brown-deep); }
     html[data-tab="courses"] .tab-slider { background-color: var(--forest); }
     html[data-tab="conservation"] .tab-slider { background-color: var(--blue-deep); }
+    .s-card { position: relative; margin: -26px -18px 0; padding: 36px 18px 16px; background: var(--sc, #90B0C0); border-radius: 0 0 24px 24px; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+    .s-card:first-child { margin-top: 0; padding-top: 16px; }
+    .s-card:nth-child(1) { z-index: 3; } .s-card:nth-child(2) { z-index: 2; } .s-card:nth-child(3) { z-index: 1; }
+    .s-card::after { content: ''; position: absolute; inset: 0; border-radius: 0 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,.25); pointer-events: none; }
+    .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
+    #view-conservation .week-body { padding: 0; }
   </style>
 </head>
 <body>
@@ -694,8 +700,8 @@
       <span class="chevron">▾</span>
     </button>
     <div class="week-body collapsed" id="storage-w1">
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Frigo</div>
+      <div class="s-card" style="--sc:#7A9DB4">
+        <div class="s-card-title">Frigo</div>
         <div class="s-row"><span class="s-item">400g Bœuf haché 5% — cuisiner dim soir pour mardi (Köfte)</span></div>
         <div class="s-row"><span class="s-item">500g Blanc poulet — cuisiner lun soir pour mercredi (Basquaise)</span></div>
         <div class="s-row"><span class="s-item">450g Blanc poulet — cuisiner mar soir pour jeudi (Yakitori)</span></div>
@@ -703,15 +709,15 @@
         <div class="s-row"><span class="s-item">×4 Œufs plein air · ×2 Poivrons · Skyr ×6 pots · Fromage blanc 0% 500g</span></div>
         <div class="s-row"><span class="s-item">×6 Bananes (comptoir — jamais au frigo)</span></div>
       </div>
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Placard sec</div>
+      <div class="s-card" style="--sc:#96B5C6">
+        <div class="s-card-title">Placard sec</div>
         <div class="s-row"><span class="s-item">×2 Thon · ×3 Tomates concassées · ×2 Haricots rouges · ×2 Pois chiches · ×1 Lait de coco (→ frigo dès ouverture)</span></div>
         <div class="s-row"><span class="s-item">300g Haricots verts surgelés + 400g Épinards surgelés (congélateur)</span></div>
         <div class="s-row"><span class="s-item">1kg Riz basmati · 500g Flocons d'avoine · 100g Amandes effilées (bocaux)</span></div>
         <div class="s-row"><span class="s-item">200g Olives noires (→ frigo dès ouverture) · 400g Pommes de terre · 1kg Oignons</span></div>
       </div>
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Plats cuisinés</div>
+      <div class="s-card" style="--sc:#B4CCD7">
+        <div class="s-card-title">Plats cuisinés</div>
         <div class="s-row"><span class="s-item">Köfte Bœuf → 3–4 j · Poulet Basquaise → 3 j · Yakitori → 3 j (sauce séparément)</span></div>
         <div class="s-row"><span class="s-item">Chili con Carne → 4–5 j · Riz cuit → 3 j (boîte hermétique)</span></div>
         <div class="s-row"><span class="s-item">Salade Niçoise (sans vinaigrette) → 2 j max · Curry Pois Chiches → 3–4 j</span></div>
@@ -727,8 +733,8 @@
       <span class="chevron">▾</span>
     </button>
     <div class="week-body collapsed" id="storage-w2">
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Frigo</div>
+      <div class="s-card" style="--sc:#7A9DB4">
+        <div class="s-card-title">Frigo</div>
         <div class="s-row"><span class="s-item">500g Poulet morceaux — cuisiner dim soir pour mardi (Tajine)</span></div>
         <div class="s-row"><span class="s-item">350g Bœuf en lamelles — cuisiner lun soir pour mercredi (Bo Bun)</span></div>
         <div class="s-row"><span class="s-item">500g Blanc poulet — cuisiner mar soir pour jeudi (Korma)</span></div>
@@ -736,15 +742,15 @@
         <div class="s-row"><span class="s-item">Skyr ×6 pots · Fromage blanc 0% 500g · ×2 Aubergines · ×3 Tomates · ×1 Concombre</span></div>
         <div class="s-row"><span class="s-item">×1 Laitue romaine · ×2 Carottes · ×6 Bananes (comptoir — jamais au frigo)</span></div>
       </div>
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Placard sec</div>
+      <div class="s-card" style="--sc:#96B5C6">
+        <div class="s-card-title">Placard sec</div>
         <div class="s-row"><span class="s-item">×4 Thon · ×2 Tomates concassées · ×1 Lait de coco (→ frigo dès ouverture)</span></div>
         <div class="s-row"><span class="s-item">250g Lentilles vertes · 200g Semoule fine · 200g Vermicelles riz (bocaux)</span></div>
         <div class="s-row"><span class="s-item">200g Olives vertes (→ frigo dès ouverture) · 80g Parmesan · 100g Croûtons</span></div>
         <div class="s-row"><span class="s-item">500g Flocons d'avoine · 100g Amandes effilées · 400g Pommes de terre · 1kg Oignons</span></div>
       </div>
-      <div class="rayon-group">
-        <div class="rayon-label" style="color:var(--blue-ink)">Plats cuisinés</div>
+      <div class="s-card" style="--sc:#B4CCD7">
+        <div class="s-card-title">Plats cuisinés</div>
         <div class="s-row"><span class="s-item">Tajine Poulet → 3–4 j · Bo Bun Bœuf → 2 j max (vermicelles à part)</span></div>
         <div class="s-row"><span class="s-item">Poulet Korma → 3–4 j · Moussaka Bœuf-Lentilles → 4–5 j</span></div>
         <div class="s-row"><span class="s-item">Taboulé Thon → 2–3 j · Salade César → dresser au moment (max 1 j)</span></div>
