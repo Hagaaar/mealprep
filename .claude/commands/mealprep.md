@@ -2,29 +2,38 @@
 
 Lire `directives.md` + tous `history/*.json` avant de commencer.
 
+**Format d'appel :** première ligne de $ARGUMENTS = nombre de semaines (`1` ou `2`), reste = stock.
+
 ## PHASE 1 — dans le chat uniquement, ne rien écrire sur disque
 
+**Si 1 semaine**, afficher un bloc :
 ```
-Semaine XX — lun D au dim D mois YYYY | Lundi 🚫 JEÛNE
-
-Collations fixes :
-• PRE ~10h : [description] ✅/🛒
-• POST ~16h : Skyr 125g nature 🛒
-
+── SEMAINE XX — lun D au dim D mois YYYY ──
+Collations fixes : PRE ~10h : [description] ✅/🛒 | POST ~16h : Skyr 125g 🛒
 1. **[Titre]** (Mar 💪) — [protéine, légumes, épices ✅]
 2. **[Titre]** (Mer 🏃) — ...
 3. **[Titre]** (Jeu 💪) — ...
 4. **[Titre]** (Ven 💪) — ...
 5. **[Titre]** (Sam 🏃) — ...
 6. **[Titre]** (Dim 🏃) — ...
-
-Budget : XX,XX€ / 50€ | Macros : ~2017kcal · ~170gP · ~132gG · ~90gL
+Budget : XX,XX€ / 50€ | ~2017kcal · ~170gP · ~132gG · ~90gL
 ```
 
-Vérifications silencieuses : aucune recette des 8 dernières semaines · fraîcheur (fraîche Mar-Jeu, conserves Ven-Dim) · budget ≤ 50€ · pas porc · glucides ≥ 100g.
+**Si 2 semaines**, afficher deux blocs consécutifs (semaine N puis N+1). Les 12 recettes doivent toutes être différentes entre elles et absentes des 8 dernières semaines. Budget séparé pour chaque semaine (50€ max chacune). Courses S1 = samedi prochain, courses S2 = samedi suivant.
+```
+── SEMAINE XX — lun D au dim D mois ──
+[6 recettes + budget S1]
+
+── SEMAINE XX+1 — lun D au dim D mois ──
+[6 recettes + budget S2]
+
+Collations fixes (identiques les 2 semaines) : PRE ... | POST Skyr 125g 🛒
+```
+
+Vérifications silencieuses : aucune répétition sur 8 semaines + N nouvelles · fraîcheur (fraîche Mar-Jeu, conserves Ven-Dim) · budget ≤ 50€/semaine · pas porc · glucides ≥ 100g.
 
 Terminer par :
-> ✅ Planning prêt. Réponds **VALIDE** pour générer.
+> ✅ Planning [1 ou 2 semaines] prêt. Réponds **VALIDE** pour générer.
 
 ---
 
@@ -89,7 +98,11 @@ Structure d'un article courses :
 </li>
 ```
 
-### Étape 2 — Sauvegarder `history/YYYY-WXX.json`
+### Étape 2 — Sauvegarder les fichiers history
+
+**1 semaine :** un seul fichier `history/YYYY-WXX.json`.
+**2 semaines :** deux fichiers `history/YYYY-WXX.json` + `history/YYYY-WYY.json`.
+
 ```json
 {"week":"YYYY-WXX","dates":"D-D mois YYYY","recipes":[
   {"day":"Mardi","name":"...","protein":"..."},
@@ -97,10 +110,12 @@ Structure d'un article courses :
 ]}
 ```
 
+> Pour 2 semaines, `index.html` représente toujours **la semaine N uniquement** (semaine en cours). La semaine N+1 sera affichée la semaine prochaine : l'historique est déjà sauvegardé, il suffira de re-lancer `/mealprep 1` avec le nouveau stock.
+
 ### Étape 3 — Commit + push sur `main`
-```
-meal plan semaine XX — Recette1, Recette2, Recette3, Recette4, Recette5, Recette6
-```
+
+1 semaine : `meal plan semaine XX — R1, R2, R3, R4, R5, R6`
+2 semaines : `meal plan semaines XX-YY — R1, R2, R3, R4, R5, R6 | R7, R8, R9, R10, R11, R12`
 
 ---
 
