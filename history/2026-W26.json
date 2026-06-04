@@ -1,0 +1,12 @@
+{
+  "week": "2026-W26",
+  "dates": "22-28 juin 2026",
+  "recipes": [
+    {"day": "Mardi",   "name": "Tajine Poulet Pommes de Terre Olives","protein": "poulet"},
+    {"day": "Mercredi","name": "Bo Bun Bœuf Citronnelle",             "protein": "boeuf"},
+    {"day": "Jeudi",   "name": "Poulet Korma",                        "protein": "poulet"},
+    {"day": "Vendredi","name": "Moussaka Bœuf-Lentilles",             "protein": "boeuf"},
+    {"day": "Samedi",  "name": "Taboulé Thon-Menthe",                 "protein": "thon"},
+    {"day": "Dimanche","name": "Salade César Thon Grillé",            "protein": "thon"}
+  ]
+}

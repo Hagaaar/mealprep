@@ -1,0 +1,12 @@
+{
+  "week": "2026-W25",
+  "dates": "15-21 juin 2026",
+  "recipes": [
+    {"day": "Mardi",   "name": "Köfte Bœuf Sauce Tomate Épicée",    "protein": "boeuf"},
+    {"day": "Mercredi","name": "Poulet Basquaise",                    "protein": "poulet"},
+    {"day": "Jeudi",   "name": "Yakitori Poulet-Riz Laqué",           "protein": "poulet"},
+    {"day": "Vendredi","name": "Chili con Carne",                     "protein": "boeuf"},
+    {"day": "Samedi",  "name": "Salade Niçoise Thon",                 "protein": "thon"},
+    {"day": "Dimanche","name": "Curry Pois Chiches Épinards-Coco",    "protein": "vegetarien"}
+  ]
+}
