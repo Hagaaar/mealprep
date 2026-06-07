@@ -95,7 +95,7 @@
     .macro-cell.gluc .val { color: var(--forest); }
     .macro-cell.lip .val { color: var(--olive-deep); }
     .week-block { position: relative; margin: -26px -18px 0; padding: 40px 18px 0; border-radius: 0 0 24px 24px; box-shadow: 0 4px 12px rgba(0,0,0,.08); background: #DCE896; }
-    .week-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 0 8px 20px; background: transparent; border: none; cursor: pointer; user-select: none; -webkit-user-select: none; transition: opacity .15s; text-align: left; position: relative; z-index: 5; }
+    .week-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 14px 0 8px 20px; background: transparent; border: none; outline: none; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-appearance: none; appearance: none; transition: opacity .15s; text-align: left; }
     .week-head:active { opacity: .7; }
     .week-head:not(.collapsed) .chevron { transform: rotate(180deg); }
     .week-info { display: flex; align-items: center; flex: 1; }
@@ -141,6 +141,7 @@
     .s-card::after { content: ''; position: absolute; inset: 0; border-radius: 0 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,.25); pointer-events: none; }
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
+    #view-conservation .week-body.collapsed { margin: 0; }
   </style>
 </head>
 <body>
