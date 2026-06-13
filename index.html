@@ -27,9 +27,9 @@
     html[data-tab="courses"] { background-color: var(--forest); }
     html[data-tab="conservation"] { background-color: var(--blue-deep); }
     body { font-family: var(--sans); color: var(--ink); max-width: 500px; margin: 0 auto; background-color: var(--brown-deep); padding: 0 18px 100px; min-height: 100vh; transition: background-color .3s ease; }
-    html[data-tab="recettes"] body { background-color: #FAF2DF; }
-    html[data-tab="courses"] body { background-color: #F2F7C8; }
-    html[data-tab="conservation"] body { background-color: #C8D9E2; }
+    html[data-tab="recettes"] body { background-color: color-mix(in srgb, #FF9241 52%, #FAF2DF); }
+    html[data-tab="courses"] body { background-color: #ECF2BC; }
+    html[data-tab="conservation"] body { background-color: #C8DCE4; }
     .tabs { display: flex; gap: 0; background: var(--card2); border-radius: 44px; padding: 0; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 36px); max-width: 464px; z-index: 100; box-shadow: 0 4px 24px rgba(191,49,0,.18), 0 1px 6px rgba(191,49,0,.10); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .tab-slider { position: absolute; top: 0; left: 0; height: 100%; background: var(--brown-deep); border-radius: 44px; transition: left .3s cubic-bezier(0.4,0,0.2,1), width .3s cubic-bezier(0.4,0,0.2,1), background-color .22s ease; pointer-events: none; z-index: 0; }
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .22s ease; position: relative; z-index: 1; }
@@ -142,7 +142,6 @@
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
     #view-conservation .week-body.collapsed { margin: 0; }
-    #view-conservation .week-body .s-card:first-child { border-radius: 16px 16px 0 0; }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
     .heart-btn.liked { opacity: 1; }
     .heart-btn:active { transform: scale(1.4); opacity: 1; }
@@ -689,7 +688,7 @@
     <div class="hero-right"><span class="hero-date">15 Juin – 28 Juin</span></div>
   </header>
 
-  <div class="week-block" style="background:#C8D8E0">
+  <div class="week-block" style="background:#ACC3CE">
     <button class="week-head collapsed" id="shead-sw1" onclick="toggleWeek('storage-w1', this)">
       <div class="week-info">
         <span class="week-name-txt">Semaine 1 <span class="week-date-txt">15–21 juin</span></span>
@@ -723,7 +722,7 @@
     </div>
   </div>
 
-  <div class="week-block" style="background:#BDD0D8">
+  <div class="week-block" style="background:#C8DCE4">
     <button class="week-head collapsed" id="shead-sw2" onclick="toggleWeek('storage-w2', this)">
       <div class="week-info">
         <span class="week-name-txt">Semaine 2 <span class="week-date-txt">22–28 juin</span></span>
@@ -786,7 +785,7 @@
   function initDayZindex(){var siblings=document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .macro-ref'),total=siblings.length;siblings.forEach(function(el,i){el.style.zIndex=String(total-i);});}
   function initCourses(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var weekId=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'s4':'s3';var body=document.getElementById('week-'+weekId),head=document.getElementById('whead-'+weekId);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
   function initStorage(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var wk=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'2':'1';var body=document.getElementById('storage-w'+wk),head=document.getElementById('shead-sw'+wk);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
-  function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});}}
+  function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});sv.querySelectorAll('.week-body').forEach(function(wb){var sc=wb.querySelectorAll('.s-card');sc.forEach(function(card,i){card.style.zIndex=String(sc.length-i);});});}}
   var LIKES_KEY='mp-likes';
   var GH_REPO='Hagaaar/mealprep';
   var GH_FILE='liked-recipes.json';
