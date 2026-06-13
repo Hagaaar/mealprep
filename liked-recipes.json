@@ -1,4 +1,9 @@
 {
-  "_note": "Recettes aimées par Hicham — source unique. Consultée à chaque /mealprep. Mise à jour automatiquement depuis l'app iPhone via GitHub API.",
-  "recipes": {}
+  "_note": "Recettes aimées — source unique. Consultée à chaque /mealprep.",
+  "recipes": {
+    "Skyr Flocons Avoine": {
+      "count": 1,
+      "lastLiked": "2026-06-13"
+    }
+  }
 }
