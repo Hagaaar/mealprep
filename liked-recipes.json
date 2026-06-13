@@ -1,4 +1,9 @@
 {
   "_note": "Recettes aimées — source unique. Consultée à chaque /mealprep.",
-  "recipes": {}
+  "recipes": {
+    "Yakitori de Poulet — Air Fryer + Cuiseur à riz": {
+      "count": 1,
+      "lastLiked": "2026-06-13"
+    }
+  }
 }
