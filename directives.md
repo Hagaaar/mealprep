@@ -66,5 +66,5 @@
 - 🚫 Cuisson le matin du jour même
 - 🚫 Protéines calculées sur poids total (toujours masse maigre 80 kg)
 
-## Répertoire de recettes favorites (inspiration, pas menus rigides)
-Tajine poulet pommes de terre olives · Tajine boulettes œufs · Tajine bœuf/agneau haricots artichauts · Couscous marocain poulet 7 légumes · Zaalouk · Houmous viande hachée · Taboulé · Loubia · Moussaka · Chakchouka · Köfte · Nouilles sautées légumes · Poulet tikka masala · Curry poisson / chou-fleur carottes / aubergines pommes de terre · Dhal lentilles corail coco · Bo bun bœuf citronnelle · Yakitori poulet · Ramen · Poulet teriyaki · Chili con carne (sans porc) · Salade niçoise · Pho · Salade César poulet · Fajitas poulet poivrons · Poulet basquaise · Salade grecque feta olives · Poulet Korma
+## Recettes favorites
+Lire `liked-recipes.json`. C'est la source unique — mise à jour automatiquement par Hicham depuis l'app iPhone. Les recettes avec le plus haut `count` sont prioritaires à la génération, sous réserve de la règle des 8 semaines.

@@ -1,4 +1,4 @@
 {
-  "_note": "Recettes aimées par Hicham — compilées semaine par semaine. Claude pioche en priorité dans cette liste lors de la génération des menus.",
+  "_note": "Recettes aimées par Hicham — source unique. Consultée à chaque /mealprep. Mise à jour automatiquement depuis l'app iPhone via GitHub API.",
   "recipes": {}
 }

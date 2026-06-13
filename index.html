@@ -788,12 +788,27 @@
   function initStorage(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var wk=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'2':'1';var body=document.getElementById('storage-w'+wk),head=document.getElementById('shead-sw'+wk);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
   function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});}}
   var LIKES_KEY='mp-likes';
+  var GH_REPO='Hagaaar/mealprep';
+  var GH_FILE='liked-recipes.json';
+  var PAT_KEY='mp-gh-pat';
+  function getGHToken(){try{return localStorage.getItem(PAT_KEY)||'';}catch(e){return '';}}
+  function syncLikesToGH(likes){
+    var token=getGHToken();if(!token)return;
+    var payload=JSON.stringify({_note:'Recettes aimées — source unique. Consultée à chaque /mealprep.',recipes:likes},null,2);
+    var b64=btoa(unescape(encodeURIComponent(payload)));
+    fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+GH_FILE,{headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json'}})
+      .then(function(r){return r.json();})
+      .then(function(d){return fetch('https://api.github.com/repos/'+GH_REPO+'/contents/'+GH_FILE,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:'likes: update',content:b64,sha:d.sha})});})
+      .catch(function(){});
+  }
+  function setupPAT(){var t=prompt('GitHub PAT (Fine-grained · Contents: Read+Write · repo Hagaaar/mealprep) :',getGHToken());if(t!==null&&t.trim()){try{localStorage.setItem(PAT_KEY,t.trim());}catch(e){}}}
+  function initGHSetup(){var hr=document.querySelector('#view-recettes .hero-right');if(!hr)return;var b=document.createElement('button');b.textContent='⚙';b.title='Configurer sync GitHub';b.style.cssText='background:none;border:none;color:rgba(251,244,220,.3);font-size:12px;cursor:pointer;padding:2px 0 0 10px;vertical-align:top;line-height:1;';b.onclick=setupPAT;hr.appendChild(b);}
   function getLikes(){try{return JSON.parse(localStorage.getItem(LIKES_KEY)||'{}');}catch(e){return{};}}
   function saveLikes(likes){try{localStorage.setItem(LIKES_KEY,JSON.stringify(likes));}catch(e){}}
-  function toggleLike(btn,dayId){var bodyEl=document.getElementById(dayId),nameEl=bodyEl?bodyEl.querySelector('.dish-name'):null,recipeName=nameEl?nameEl.textContent.trim():dayId;btn.classList.toggle('liked');var isLiked=btn.classList.contains('liked');btn.textContent=isLiked?'♥':'♡';var likes=getLikes();if(isLiked){if(!likes[recipeName])likes[recipeName]={count:0,lastLiked:''};likes[recipeName].count++;likes[recipeName].lastLiked=new Date().toISOString().split('T')[0];}else{delete likes[recipeName];}saveLikes(likes);}
+  function toggleLike(btn,dayId){var bodyEl=document.getElementById(dayId),nameEl=bodyEl?bodyEl.querySelector('.dish-name'):null,recipeName=nameEl?nameEl.textContent.trim():dayId;btn.classList.toggle('liked');var isLiked=btn.classList.contains('liked');btn.textContent=isLiked?'♥':'♡';var likes=getLikes();if(isLiked){if(!likes[recipeName])likes[recipeName]={count:0,lastLiked:''};likes[recipeName].count++;likes[recipeName].lastLiked=new Date().toISOString().split('T')[0];}else{delete likes[recipeName];}saveLikes(likes);syncLikesToGH(likes);}
   function initHearts(){var skipDays={'day-lun15':true,'day-lun22':true};Object.keys(TODAY_MAP).forEach(function(date){var dayId=TODAY_MAP[date];if(skipDays[dayId])return;var headEl=document.getElementById('head-'+dayId);if(!headEl)return;var btn=document.createElement('button');btn.className='heart-btn';btn.setAttribute('data-recipe',dayId);btn.textContent='♡';btn.onclick=function(e){e.stopPropagation();toggleLike(btn,dayId);};var chevron=headEl.querySelector('.chevron');headEl.insertBefore(btn,chevron);});}
   function loadLikes(){var likes=getLikes();document.querySelectorAll('.heart-btn').forEach(function(btn){var dayId=btn.getAttribute('data-recipe'),bodyEl=document.getElementById(dayId),nameEl=bodyEl?bodyEl.querySelector('.dish-name'):null,recipeName=nameEl?nameEl.textContent.trim():dayId;if(likes[recipeName]){btn.classList.add('liked');btn.textContent='♥';}});}
-  document.addEventListener('DOMContentLoaded',function(){load();initHearts();loadLikes();initToday();initCourses();initStorage();moveSlider(0);initDayZindex();initAccZindex();document.documentElement.setAttribute('data-tab','recettes');});
+  document.addEventListener('DOMContentLoaded',function(){load();initGHSetup();initHearts();loadLikes();initToday();initCourses();initStorage();moveSlider(0);initDayZindex();initAccZindex();document.documentElement.setAttribute('data-tab','recettes');});
   if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(function(reg){reg.addEventListener('updatefound',function(){var nw=reg.installing;nw.addEventListener('statechange',function(){if(nw.state==='activated')window.location.reload();});});});}
 </script>
 
