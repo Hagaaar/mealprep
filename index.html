@@ -794,6 +794,7 @@
   function initStorage(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var wk=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'2':'1';var body=document.getElementById('storage-w'+wk),head=document.getElementById('shead-sw'+wk);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
   function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});}}
   document.addEventListener('DOMContentLoaded',function(){load();initToday();initCourses();initStorage();moveSlider(0);initDayZindex();initAccZindex();document.documentElement.setAttribute('data-tab','recettes');});
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(function(reg){reg.addEventListener('updatefound',function(){var nw=reg.installing;nw.addEventListener('statechange',function(){if(nw.state==='activated')window.location.reload();});});});}
 </script>
 
 </body>
