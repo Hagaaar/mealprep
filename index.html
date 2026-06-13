@@ -143,6 +143,9 @@
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
     #view-conservation .week-body.collapsed { margin: 0; }
     #view-conservation .week-body .s-card:first-child { border-radius: 16px 16px 0 0; }
+    .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
+    .heart-btn.liked { opacity: 1; }
+    .heart-btn:active { transform: scale(1.4); opacity: 1; }
   </style>
 </head>
 <body>
@@ -784,7 +787,13 @@
   function initCourses(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var weekId=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'s4':'s3';var body=document.getElementById('week-'+weekId),head=document.getElementById('whead-'+weekId);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
   function initStorage(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var wk=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'2':'1';var body=document.getElementById('storage-w'+wk),head=document.getElementById('shead-sw'+wk);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
   function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});}}
-  document.addEventListener('DOMContentLoaded',function(){load();initToday();initCourses();initStorage();moveSlider(0);initDayZindex();initAccZindex();document.documentElement.setAttribute('data-tab','recettes');});
+  var LIKES_KEY='mp-likes';
+  function getLikes(){try{return JSON.parse(localStorage.getItem(LIKES_KEY)||'{}');}catch(e){return{};}}
+  function saveLikes(likes){try{localStorage.setItem(LIKES_KEY,JSON.stringify(likes));}catch(e){}}
+  function toggleLike(btn,dayId){var bodyEl=document.getElementById(dayId),nameEl=bodyEl?bodyEl.querySelector('.dish-name'):null,recipeName=nameEl?nameEl.textContent.trim():dayId;btn.classList.toggle('liked');var isLiked=btn.classList.contains('liked');btn.textContent=isLiked?'♥':'♡';var likes=getLikes();if(isLiked){if(!likes[recipeName])likes[recipeName]={count:0,lastLiked:''};likes[recipeName].count++;likes[recipeName].lastLiked=new Date().toISOString().split('T')[0];}else{delete likes[recipeName];}saveLikes(likes);}
+  function initHearts(){var skipDays={'day-lun15':true,'day-lun22':true};Object.keys(TODAY_MAP).forEach(function(date){var dayId=TODAY_MAP[date];if(skipDays[dayId])return;var headEl=document.getElementById('head-'+dayId);if(!headEl)return;var btn=document.createElement('button');btn.className='heart-btn';btn.setAttribute('data-recipe',dayId);btn.textContent='♡';btn.onclick=function(e){e.stopPropagation();toggleLike(btn,dayId);};var chevron=headEl.querySelector('.chevron');headEl.insertBefore(btn,chevron);});}
+  function loadLikes(){var likes=getLikes();document.querySelectorAll('.heart-btn').forEach(function(btn){var dayId=btn.getAttribute('data-recipe'),bodyEl=document.getElementById(dayId),nameEl=bodyEl?bodyEl.querySelector('.dish-name'):null,recipeName=nameEl?nameEl.textContent.trim():dayId;if(likes[recipeName]){btn.classList.add('liked');btn.textContent='♥';}});}
+  document.addEventListener('DOMContentLoaded',function(){load();initHearts();loadLikes();initToday();initCourses();initStorage();moveSlider(0);initDayZindex();initAccZindex();document.documentElement.setAttribute('data-tab','recettes');});
   if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(function(reg){reg.addEventListener('updatefound',function(){var nw=reg.installing;nw.addEventListener('statechange',function(){if(nw.state==='activated')window.location.reload();});});});}
 </script>
 
