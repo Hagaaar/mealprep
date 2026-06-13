@@ -1,6 +1,8 @@
 # /mealprep
 
-Lire `directives.md` + tous `history/*.json` avant de commencer.
+Lire `directives.md` + tous `history/*.json` + `liked-recipes.json` avant de commencer.
+
+**Règle likes :** les recettes présentes dans `liked-recipes.json` ont une priorité de sélection proportionnelle à leur `count`. Une recette likée reste soumise à la règle des 8 semaines — si elle a été faite récemment elle attend, mais elle revient en priorité dès qu'elle est éligible.
 
 **Format d'appel :** première ligne de $ARGUMENTS = nombre de semaines (`1` ou `2`), reste = stock.
 
