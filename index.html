@@ -41,8 +41,8 @@
     .hero-left { flex: 1; display: flex; flex-direction: column; }
     .view-head h1 { font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: .92; letter-spacing: -0.8px; color: #FBF4DC; margin-top: 0; }
     .hero-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: rgba(251,244,220,.80); margin-top: 7px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .hero-right { text-align: right; flex-shrink: 0; padding-top: 2px; }
-    .hero-date { font-family: var(--serif); font-size: 16px; font-weight: 600; color: rgba(251,244,220,.95); display: block; line-height: 1; }
+    .hero-right { text-align: right; flex-shrink: 0; align-self: flex-end; padding-bottom: 4px; }
+    .hero-date { font-family: var(--serif); font-size: 12px; font-weight: 500; color: rgba(251,244,220,.80); display: block; line-height: 1; }
     .view { display: none; }
     .view.active { display: block; animation: fadeIn .25s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -143,6 +143,7 @@
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
     #view-conservation .week-body.collapsed { margin: 0; }
     #view-conservation .week-block { padding-bottom: 16px; }
+    #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 5; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 8px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
     .heart-btn.liked { opacity: 1; }
     .heart-btn:active { transform: scale(1.4); opacity: 1; }
@@ -601,7 +602,7 @@
     <div class="hero-right"><span class="hero-date">15 Juin – 28 Juin</span></div>
   </header>
 
-  <div class="week-block">
+  <div class="week-block" style="background:#B5C74D">
     <button class="week-head collapsed" id="whead-s3" onclick="toggleWeek('week-s3', this)">
       <div class="week-info">
         <span class="week-name-txt">Semaine 1 <span class="week-date-txt">15–21 juin</span></span>
