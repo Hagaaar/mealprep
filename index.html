@@ -142,6 +142,7 @@
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
     #view-conservation .week-body.collapsed { margin: 0; }
+    #view-conservation .week-block { padding-bottom: 16px; }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
     .heart-btn.liked { opacity: 1; }
     .heart-btn:active { transform: scale(1.4); opacity: 1; }
@@ -278,7 +279,7 @@
   <!-- VEN 20 — Sardines préparées jeu 19 -->
   <div class="day-block" style="--day:#F08C38;--deep:#834C1E">
     <div class="day-head collapsed" id="head-day-ven19" onclick="toggleDay('day-ven19', this)">
-      <span class="day-info"><span class="day-label">Vendredi 19 Juin</span><span class="day-train t-force">Force</span></span>
+      <span class="day-info"><span class="day-label">Vendredi 19 Juin</span><span class="day-train t-cardio">Cardio</span></span>
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-ven19">
@@ -310,7 +311,7 @@
   <!-- SAM 21 — ORANGE DOUBLE-PREP (Dhal + préparer Basquaise S4) -->
   <div class="day-block" style="--day:#F8A040;--deep:#875724">
     <div class="day-head collapsed" id="head-day-sam20" onclick="toggleDay('day-sam20', this)">
-      <span class="day-info"><span class="day-label">Samedi 20 Juin</span><span class="day-train t-cardio">Cardio</span></span>
+      <span class="day-info"><span class="day-label">Samedi 20 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-sam20">
@@ -486,7 +487,7 @@
   <!-- VEN 27 — Sardines Chermoula préparées jeu 26 -->
   <div class="day-block" style="--day:#F08C38;--deep:#834C1E">
     <div class="day-head collapsed" id="head-day-ven26" onclick="toggleDay('day-ven26', this)">
-      <span class="day-info"><span class="day-label">Vendredi 26 Juin</span><span class="day-train t-force">Force</span></span>
+      <span class="day-info"><span class="day-label">Vendredi 26 Juin</span><span class="day-train t-cardio">Cardio</span></span>
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-ven26">
@@ -518,7 +519,7 @@
   <!-- SAM 28 — ORANGE DOUBLE-PREP (Chakchouka + préparer Falafels dim 29) -->
   <div class="day-block" style="--day:#F8A040;--deep:#875724">
     <div class="day-head collapsed" id="head-day-sam27" onclick="toggleDay('day-sam27', this)">
-      <span class="day-info"><span class="day-label">Samedi 27 Juin</span><span class="day-train t-cardio">Cardio</span></span>
+      <span class="day-info"><span class="day-label">Samedi 27 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
     </div>
     <div class="accordion-body collapsed" id="day-sam27">
@@ -778,8 +779,8 @@
   function toggleWeek(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
   var STORE_KEY='mp-s3s4-2026';
   function check(el){el.classList.toggle('checked');save();}
-  function save(){var state={};document.querySelectorAll('#view-courses .sci').forEach(function(item){var nameEl=item.querySelector('.sci-name');if(nameEl)state[nameEl.textContent.trim()]=item.classList.contains('checked');});try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}}
-  function load(){var saved;try{saved=localStorage.getItem(STORE_KEY);}catch(e){}if(!saved)return;var state=JSON.parse(saved);document.querySelectorAll('#view-courses .sci').forEach(function(item){var nameEl=item.querySelector('.sci-name');if(nameEl&&state[nameEl.textContent.trim()])item.classList.add('checked');});}
+  function save(){var state={};document.querySelectorAll('#view-courses .sci').forEach(function(item,idx){state['i'+idx]=item.classList.contains('checked');});try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}}
+  function load(){var saved;try{saved=localStorage.getItem(STORE_KEY);}catch(e){}if(!saved)return;var state=JSON.parse(saved);document.querySelectorAll('#view-courses .sci').forEach(function(item,idx){if(state['i'+idx])item.classList.add('checked');});}
   function openDayAcc(headEl,bodyEl){headEl.classList.remove('collapsed');bodyEl.classList.remove('collapsed');bodyEl.style.height='auto';bodyEl.style.overflow='visible';bodyEl.style.opacity='1';}
   function initToday(){var now=new Date(),pad=function(n){return String(n).padStart(2,'0');},key=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()),dayId=TODAY_MAP[key];if(dayId){var headEl=document.getElementById('head-'+dayId),bodyEl=document.getElementById(dayId);if(!headEl||!bodyEl)return;var badge=document.createElement('span');badge.className='today-badge';badge.textContent="Aujourd'hui";headEl.insertBefore(badge,headEl.querySelector('.chevron'));headEl.classList.add('is-today');openDayAcc(headEl,bodyEl);requestAnimationFrame(function(){requestAnimationFrame(function(){var banner=document.querySelector('#view-recettes > .view-head'),bannerH=banner?banner.offsetHeight:0,elTop=headEl.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:Math.max(0,elTop-bannerH),behavior:'smooth'});});});return;}var now2=new Date(),y=now2.getFullYear(),m=now2.getMonth()+1,d=now2.getDate();var fallbackId=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'day-lun22':'day-lun15';var hEl=document.getElementById('head-'+fallbackId),bEl=document.getElementById(fallbackId);if(hEl&&bEl)openDayAcc(hEl,bEl);}
   function initDayZindex(){var siblings=document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .macro-ref'),total=siblings.length;siblings.forEach(function(el,i){el.style.zIndex=String(total-i);});}

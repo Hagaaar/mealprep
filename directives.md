@@ -21,9 +21,11 @@
 | Mardi | 💪 Force — Push-ups, Pull-ups, Bodyweight |
 | Mercredi | 🏃 Cardio — Stairmaster, Rowing, Marche inclinée (30-40 min) |
 | Jeudi | 💪 Force |
-| Vendredi | 💪 Force |
-| Samedi | 🏃 Cardio |
+| Vendredi | 🏃 Cardio |
+| Samedi | 💪 Force |
 | Dimanche | 🏃 Cardio |
+
+> ⚠️ RÈGLE ALTERNANCE IMMUABLE : Mar=Force · Mer=Cardio · Jeu=Force · Ven=Cardio · Sam=Force · Dim=Cardio — stricte alternance F/C sans aucune exception. Ne JAMAIS générer deux jours de même type consécutifs. Cette règle est figée définitivement.
 
 ## Structure des repas (jours hors jeûne)
 | Moment | Heure | Macros |
