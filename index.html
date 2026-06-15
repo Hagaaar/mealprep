@@ -141,10 +141,8 @@
     .s-card::after { content: ''; position: absolute; inset: 0; border-radius: 0 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,.25); pointer-events: none; }
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
     #view-conservation .week-body { padding: 0; margin: 0 -18px; }
-    #view-conservation .week-body.collapsed { margin: 0; }
-    #view-conservation .week-block { padding-bottom: 16px; }
-    #view-conservation .week-block.wb-open { border-radius: 0; padding-bottom: 0; }
-    #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 5; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 8px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+    #view-conservation .week-block { border-radius: 0; padding-bottom: 0; }
+    #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 5; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 10px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor: default; }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
     .heart-btn.liked { opacity: 1; }
     .heart-btn:active { transform: scale(1.4); opacity: 1; }
@@ -692,13 +690,12 @@
   </header>
 
   <div class="week-block" style="background:#ACC3CE">
-    <button class="week-head collapsed" id="shead-sw1" onclick="toggleWeek('storage-w1', this)">
+    <div class="week-head">
       <div class="week-info">
         <span class="week-name-txt">Semaine 1 <span class="week-date-txt">15–21 juin</span></span>
       </div>
-      <span class="chevron">▾</span>
-    </button>
-    <div class="week-body collapsed" id="storage-w1">
+    </div>
+    <div class="week-body" id="storage-w1">
       <div class="s-card" style="--sc:#7A9DB4">
         <div class="s-card-title">Frigo</div>
         <div class="s-row"><span class="s-item">500g Poulet filets → Yakitori Mar 16 (préparé sam 13 soir · 2 portions hermétiques)</span></div>
@@ -726,13 +723,12 @@
   </div>
 
   <div class="week-block" style="background:#C8DCE4">
-    <button class="week-head collapsed" id="shead-sw2" onclick="toggleWeek('storage-w2', this)">
+    <div class="week-head">
       <div class="week-info">
         <span class="week-name-txt">Semaine 2 <span class="week-date-txt">22–28 juin</span></span>
       </div>
-      <span class="chevron">▾</span>
-    </button>
-    <div class="week-body collapsed" id="storage-w2">
+    </div>
+    <div class="week-body" id="storage-w2">
       <div class="s-card" style="--sc:#7A9DB4">
         <div class="s-card-title">Frigo</div>
         <div class="s-row"><span class="s-item">500g Poulet filets → Basquaise Mar 23 (préparé sam 20 soir · 2 portions hermétiques)</span></div>
@@ -778,7 +774,7 @@
   function moveSlider(idx) { var btns=document.querySelectorAll('.tab-btn'),slider=document.getElementById('tab-slider'),nav=document.getElementById('tabs-nav'); if(!slider||!btns[idx]||!nav)return; var nr=nav.getBoundingClientRect(),br=btns[idx].getBoundingClientRect(); slider.style.left=(br.left-nr.left)+'px'; slider.style.width=br.width+'px'; }
   function showTab(name) { var tabs=['recettes','courses','conservation']; tabs.forEach(function(t){document.getElementById('view-'+t).classList.remove('active');}); document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',tabs[i]===name);}); document.getElementById('view-'+name).classList.add('active'); moveSlider(tabs.indexOf(name)); document.documentElement.setAttribute('data-tab',name); window.scrollTo(0,0); }
   function toggleDay(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
-  function toggleWeek(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); var wb=header.parentElement; if(wb&&wb.classList.contains('week-block')){if(isCollapsed){wb.classList.add('wb-open');}else{wb.classList.remove('wb-open');}} if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
+  function toggleWeek(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
   var STORE_KEY='mp-s3s4-2026';
   function check(el){el.classList.toggle('checked');save();}
   function save(){var state={};document.querySelectorAll('#view-courses .sci').forEach(function(item,idx){state['i'+idx]=item.classList.contains('checked');});try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}}
@@ -787,7 +783,7 @@
   function initToday(){var now=new Date(),pad=function(n){return String(n).padStart(2,'0');},key=now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate()),dayId=TODAY_MAP[key];if(dayId){var headEl=document.getElementById('head-'+dayId),bodyEl=document.getElementById(dayId);if(!headEl||!bodyEl)return;var badge=document.createElement('span');badge.className='today-badge';badge.textContent="Aujourd'hui";headEl.insertBefore(badge,headEl.querySelector('.chevron'));headEl.classList.add('is-today');openDayAcc(headEl,bodyEl);requestAnimationFrame(function(){requestAnimationFrame(function(){var banner=document.querySelector('#view-recettes > .view-head'),bannerH=banner?banner.offsetHeight:0,elTop=headEl.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:Math.max(0,elTop-bannerH),behavior:'smooth'});});});return;}var now2=new Date(),y=now2.getFullYear(),m=now2.getMonth()+1,d=now2.getDate();var fallbackId=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'day-lun22':'day-lun15';var hEl=document.getElementById('head-'+fallbackId),bEl=document.getElementById(fallbackId);if(hEl&&bEl)openDayAcc(hEl,bEl);}
   function initDayZindex(){var siblings=document.querySelectorAll('#view-recettes > .day-block, #view-recettes > .macro-ref'),total=siblings.length;siblings.forEach(function(el,i){el.style.zIndex=String(total-i);});}
   function initCourses(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var weekId=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'s4':'s3';var body=document.getElementById('week-'+weekId),head=document.getElementById('whead-'+weekId);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');}}
-  function initStorage(){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();var wk=(y>2026||(y===2026&&m===6&&d>21)||(y===2026&&m>6))?'2':'1';var body=document.getElementById('storage-w'+wk),head=document.getElementById('shead-sw'+wk);if(body&&head){body.classList.remove('collapsed');body.style.height='auto';body.style.overflow='visible';body.style.opacity='1';head.classList.remove('collapsed');var wb=head.parentElement;if(wb)wb.classList.add('wb-open');}}
+  function initStorage(){}
   function initAccZindex(){var cv=document.getElementById('view-courses');if(cv){var cb=cv.querySelectorAll('.week-block, .courses-total-card');cb.forEach(function(el,i){el.style.zIndex=String(cb.length-i);});}var sv=document.getElementById('view-conservation');if(sv){var sb=sv.querySelectorAll('.week-block');sb.forEach(function(el,i){el.style.zIndex=String(sb.length-i);});sv.querySelectorAll('.week-body').forEach(function(wb){var sc=wb.querySelectorAll('.s-card');sc.forEach(function(card,i){card.style.zIndex=String(sc.length-i);});});}}
   var LIKES_KEY='mp-likes';
   var GH_REPO='Hagaaar/mealprep';
