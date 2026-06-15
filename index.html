@@ -140,10 +140,9 @@
     .s-card:nth-child(1) { z-index: 3; } .s-card:nth-child(2) { z-index: 2; } .s-card:nth-child(3) { z-index: 1; }
     .s-card::after { content: ''; position: absolute; inset: 0; border-radius: 0 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,.25); pointer-events: none; }
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
-    #view-conservation .week-body { padding: 0; margin: -26px -18px 0; }
-    #view-conservation .week-body .s-card:first-child { margin-top: 0; }
+    #view-conservation .week-body { padding: 0; margin: 0 -18px; }
     #view-conservation .week-block { border-radius: 0; padding-bottom: 0; }
-    #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 5; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 10px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor: default; }
+    #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 10; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 10px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor: default; }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
     .heart-btn.liked { opacity: 1; }
     .heart-btn:active { transform: scale(1.4); opacity: 1; }
@@ -723,7 +722,7 @@
     </div>
   </div>
 
-  <div class="week-block" style="background:#C8DCE4">
+  <div class="week-block" id="storage-wb2" style="background:#C8DCE4">
     <div class="week-head">
       <div class="week-info">
         <span class="week-name-txt">Semaine 2 <span class="week-date-txt">22–28 juin</span></span>
@@ -773,7 +772,7 @@
     '2026-06-28': 'day-dim28',
   };
   function moveSlider(idx) { var btns=document.querySelectorAll('.tab-btn'),slider=document.getElementById('tab-slider'),nav=document.getElementById('tabs-nav'); if(!slider||!btns[idx]||!nav)return; var nr=nav.getBoundingClientRect(),br=btns[idx].getBoundingClientRect(); slider.style.left=(br.left-nr.left)+'px'; slider.style.width=br.width+'px'; }
-  function showTab(name) { var tabs=['recettes','courses','conservation']; tabs.forEach(function(t){document.getElementById('view-'+t).classList.remove('active');}); document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',tabs[i]===name);}); document.getElementById('view-'+name).classList.add('active'); moveSlider(tabs.indexOf(name)); document.documentElement.setAttribute('data-tab',name); window.scrollTo(0,0); }
+  function showTab(name) { var tabs=['recettes','courses','conservation']; tabs.forEach(function(t){document.getElementById('view-'+t).classList.remove('active');}); document.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',tabs[i]===name);}); document.getElementById('view-'+name).classList.add('active'); moveSlider(tabs.indexOf(name)); document.documentElement.setAttribute('data-tab',name); window.scrollTo(0,0); if(name==='conservation'){var now=new Date(),y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();if(y>2026||(y===2026&&m>6)||(y===2026&&m===6&&d>=22)){requestAnimationFrame(function(){var el=document.getElementById('storage-wb2');if(el){var bh=document.querySelector('#view-conservation .view-head');var offset=bh?bh.offsetHeight:0;window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-offset),behavior:'smooth'});}});}} }
   function toggleDay(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
   function toggleWeek(id,header) { var body=document.getElementById(id),isCollapsed=body.classList.contains('collapsed'); header.classList.toggle('collapsed',!isCollapsed); if(isCollapsed){body.style.height='0';body.style.overflow='hidden';body.style.opacity='0';body.style.transition='none';body.classList.remove('collapsed');var targetH=body.scrollHeight;body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height=targetH+'px';body.style.opacity='1';body.addEventListener('transitionend',function onE(e){if(e.propertyName!=='height')return;body.style.height='auto';body.style.overflow='visible';body.style.transition='';body.removeEventListener('transitionend',onE);});}else{body.style.height=body.offsetHeight+'px';body.style.overflow='hidden';body.offsetHeight;body.style.transition='height .35s ease, opacity .25s ease';body.style.height='0';body.style.opacity='0';body.classList.add('collapsed');body.addEventListener('transitionend',function onC(e){if(e.propertyName!=='height')return;body.style.transition='';body.removeEventListener('transitionend',onC);});} }
   var STORE_KEY='mp-s3s4-2026';
