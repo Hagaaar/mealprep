@@ -41,7 +41,7 @@
     .hero-left { flex: 1; display: flex; flex-direction: column; }
     .view-head h1 { font-family: var(--serif); font-size: 34px; font-weight: 600; line-height: .92; letter-spacing: -0.8px; color: #FBF4DC; margin-top: 0; }
     .hero-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: rgba(251,244,220,.80); margin-top: 7px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .hero-right { text-align: right; flex-shrink: 0; align-self: flex-end; padding-bottom: 4px; }
+    .hero-right { text-align: right; flex-shrink: 0; align-self: flex-start; padding-top: 2px; }
     .hero-date { font-family: var(--serif); font-size: 12px; font-weight: 500; color: rgba(251,244,220,.80); display: block; line-height: 1; }
     .view { display: none; }
     .view.active { display: block; animation: fadeIn .25s ease; }
@@ -140,7 +140,8 @@
     .s-card:nth-child(1) { z-index: 3; } .s-card:nth-child(2) { z-index: 2; } .s-card:nth-child(3) { z-index: 1; }
     .s-card::after { content: ''; position: absolute; inset: 0; border-radius: 0 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,.25); pointer-events: none; }
     .s-card-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--blue-ink); padding: 0 0 7px 2px; }
-    #view-conservation .week-body { padding: 0; margin: 0 -18px; }
+    #view-conservation .week-body { padding: 0; margin: -26px -18px 0; }
+    #view-conservation .week-body .s-card:first-child { margin-top: 0; }
     #view-conservation .week-block { border-radius: 0; padding-bottom: 0; }
     #view-conservation .week-head { background: inherit; border-radius: 0 0 24px 24px; position: relative; z-index: 5; width: calc(100% + 36px); margin: 0 -18px; padding: 14px 18px 10px 38px; box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor: default; }
     .heart-btn { background: none; border: none; font-size: 15px; cursor: pointer; color: var(--brown-deep); opacity: .13; padding: 2px 8px 2px 0; flex-shrink: 0; transition: opacity .2s, transform .15s; line-height: 1; -webkit-tap-highlight-color: transparent; }
@@ -180,7 +181,7 @@
   </div>
 
   <!-- MAR 16 — FORCE -->
-  <div class="day-block" style="--day:#D44C00;--deep:#7A2900">
+  <div class="day-block" style="--day:#CA410B;--deep:#6F2406">
     <div class="day-head collapsed" id="head-day-mar16" onclick="toggleDay('day-mar16', this)">
       <span class="day-info"><span class="day-label">Mardi 16 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
@@ -212,7 +213,7 @@
   </div>
 
   <!-- MER 17 -->
-  <div class="day-block" style="--day:#E06420;--deep:#7A3610">
+  <div class="day-block" style="--day:#D45116;--deep:#752D0C">
     <div class="day-head collapsed" id="head-day-mer17" onclick="toggleDay('day-mer17', this)">
       <span class="day-info"><span class="day-label">Mercredi 17 Juin</span><span class="day-train t-cardio">Cardio</span></span>
       <span class="chevron">▾</span>
@@ -245,7 +246,7 @@
   </div>
 
   <!-- JEU 19 — Bol Thon Nuoc-Chăm préparé mer 17 -->
-  <div class="day-block" style="--day:#E87830;--deep:#7E4218">
+  <div class="day-block" style="--day:#DF6221;--deep:#7B3612">
     <div class="day-head collapsed" id="head-day-jeu18" onclick="toggleDay('day-jeu18', this)">
       <span class="day-info"><span class="day-label">Jeudi 18 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
@@ -277,7 +278,7 @@
   </div>
 
   <!-- VEN 20 — Sardines préparées jeu 19 -->
-  <div class="day-block" style="--day:#F08C38;--deep:#834C1E">
+  <div class="day-block" style="--day:#EA722B;--deep:#813F18">
     <div class="day-head collapsed" id="head-day-ven19" onclick="toggleDay('day-ven19', this)">
       <span class="day-info"><span class="day-label">Vendredi 19 Juin</span><span class="day-train t-cardio">Cardio</span></span>
       <span class="chevron">▾</span>
@@ -309,7 +310,7 @@
   </div>
 
   <!-- SAM 21 — ORANGE DOUBLE-PREP (Dhal + préparer Basquaise S4) -->
-  <div class="day-block" style="--day:#F8A040;--deep:#875724">
+  <div class="day-block" style="--day:#F48236;--deep:#86481E">
     <div class="day-head collapsed" id="head-day-sam20" onclick="toggleDay('day-sam20', this)">
       <span class="day-info"><span class="day-label">Samedi 20 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
@@ -388,7 +389,7 @@
   </div>
 
   <!-- MAR 23 -->
-  <div class="day-block" style="--day:#D44C00;--deep:#7A2900">
+  <div class="day-block" style="--day:#CA410B;--deep:#6F2406">
     <div class="day-head collapsed" id="head-day-mar23" onclick="toggleDay('day-mar23', this)">
       <span class="day-info"><span class="day-label">Mardi 23 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
@@ -453,7 +454,7 @@
   </div>
 
   <!-- JEU 26 — Thon Soja-Gingembre préparé mer 24 -->
-  <div class="day-block" style="--day:#E87830;--deep:#7E4218">
+  <div class="day-block" style="--day:#DF6221;--deep:#7B3612">
     <div class="day-head collapsed" id="head-day-jeu25" onclick="toggleDay('day-jeu25', this)">
       <span class="day-info"><span class="day-label">Jeudi 25 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
@@ -485,7 +486,7 @@
   </div>
 
   <!-- VEN 27 — Sardines Chermoula préparées jeu 26 -->
-  <div class="day-block" style="--day:#F08C38;--deep:#834C1E">
+  <div class="day-block" style="--day:#EA722B;--deep:#813F18">
     <div class="day-head collapsed" id="head-day-ven26" onclick="toggleDay('day-ven26', this)">
       <span class="day-info"><span class="day-label">Vendredi 26 Juin</span><span class="day-train t-cardio">Cardio</span></span>
       <span class="chevron">▾</span>
@@ -517,7 +518,7 @@
   </div>
 
   <!-- SAM 28 — ORANGE DOUBLE-PREP (Chakchouka + préparer Falafels dim 29) -->
-  <div class="day-block" style="--day:#F8A040;--deep:#875724">
+  <div class="day-block" style="--day:#F48236;--deep:#86481E">
     <div class="day-head collapsed" id="head-day-sam27" onclick="toggleDay('day-sam27', this)">
       <span class="day-info"><span class="day-label">Samedi 27 Juin</span><span class="day-train t-force">Force</span></span>
       <span class="chevron">▾</span>
