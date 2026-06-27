@@ -48,11 +48,21 @@
 
 🚫 Interdit : poêle, casserole, four traditionnel.
 
+## Règle cuisson (globale, toutes périodes)
+- **Première cuisson de la semaine : lundi soir** (pendant le jeûne) pour préparer le repas du mardi
+- Pas de cuisson le samedi
+- Jamais de cuisson le matin du jour même
+
 ## Sauces & assaisonnements disponibles en permanence
 - Sauce soja, Sriracha, Miel, Huile d'olive vierge extra, Maïzena
 - Épices : Cumin, Paprika, Gingembre, Piment, Ail en poudre, Herbes, Curry, Garam Masala, Paprika fumé, Curcuma
 
 > Règle saveur : recettes savoureuses obligatoires. Sauces travaillées et marinades à chaque plat. Jamais fade.
+
+## Règle légumes (globale, toutes périodes)
+- **Au moins 50% du poids de chaque assiette = légumes** — plus c'est mieux
+- Les légumes remplissent l'estomac sans exploser les calories (densité volumétrique)
+- Exemple : assiette de 600g → minimum 300g de légumes + protéine + féculent
 
 ## Courses
 - Jour : Samedi uniquement — Leclerc Mulhouse
@@ -70,3 +80,86 @@
 
 ## Recettes favorites
 Lire `liked-recipes.json`. C'est la source unique — mise à jour automatiquement par Hicham depuis l'app iPhone. Les recettes avec le plus haut `count` sont prioritaires à la génération, sous réserve de la règle des 8 semaines.
+
+---
+
+## MODE ÉTÉ / CANICULE (activé avec le mot-clé `ETE`)
+
+### Consommation
+- Tout se mange **froid ou à température ambiante** — réchauffer est interdit
+- Aucun plat chaud à consommer, même si une cuisson a eu lieu
+- Tout préparé après 21h (quand il fait moins chaud), mangé froid le lendemain
+
+### Cuisson autorisée en mode ETE
+- ✅ Air Fryer — rapide, chaleur localisée
+- ✅ Cuiseur à riz — émission minimale
+- ✅ Marinade acide (citron, vinaigre, soja) — cuisson froide, zéro chaleur
+- 🚫 Cocotte — interdit (chauffe l'appart)
+- 🚫 Tajine — interdit (même raison)
+- 🚫 Réchauffer quoi que ce soit
+
+### Préparation en mode ETE
+- Première cuisson : lundi soir (même règle globale)
+- Toute autre cuisson uniquement après 21h
+- 🚫 Jamais de cuisson entre 10h et 20h
+- Tout au frigo, sorti 10-15 min avant de manger
+
+### Protéines prioritaires en mode ETE
+- Thon / maquereau / saumon en boîte — priorité absolue (zéro cuisson)
+- Oeufs durs (air fryer ou cuiseur à riz)
+- Poulet poché refroidi (préparé une fois, consommé toute la semaine)
+- Crevettes cuites décortiquées (achat déjà cuit)
+- Blanc de dinde en barquette déjà cuit
+- 🚫 Viandes longue cuisson (braisé, mijoté, tajine)
+
+### Glucides en mode ETE — format froid uniquement
+- Riz en salade froide
+- Lentilles froides en salade
+- Pois chiches en conserve (sans cuisson)
+- Patate douce rôtie air fryer puis refroidie
+- 🚫 Aucun féculent servi chaud
+
+### Légumes & crudités en mode ETE
+- Maximum de légumes crus : tomates, concombre, poivron, carottes, radis, céleri
+- Grande salade repas = format principal (règle 50% légumes s'applique toujours)
+- Légumes rôtis air fryer autorisés mais servis froids
+- 🚫 Légumes mijotés ou cuits vapeur chaude
+
+### Fruits en mode ETE
+- Pastèque, melon, pêche, nectarine, abricot, cerise, fraise, framboise — largement autorisés
+- Comptent dans les glucides journaliers
+- Intégrés dans PRE-training ou en dessert après le repas
+- Pastèque et concombre comptent aussi pour l'hydratation
+
+### PRE-training en mode ETE (remplacement du PRE habituel)
+- **Smoothie froid** : banane + skyr + fruits de saison + glaçons ou eau froide
+- Ou : fruits frais + yaourt grec + oléagineux
+- Macros cibles inchangées : ~356 kcal · 47g G · 16g P · 10g L
+
+### Format des repas en mode ETE (midi + soir)
+- Grande salade repas : base froide (riz/lentilles/pois chiches) + protéine froide + crudités + sauce froide
+- Sauces froides obligatoires et travaillées : tahini-citron, soja-sésame-gingembre, vinaigrette avocat, yaourt-herbes
+- 🚫 Aucune sauce chaude ou tiède
+- 1 préparation = 2 portions identiques (règle inchangée)
+
+### Assaisonnements supplémentaires en mode ETE
+- Tahini, jus de citron frais, vinaigre balsamique, moutarde, herbes fraîches (menthe, coriandre, basilic)
+- Marinade acide citron + soja + gingembre = cuisson froide autorisée sur poisson/poulet
+
+### Budget & courses en mode ETE
+- 50€ inchangé
+- Priorité aux conserves (thon, maquereau, pois chiches, lentilles) — moins cher, zéro cuisson
+- Fruits de saison en grande quantité (bon marché en été)
+
+### Macros en mode ETE
+- Cibles inchangées : 2 017 kcal · 170g P · 132g G · 90g L
+- Glucides minimum 100g/j inchangé
+- Lundi = jeûne total inchangé
+- Alternance Force/Cardio inchangée
+
+### Exclusions supplémentaires en mode ETE
+- 🚫 Aucun plat consommé chaud
+- 🚫 Cocotte et Tajine
+- 🚫 Cuisson entre 10h et 20h
+- 🚫 Plats nécessitant réchauffage pour être mangeables
+- 🚫 Protéines longue cuisson (braisé, mijoté)

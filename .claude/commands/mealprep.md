@@ -4,7 +4,16 @@ Lire `directives.md` + tous `history/*.json` + `liked-recipes.json` avant de com
 
 **Règle likes :** les recettes présentes dans `liked-recipes.json` ont une priorité de sélection proportionnelle à leur `count`. Une recette likée reste soumise à la règle des 8 semaines — si elle a été faite récemment elle attend, mais elle revient en priorité dès qu'elle est éligible.
 
-**Format d'appel :** première ligne de $ARGUMENTS = nombre de semaines (`1` ou `2`), reste = stock.
+**Format d'appel :** première ligne de $ARGUMENTS = `1`, `2`, `1 ETE` ou `2 ETE`. Pas de stock dans la commande.
+
+**Comportement au lancement :**
+1. Lire les fichiers ci-dessus en silence
+2. Détecter le mode : `ETE` présent → mode canicule activé (appliquer la section MODE ÉTÉ de `directives.md`)
+3. Détecter le nombre de semaines : `1` ou `2`
+4. Demander le stock à Hicham :
+   - Mode normal : "Quel est ton stock cette semaine ?"
+   - Mode ETE : "Quel est ton stock cette semaine ? (Mode canicule activé 🌡️)"
+5. Attendre la réponse avant de générer quoi que ce soit
 
 ## PHASE 1 — dans le chat uniquement, ne rien écrire sur disque
 
@@ -123,4 +132,4 @@ Structure d'un article courses :
 
 ## Stock
 
-$ARGUMENTS
+Le stock est fourni par Hicham après la demande — ne pas utiliser $ARGUMENTS comme stock.
