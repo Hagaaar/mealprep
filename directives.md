@@ -59,6 +59,32 @@
 
 > Règle saveur : recettes savoureuses obligatoires. Sauces travaillées et marinades à chaque plat. Jamais fade.
 
+## Techniques de saveur obligatoires (zéro calorie supplémentaire)
+
+### Poulet poché — jamais à l'eau claire
+- Pocher dans un bouillon express : eau + ail écrasé + grains de poivre + thym + parures de légumes
+- Laisser refroidir dans le bouillon (poulet ultra-juteux, ne pas égoutter à chaud)
+- Toujours effilocher (pulled chicken) plutôt que couper en cubes — les fibres accrochent la sauce comme une éponge
+
+### Spaghetti et riz froids — enrobage immédiat
+- Dès l'égouttage, encore tièdes : ajouter immédiatement une cuillère de sauce ou un trait de vinaigre de riz / huile de sésame
+- Les pores de l'amidon sont ouverts à chaud → absorbent l'assaisonnement jusqu'au cœur
+- Ne jamais laisser refroidir à sec (pâtes collées = saveur nulle)
+
+### Conserves de poisson — utiliser "l'or liquide"
+- Ne jamais jeter le jus/l'huile des boîtes de sardines ou maquereau
+- Utiliser ce jus marin pour émulsionner la vinaigrette (remplace l'huile d'olive supplémentaire)
+- Apporte umami, intensité et maîtrise des lipides
+
+### Acidité — pickles minute anti-canicule
+- Carottes, concombre et oignon rouge en julienne → mariner 15 min dans vinaigre blanc/riz + eau + pincée de sel
+- Le croquant acidulé casse le gras (avocat, maquereau) et réveille les papilles engluées par la chaleur
+- Zéro cuisson, zéro calorie supplémentaire
+
+### Skyr et flocons d'avoine — pimper les collations
+- Flocons d'avoine : torréfier à sec 2 min à l'air fryer (goût de noisette sans matière grasse)
+- Skyr POST ~16h : ajouter zestes de citron vert ou jaune + pincée de sel fin (fait ressortir la douceur naturelle)
+
 ## Règle légumes (globale, toutes périodes)
 - **Au moins 50% du poids de chaque assiette = légumes** — plus c'est mieux
 - Les légumes remplissent l'estomac sans exploser les calories (densité volumétrique)
