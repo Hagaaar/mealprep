@@ -103,6 +103,7 @@
 - 🚫 Recettes sans sauce ni épices
 - 🚫 Cuisson le matin du jour même
 - 🚫 Protéines calculées sur poids total (toujours masse maigre 80 kg)
+- 🚫 Emojis dans le HTML généré (index.html) — zéro emoji dans le code HTML, les labels, titres, textes ou boutons
 
 ## Recettes favorites
 Lire `liked-recipes.json`. C'est la source unique — mise à jour automatiquement par Hicham depuis l'app iPhone. Les recettes avec le plus haut `count` sont prioritaires à la génération, sous réserve de la règle des 8 semaines.
