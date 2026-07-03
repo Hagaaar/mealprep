@@ -19,5 +19,13 @@ Avant toute proposition, lire tous les fichiers `history/*.json` et ne jamais re
 ## Règle affichage 2 semaines (critique)
 Quand le planning couvre 2 semaines, l'onglet Recettes doit **toujours afficher les deux semaines en même temps, intégralement** (14 jours détaillés, séparés par un repère de semaine). Interdit d'afficher une seule semaine et de réserver la seconde pour "la semaine prochaine" — c'était l'ancien comportement, il est abandonné. Seuls les accordéons par jour restent repliables/dépliables individuellement.
 
+## Règle génération complète & achats groupés (critique)
+Que la commande porte sur 1 ou 2 semaines, **tout doit être généré intégralement pour toute la période dès la validation** — recettes, courses ET stockage, sans rien différer. Le stock donné en début de commande sert à couvrir toute la période demandée.
+
+Pour 2 semaines, l'intérêt est aussi économique : acheter en grande quantité réduit le prix à l'unité (surtout produits secs, conserves, épicerie). Donc :
+- Les courses restent réparties en **deux sessions séparées** (samedi S1 et samedi S2) car les produits frais (viande, légumes) ne se conservent pas 2 semaines.
+- Mais pour les produits secs/conserves/épicerie qui se conservent, acheter dès S1 la quantité couvrant les 2 semaines quand c'est plus économique, et marquer ces articles en S2 comme "en stock — acheté S1" (déjà comptés dans le budget S1) plutôt que de les racheter.
+- Les recettes de S2 peuvent explicitement réutiliser des ingrédients achetés en gros pendant les courses S1 (cohérent avec l'onglet Stockage qui trace déjà les restes de S1 utilisés en S2).
+
 ## Push
 Toujours pusher sur `main` (pas sur une branche feature) après validation explicite "VALIDE" de Hicham.
