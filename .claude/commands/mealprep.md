@@ -43,19 +43,35 @@ Terminer par :
 
 ### Étape 1 — Modifier `index.html`
 
-Lire le fichier actuel. C'est le template : **ne pas toucher au CSS ni au JS** sauf les 9 zones ci-dessous.
+Lire le fichier actuel. C'est le template : **ne pas toucher au CSS ni au JS** sauf les zones ci-dessous.
 
 | Zone | Ce qu'il faut remplacer |
 |------|------------------------|
-| `<title>` | `Semaine XX` |
-| `.week-name-txt` | `Semaine XX` + `— Jour DD Mois` (dernier jour de la semaine) |
+| `<title>` | `Semaine XX` (1 semaine) ou `Semaines XX-YY` (2 semaines) |
+| `.hero-sub` (onglet Recettes) | résumé de la période affichée |
+| `.hero-date` (onglet Recettes) | plage complète affichée — 1 semaine : `D Mois – D Mois` · 2 semaines : `D Mois – D Mois` (du lundi S1 au dimanche S2), même logique que les onglets Courses/Stockage |
+| `.week-name-txt` (Courses/Stockage) | `Semaine XX` + `— Jour DD Mois` (dernier jour de la semaine) |
 | `.week-budget-txt` | `XX,XX €` |
-| IDs des blocs jours | `day-lunD`, `day-marD`, … `day-dimD` (D = numéro du jour du mois) |
+| IDs des blocs jours (Recettes) | `day-lunD`, `day-marD`, … `day-dimD` (D = numéro du jour du mois) |
 | Contenu de chaque jour | PRE-card · Repas-card (recette, ingrédients, macros, chef-tip) · POST-card |
 | Section Courses `.sci` | Articles à acheter (nom, usage, prix) |
 | `.courses-total-amt` | total `XX,XX €` |
-| `TODAY_MAP` | 7 entrées `'YYYY-MM-DD': 'day-xxxD'` |
+| `TODAY_MAP` | 7 entrées (1 semaine) ou 14 entrées (2 semaines) `'YYYY-MM-DD': 'day-xxxD'` |
 | `STORE_KEY` | `'mp-sXX-YYYY'` |
+
+**Si 2 semaines : l'onglet Recettes affiche les DEUX semaines à la fois, toujours, intégralement.** Jamais une seule semaine avec la seconde différée à plus tard — c'est la règle "affichage 2 semaines" de `CLAUDE.md`. Concrètement dans `#view-recettes` :
+1. Les 7 `day-block` de la semaine N (comme d'habitude).
+2. Un repère de semaine entre les deux semaines, réutilisant le style déjà défini dans le CSS du template :
+   ```html
+   <div class="week-marker" style="background:#BF3100">
+     <div class="week-marker-txt">Semaine YY</div>
+     <div class="week-marker-sub">D Mois – D Mois</div>
+   </div>
+   ```
+   (`YY` = numéro semaine N+1, couleur = même couleur que le Lundi de cette semaine)
+3. Les 7 `day-block` de la semaine N+1, avec des IDs `day-xxxD` distincts (D = jour du mois, déjà unique entre les deux semaines).
+
+Le `.macro-ref` (cibles journalières) reste unique en bas de page, partagé entre les deux semaines.
 
 Structure d'un jour ouvert (3 cards, à répliquer exactement) :
 ```html
@@ -112,7 +128,7 @@ Structure d'un article courses :
 ]}
 ```
 
-> Pour 2 semaines, `index.html` représente toujours **la semaine N uniquement** (semaine en cours). La semaine N+1 sera affichée la semaine prochaine : l'historique est déjà sauvegardé, il suffira de re-lancer `/mealprep 1` avec le nouveau stock.
+> Pour 2 semaines, `index.html` affiche **les deux semaines intégralement et simultanément** dans l'onglet Recettes (voir Étape 1). Rien n'est différé à la semaine prochaine.
 
 ### Étape 3 — Commit + push sur `main`
 
