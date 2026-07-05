@@ -1,8 +1,9 @@
 {"week":"2026-W28","dates":"6-12 juillet 2026","recipes":[
-  {"day":"Mardi","name":"Bowl Thon Avocat Riz Froid Sauce César","protein":"thon"},
-  {"day":"Mercredi","name":"Spaghetti Froids Poulet Piment Coréen & Carottes","protein":"poulet"},
-  {"day":"Jeudi","name":"Oeufs Durs Lentilles Froides & Poivrons Grillés Air Fryer","protein":"oeufs"},
-  {"day":"Vendredi","name":"Bowl Sardines Pois Chiches Citron-Menthe","protein":"sardines"},
-  {"day":"Samedi","name":"Salade Maquereau Spaghetti Olives & Herbes","protein":"maquereau"},
-  {"day":"Dimanche","name":"Bowl Zaalouk Sardines & Lentilles Cumin-Citron","protein":"sardines"}
+  {"day":"Lundi","name":"Rouleaux de Printemps Thon Croquant-Piquant Concombre-Menthe","protein":"thon"},
+  {"day":"Mardi","name":"Udon Froid Sésame-Gingembre-Miso & Coriandre","protein":"poulet"},
+  {"day":"Mercredi","name":"Curry Coco Bœuf Maïs Piment Frais-Nuoc Mâm","protein":"boeuf"},
+  {"day":"Jeudi","name":"Mijoté Poulet Haricots Blancs Tomate Pimenté-Persil","protein":"poulet"},
+  {"day":"Vendredi","name":"Salade Sardines Citron Concombre Aneth-Oignon Rouge","protein":"sardines"},
+  {"day":"Samedi","name":"Bowl Maquereau Lentilles Cumin-Citron Moutarde Coriandre-Échalote","protein":"maquereau"},
+  {"day":"Dimanche","name":"Salade Thon Haricots Blancs Cajou-Raisins Menthe Vinaigre de Vin-Citron","protein":"thon"}
 ]}

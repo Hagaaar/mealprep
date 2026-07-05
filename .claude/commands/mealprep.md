@@ -74,29 +74,37 @@ Lire le fichier actuel. C'est le template : **ne pas toucher au CSS ni au JS** s
 
 Le `.macro-ref` (cibles journalières) reste unique en bas de page, partagé entre les deux semaines.
 
-Structure d'un jour ouvert (3 cards, à répliquer exactement) :
+Structure d'un jour ouvert (`day-block` avec `day-head` + `accordion-body` contenant 3 `.meal`, à répliquer exactement sur le template actuel) :
 ```html
-<!-- PRE ~10h -->
-<div class="recipe-card" style="border-left-color:[couleur-jour]">
-  <div class="rc-label">PRE ~10h</div>
-  <div class="rc-title">[description]</div>
-  <div class="rc-macros">[XXXkcal · XXgP · XXgG · XXgL]</div>
-</div>
-<!-- Repas midi + soir -->
-<div class="recipe-card" style="border-left-color:[couleur-jour]">
-  <div class="rc-label">Repas midi + soir · [Ustensile]</div>
-  <div class="rc-title">[Nom recette]</div>
-  <ul class="rc-ingredients">[liste ingrédients avec grammage]</ul>
-  <div class="rc-macros">[XXXkcal · XXgP · XXgG · XXgL]</div>
-  <div class="rc-tip"><em>[Chef tip]</em></div>
-</div>
-<!-- POST ~16h -->
-<div class="recipe-card" style="border-left-color:[couleur-jour]">
-  <div class="rc-label">POST ~16h</div>
-  <div class="rc-title">Skyr 125g nature</div>
-  <div class="rc-macros">115kcal · 24gP · 3gG · 2gL</div>
+<div class="day-block" style="--day:[couleur-jour];--deep:[couleur-deep]">
+  <div class="day-head collapsed" id="head-day-xxxD" onclick="toggleDay('day-xxxD', this)">
+    <span class="day-info"><span class="day-label">[Jour] [DD Mois]</span><span class="day-train t-force|t-cardio">[Force|Cardio]</span></span>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="accordion-body collapsed" id="day-xxxD">
+    <!-- PRE ~10h -->
+    <div class="meal snack">
+      <div class="meal-time">PRE ~10h · [détail]</div>
+      <div class="meal-body"><strong class="dish-name">[Titre collation]</strong>[description]</div>
+    </div>
+    <!-- Repas midi + soir -->
+    <div class="meal main">
+      <div class="meal-time">Midi &amp; soir · [Froid|Chaud] — préparé [jour] soir · [Ustensile si cuisson]</div>
+      <div class="meal-body">
+        <strong class="dish-name">[Nom recette]</strong>
+        <ul>[étapes avec quantités en <strong></li>...]</ul>
+        <span class="chef-tip">[Astuce chef]</span>
+      </div>
+    </div>
+    <!-- POST ~16h -->
+    <div class="meal snack">
+      <div class="meal-time">POST ~16h</div>
+      <div class="meal-body"><strong>Skyr nature</strong> — 125g + zestes de citron vert + pincée de sel fin</div>
+    </div>
+  </div>
 </div>
 ```
+Pas de macros affichées par recette dans le template actuel — seul le `.macro-ref` en bas de page (unique, partagé) donne les cibles journalières.
 
 Couleurs des jours : Lun `#BF3100` · Mar `#D44C00` · Mer `#E06420` · Jeu `#E87830` · Ven `#F08C38` · Sam `#F8A040` · Dim `#FF9241`
 
