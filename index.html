@@ -30,6 +30,10 @@
     html[data-tab="recettes"] body { background-color: color-mix(in srgb, #FF9241 52%, #FAF2DF); }
     html[data-tab="courses"] body { background-color: #ECF2BC; }
     html[data-tab="conservation"] body { background-color: #C8DCE4; }
+    .bg-fixed { position: fixed; inset: 0; z-index: -1; background: var(--brown-deep); }
+    html[data-tab="recettes"] .bg-fixed { background: var(--brown-deep); }
+    html[data-tab="courses"] .bg-fixed { background: var(--forest); }
+    html[data-tab="conservation"] .bg-fixed { background: var(--blue-deep); }
     .tabs { display: flex; gap: 0; background: var(--card2); border-radius: 44px; padding: 0; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 36px); max-width: 464px; z-index: 100; box-shadow: 0 4px 24px rgba(191,49,0,.18), 0 1px 6px rgba(191,49,0,.10); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .tab-slider { position: absolute; top: 0; left: 0; height: 100%; background: var(--brown-deep); border-radius: 44px; transition: left .3s cubic-bezier(0.4,0,0.2,1), width .3s cubic-bezier(0.4,0,0.2,1), background-color .22s ease; pointer-events: none; z-index: 0; }
     .tab-btn { flex: 1; background: transparent; border: none; color: var(--ink-soft); padding: 10px 0; font-family: var(--mono); font-size: 11.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: color .22s ease; position: relative; z-index: 1; }
@@ -152,6 +156,7 @@
   </style>
 </head>
 <body>
+<div class="bg-fixed"></div>
 
 <div class="tabs" id="tabs-nav">
   <div class="tab-slider" id="tab-slider"></div>
