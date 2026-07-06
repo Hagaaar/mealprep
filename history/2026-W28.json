@@ -1,9 +1,9 @@
 {"week":"2026-W28","dates":"6-12 juillet 2026","recipes":[
-  {"day":"Lundi","name":"Rouleaux de Printemps Thon Croquant-Piquant Concombre-Menthe","protein":"thon"},
-  {"day":"Mardi","name":"Udon Froid Sésame-Gingembre-Miso & Coriandre","protein":"poulet"},
-  {"day":"Mercredi","name":"Curry Coco Bœuf Maïs Piment Frais-Nuoc Mâm","protein":"boeuf"},
-  {"day":"Jeudi","name":"Mijoté Poulet Haricots Blancs Tomate Pimenté-Persil","protein":"poulet"},
-  {"day":"Vendredi","name":"Salade Sardines Citron Concombre Aneth-Oignon Rouge","protein":"sardines"},
-  {"day":"Samedi","name":"Bowl Maquereau Lentilles Cumin-Citron Moutarde Coriandre-Échalote","protein":"maquereau"},
-  {"day":"Dimanche","name":"Salade Thon Haricots Blancs Cajou-Raisins Menthe Vinaigre de Vin-Citron","protein":"thon"}
+  {"day":"Lundi","name":"Rouleaux de Printemps Thon Croquant Concombre-Carotte-Coriandre","protein":"thon"},
+  {"day":"Mardi","name":"Udon Froid Ponzu-Miso Maquereau & Graines de Courge","protein":"maquereau"},
+  {"day":"Mercredi","name":"Curry Coco Thon Harissa Maïs Doux Citron Vert-Coriandre","protein":"thon"},
+  {"day":"Jeudi","name":"Mijoté Légumineuses Tomate Fumé-Cumin Généreux","protein":"vegetarien"},
+  {"day":"Vendredi","name":"Salade Sardines Citron Concombre Oignon Rouge","protein":"sardines"},
+  {"day":"Samedi","name":"Bowl Maquereau Lentilles Cumin-Citron Coriandre","protein":"maquereau"},
+  {"day":"Dimanche","name":"Salade Thon Haricots Blancs Cajou-Raisins Citron Vert","protein":"thon"}
 ]}
