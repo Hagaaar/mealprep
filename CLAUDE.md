@@ -8,6 +8,7 @@ Repo de planning repas hebdomadaire pour Hicham (sèche, 2 017 kcal/j).
 - `history/` — historique des menus passés (JSON par semaine ISO) pour garantir la variété
 - `index.html` — interface iPhone générée chaque semaine, pushée sur main
 - `.claude/commands/mealprep.md` — slash command du workflow vendredi
+- `.claude/commands/mealprep-ete.md` — variante canicule : que du froid (salades, jus), cuisson limitée au cuiseur à riz + Air Fryer, four/plaques interdits
 
 ## Workflow habituel
 Chaque vendredi ~20h, Hicham tape `/mealprep` suivi de son stock dans le chat.
