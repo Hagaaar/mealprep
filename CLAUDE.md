@@ -28,5 +28,8 @@ Pour 2 semaines, l'intérêt est aussi économique : acheter en grande quantité
 - Mais pour les produits secs/conserves/épicerie qui se conservent, acheter dès S1 la quantité couvrant les 2 semaines quand c'est plus économique, et marquer ces articles en S2 comme "en stock — acheté S1" (déjà comptés dans le budget S1) plutôt que de les racheter.
 - Les recettes de S2 peuvent explicitement réutiliser des ingrédients achetés en gros pendant les courses S1 (cohérent avec l'onglet Stockage qui trace déjà les restes de S1 utilisés en S2).
 
+## Règle sous-titres (hero-sub) (critique)
+Le `.hero-sub` sous chaque grand titre ("Salut chef !", "C'est l'heure des courses !", "Chaque chose à sa place.") ne doit jamais être un pavé de texte : le CSS le tronque à 2 lignes avec "…", donc tout ce qui dépasse est invisible pour Hicham. Une seule phrase courte, légère, avec un ton drôle voire humour noir, qui décrit le contenu du planning — jamais la période ni des chiffres — et reste cohérente avec l'onglet où elle s'affiche : Recettes évoque les plats de la semaine, Courses l'acte d'acheter, Conservation le fait de stocker/attendre. Interdit : dates, prix, nombre de recettes ou toute autre info factuelle — ça, c'est le rôle de `.hero-date` et du reste de la page.
+
 ## Push
 Toujours pusher sur `main` (pas sur une branche feature) après validation explicite "VALIDE" de Hicham.

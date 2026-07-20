@@ -49,7 +49,7 @@ Lire le fichier actuel. C'est le template : **ne pas toucher au CSS ni au JS** s
 | Zone | Ce qu'il faut remplacer |
 |------|------------------------|
 | `<title>` | `Semaine XX` (1 semaine) ou `Semaines XX-YY` (2 semaines) |
-| `.hero-sub` (onglet Recettes) | résumé de la période affichée |
+| `.hero-sub` (les 3 onglets : Recettes/Courses/Conservation) | phrase courte, légère, humour (voire humour noir) — voir règle sous-titres de `CLAUDE.md`. Jamais de pavé, jamais de date/chiffre. |
 | `.hero-date` (onglet Recettes) | plage complète affichée — 1 semaine : `D Mois – D Mois` · 2 semaines : `D Mois – D Mois` (du lundi S1 au dimanche S2), même logique que les onglets Courses/Stockage |
 | `.week-name-txt` (Courses/Stockage) | `Semaine XX` + `— Jour DD Mois` (dernier jour de la semaine) |
 | `.week-budget-txt` | `XX,XX €` |
